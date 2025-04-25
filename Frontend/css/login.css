@@ -1,0 +1,208 @@
+* {
+    box-sizing: border-box;
+    font-family: Muli, "Open Sans", sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom, #B1DEF1, #849859);
+    background-repeat: no-repeat; /*Tránh bị sọc*/
+    background-attachment: fixed; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-container {
+    width: 40%;
+    margin-right: 20px;
+}
+
+.img-container img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.img-container img:hover {
+    transform: scale(1.05); /* Tăng kích thước ảnh khi hover */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Đổ bóng đậm hơn khi hover */
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /*Đổ bóng*/
+    width: 360px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    max-width: 290px;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+#password {
+    padding-right: 40px; /* chừa chỗ cho icon con mắt */
+}
+
+.forgot-password {
+    text-decoration: none;
+    color: #555;
+    font-size: 13px;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.btn-login {
+    width: 100%;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00b4db, #0083b0);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 12px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #0083b0, #005f73);
+    transform: translateY(-2px);
+}
+
+.btn-login:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.separator {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+}
+
+.separator::before,
+.separator::after {
+    content: ' ';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+    margin: 0 10px;
+}
+
+.other-action {
+    margin-bottom: 20px;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-social {
+    flex: 1;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    gap: 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-social img {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-social.facebook {
+    background-color: #0567e9; 
+    color: rgb(227, 223, 223);
+}
+
+.btn-social.facebook:hover {
+    background-color: #0457c2; 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-social.facebook:active {
+    background-color: #0567e9; 
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-social.google {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-social.google:hover {
+    background-color: rgb(243, 242, 242); 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-social.google:active {
+    background-color: white; 
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+    font-size: 13px;
+}
+
+.signup-page {
+    text-decoration: none;
+    color: #555;
+    font-size: 13px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.signup-page:hover {
+    text-decoration: underline;
+}
