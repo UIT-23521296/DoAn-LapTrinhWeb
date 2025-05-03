@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeShare</title>
     <link rel="icon" href="../assets/logo-web.png">
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/blog-read.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="../js/index.js"></script>
+    <script src="../js/blog-read.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -152,83 +152,58 @@
                 </div>
             </div>
         </div>
-
-        <div class="content">
-            <div class="introduce">
-                <div class="introduce-content">
-                    <h2>Learn without limits</h2>
-                    <p>
-                        Nền tảng chia sẻ tài liệu và blog học tập do sinh viên đóng góp, 
-                        với mục tiêu hỗ trợ nhau trong quá trình học tập và phát triển bản thân.
-                    </p>
-                </div>
-                <div class="introduce-content-img">
-                    <img src="../assets/inntroduce-content-img.jpg" alt="">
-                </div>
+        
+        <div class="blog-post-wrapper">
+            <div class="blog-post">
+                <img src="../assets/img-blog-1.webp" alt="SIEM Roadmap" class="blog-post-image">
+                <h1>SIEM Roadmap</h1>
+                <p class="post-date">April 18, 2025</p>
+                <hr>
+                <p>
+                    SIEM? Nếu các bạn làm an toàn vận hành thì SIEM là giải pháp không thể thiếu và bài viết hôm nay mình sẽ chia sẻ công việc liên quan đến nó, hi vọng những chia sẻ có thể giúp được các bạn phần nào khi làm An toàn vận nói chung và SIEM nói riêng.
+                </p>
+                <p>
+                    Trước khi đi vào chi tiết, mình giới thiệu qua về SIEM - Đây là một hệ thống quản lý an toàn thông tin tập trung, cho phép thu thập dữ liệu log từ nhiều nguồn để lưu trữ tập trung, thực hiện tương quan (correlation) và phân tích, xử lý để phát hiện các hành vi bất thường liên quan đến hệ thống công nghệ thông tin trong một tổ chức.
+                </p>
+                <p>
+                    Tùy từng vào môi trường lab nghiên cứu hay Enterprise ở các công ty lớn thì cũng sẽ có các yêu cầu khác nhau, nên với mỗi vấn đề mình sẽ trình bày dựa trên góc nhìn của cá nhân.
+                </p>
             </div>
+        </div>
 
-            <div class="document">
-                <h1>Tài liệu</h1>
-                <div class="latest-document">
-                    <h2>Mới nhất</h2>
-                    <div class="document-list">
-                        <div class="document-item">
-                            <h3>Giải tích 1 - Bài tập</h3>
-                            <p>Tài liệu bài tập và lời giải chi tiết.</p>
-                        </div>
-                        <div class="document-item">
-                            <h3>Lập trình C++ cơ bản</h3>
-                            <p>Slide bài giảng và ví dụ thực hành.</p>
-                        </div>
-                        <!-- thêm các document-item khác -->
+        <div class="comment-section">
+            <h2>Bình luận</h2>
+        
+            <div class="comments-list">
+                <div class="comment-item">
+                    <img src="../assets/img-avatar-1.webp" alt="Avatar" class="avatar">
+                    <form class="comment-form">
+                        <textarea name="comment" placeholder="Viết bình luận của bạn..." rows="2" required></textarea>
+                        <button type="submit">Gửi bình luận</button>
+                    </form>
+                </div>
+                
+                <div class="comment-item">
+                    <img src="../assets/img-avatar-2.jpg" alt="Avatar" class="avatar">
+                    <div class="comment-content">
+                        <strong>Vũ NMQ</strong>
+                        <p>Bài viết khá là hay với truyền cảm hứng rất nhiều</p>
+                    </div>
+                </div>
+        
+                <div class="comment-item">
+                    <img src="../assets/img-blog-8.webp" alt="Avatar" class="avatar">
+                    <div class="comment-content">
+                        <strong>Lương TPA</strong>
+                        <p>Bản thân mình cũng đang trong quá trình tìm hiểu về SIEM, cảm ơn bài viết đã giúp mình hiểu hơn về chủ đề này</p>
                     </div>
                 </div>
 
-                <div class="most-viewed-document">
-                    <h2>Được xem nhiều</h2>
-                    <div class="document-list">
-                        <div class="document-item">
-                            <h3>Giải tích 1 - Bài tập</h3>
-                            <p>Tài liệu bài tập và lời giải chi tiết.</p>
-                        </div>
-                        <div class="document-item">
-                            <h3>Lập trình C++ cơ bản</h3>
-                            <p>Slide bài giảng và ví dụ thực hành.</p>
-                        </div>
-                        <!-- thêm các document-item khác -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="blog">
-                <h1>Blog</h1>
-                <div class="latest-blog">
-                    <h2>Mới nhất</h2>
-                    <div class="blog-list">
-                        <div class="blog-item">
-                            <h3>SIEM Roadmap</h3>
-                            <p></p>
-                        </div>
-
-                        <div class="blog-item">
-                            <h3>Blockchain Roadmap</h3>
-                            <p></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="most-viewed-blog">
-                    <h2>Được xem nhiều</h2>
-                    <div class="blog-list">
-                        <div class="blog-item">
-                            <h3>SIEM Roadmap</h3>
-                            <p></p>
-                        </div>
-
-                        <div class="blog-item">
-                            <h3>Blockchain Roadmap</h3>
-                            <p></p>
-                        </div>
+                <div class="comment-item">
+                    <img src="../assets/img-blog-7.webp" alt="Avatar" class="avatar">
+                    <div class="comment-content">
+                        <strong>Phan QV</strong>
+                        <p>Bạn có thể làm giới thiệu thêm một vài chủ đề khác có nội dung tương tự để mình tìm hiểu thêm được không</p>
                     </div>
                 </div>
             </div>
@@ -252,7 +227,8 @@
             <nav class="footer-navbar">
                 <a href="">Truy cập nhanh</a>
                 <a href="">Tài liệu</a>
-                <a href="">Home</a>
+                <a href="index.html">Home</a>
+                <a href="blog.html">Blog</a>
             </nav>
     
             <div class="contact-info">
