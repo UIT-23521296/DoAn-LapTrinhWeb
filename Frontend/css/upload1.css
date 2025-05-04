@@ -408,6 +408,33 @@
     background-color: #00796b;
 }
 
+.upload-box span{
+    padding-bottom: 10px;
+}
+
+.after-upload {
+    margin-top: 20px;
+}
+  
+.after-upload a {
+    display: block; /* Làm cho link file và nút Next nằm trên các dòng riêng biệt */
+    margin-bottom: 10px; /* Khoảng cách giữa file name và nút Next */
+}
+  
+#next-btn {
+    padding: 8px 16px;
+    background-color: #009688;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+     /* Nút next sẽ nằm sát phải */
+}
+  
+#next-btn:hover {
+    background-color: #00796b;
+}
+
 /* detail */
 #detail.active {
     display: flex;
