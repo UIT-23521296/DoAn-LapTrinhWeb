@@ -17,6 +17,22 @@ function toggleSubmenu(element) {
         }
     }
 }
+const fileInput = document.getElementById("fileUpload");
+  const afterUpload = document.getElementById("after-upload");
+  const afterLink   = afterUpload.querySelector("a");
 
+  fileInput.addEventListener("change", function () {
+    if (this.files.length > 0) {
+      const fileName = this.files[0].name;
+      // Hiển thị khối after-upload
+      afterUpload.style.display = "block";
+      // Cập nhật nội dung
+      afterLink.innerHTML = `<span class="icon">📄</span> ${fileName}`;
+    } else {
+      // Nếu bỏ chọn (nếu có), lại ẩn khối
+      afterUpload.style.display = "none";
+    }
+  });
+  
 
 
