@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý người dùng</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../css/adminND.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="index.html">
+                <img src="../assets/logo-web-full.png" alt="WeShare">
+            </a>
+        </div>
+
+        <div class="nav-header">
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#">Blog</a>
+                <a href="#">Tài liệu</a>
+            </nav>
+    
+        </div>
+    </header>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-user-shield"></i> Admin Panel</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="adminTQ.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li ><a href="adminTL.html"><i class="fas fa-file-alt"></i> Quản lý tài liệu</a></li>
+                <li class="active"><a href="adminND.html"><i class="fas fa-users"></i> Quản lý người dùng</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1><i class="fas fa-file-upload"></i> Quản lí User</h1>
+                <div class="user-info">
+                    <span>Xin chào, <strong>Admin</strong></span>
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="users-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th width="25%">Email</th>
+                            <th width="15%">Ngày đăng ký</th>
+                            <th width="10%">Trạng thái hoạt động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>1024</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-title">nguyenvana</div>
+                                </div>
+                            </td>
+                            <td>15/05/2023</td>
+                            <td><span class="status-badge approved">Đang đăng nhập</span></td>
+                            
+                        </tr>
+                        
+                       
+                        <tr>
+                            <td>1023</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-title">tranthib</div>
+                                </div>
+                            </td>
+                            <td>14/05/2023</td>
+                            <td><span class="status-badge approved">Đang đăng nhập</span></td>
+                            
+                        </tr>
+                        
+                        
+                        <tr>
+                            <td>1022</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-title">levanc</div>
+                                </div>
+                            </td>
+                            <td>13/05/2023</td>
+                            <td><span class="status-badge rejected">Không đăng nhập</span></td>
+                            
+                        </tr>
+                        
+                        
+                        <tr>
+                            <td>1021</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-title">phamthid</div>
+                                </div>
+                            </td>
+                            <td>12/05/2023</td>
+                            <td><span class="status-badge rejected">Không đăng nhập</span></td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn disabled"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+</body>
+</html>
