@@ -10,7 +10,9 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
     <style>
         emoji-picker {
-            position: absolute;  
+            position: fixed;
+            top: 250px;
+            right: 150px; 
             z-index: 999;  
             display: none; 
         }
@@ -164,6 +166,9 @@
             <div class="user-info">
                 <img src="../assets/img-avatar-1.webp" alt="Avatar" class="avatar">
                 <strong>Khương Ngọc Toàn</strong>
+            </div>
+            <div class="post-title-box">
+                <input id="postTitle" class="post-title" type="text" placeholder="Tiêu đề bài viết..." />
             </div>
 
             <div class="post-box">

@@ -7,7 +7,6 @@
     <link rel="icon" href="../assets/logo-web.png">
     <link rel="stylesheet" href="../css/blog-read.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="../js/blog-read.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -155,21 +154,14 @@
         
         <div class="blog-post-wrapper">
             <div class="blog-post">
-                <img src="../assets/img-blog-1.webp" alt="SIEM Roadmap" class="blog-post-image">
-                <h1>SIEM Roadmap</h1>
-                <p class="post-date">April 18, 2025</p>
+                <img id="post-image" src="" alt="" class="blog-post-image">
+                <h1 id="post-title"></h1>
+                <p id="post-date" class="post-date"></p>
                 <hr>
-                <p>
-                    SIEM? Nếu các bạn làm an toàn vận hành thì SIEM là giải pháp không thể thiếu và bài viết hôm nay mình sẽ chia sẻ công việc liên quan đến nó, hi vọng những chia sẻ có thể giúp được các bạn phần nào khi làm An toàn vận nói chung và SIEM nói riêng.
-                </p>
-                <p>
-                    Trước khi đi vào chi tiết, mình giới thiệu qua về SIEM - Đây là một hệ thống quản lý an toàn thông tin tập trung, cho phép thu thập dữ liệu log từ nhiều nguồn để lưu trữ tập trung, thực hiện tương quan (correlation) và phân tích, xử lý để phát hiện các hành vi bất thường liên quan đến hệ thống công nghệ thông tin trong một tổ chức.
-                </p>
-                <p>
-                    Tùy từng vào môi trường lab nghiên cứu hay Enterprise ở các công ty lớn thì cũng sẽ có các yêu cầu khác nhau, nên với mỗi vấn đề mình sẽ trình bày dựa trên góc nhìn của cá nhân.
-                </p>
+                <div id="post-content"></div>
             </div>
         </div>
+
 
         <div class="comment-section">
             <h2>Bình luận</h2>
@@ -236,5 +228,6 @@
             </div>
         </div>
     </div>
+    <script src="../js/blog-read.js"></script>
 </body>
 </html>
