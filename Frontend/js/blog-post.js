@@ -47,6 +47,7 @@ function insertImage() {
             imgElement.style.maxHeight = "300px";
             imgElement.style.height = "auto";
             imgElement.style.display = "block";
+            imgElement.style.verticalAlign = "middle";
             imgElement.style.margin = "10px 0";
 
             if (savedRange) {
@@ -88,18 +89,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const selection = window.getSelection();
 
         if (!selection.rangeCount || !postContent.contains(selection.anchorNode)) {
-
-            postContent.appendChild(document.createTextNode(emoji));
+            // Nếu không có selection thì tạo 1 span để đảm bảo inline
+            const span = document.createElement("span");
+            span.textContent = emoji;
+            postContent.appendChild(span);
         } else {
             const range = selection.getRangeAt(0);
+            range.deleteContents(); // Xoá phần đang chọn nếu có
 
-            range.insertNode(document.createTextNode(emoji));
+            const span = document.createElement("span");
+            span.textContent = emoji;
 
-            range.setStartAfter(range.endContainer);
+            range.insertNode(span);
+
+            range.setStartAfter(span);
             range.collapse(true);
+
             selection.removeAllRanges();
             selection.addRange(range);
         }
+
         emojiPicker.style.display = 'none';
     });
 });
@@ -108,8 +117,6 @@ function submitPost() {
 
     const postContent = document.getElementById("postContent");
     postContent.innerHTML = '';
-
-
     const imageInput = document.getElementById("imageUpload");
     imageInput.value = '';
 }

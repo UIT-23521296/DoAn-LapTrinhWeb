@@ -301,6 +301,21 @@
 .user-info strong {
     font-size: 20px;
 }
+.post-title {
+    width: 100%;
+    outline: none;
+    padding: 15px 20px;
+    font-size: 20px;
+    font-weight: none;
+    background: #eee;
+    border: none;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.post-title::placeholder {
+    color: #aaa;
+}
 
 .post-content {
     width: 100%;
