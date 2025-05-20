@@ -159,10 +159,10 @@
 }
 
 .side-nav.active {
-    height: auto;
+    height: 70vh;
     padding: 60px 40px 20px 20px;
-    opacity: 1;
     overflow-y: auto; /* cho phép cuộn trong sidebar nếu nội dung dài */
+    opacity: 1; 
 }
 
 .side-nav a {
