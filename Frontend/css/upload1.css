@@ -344,7 +344,7 @@
 /* Ẩn tất cả các trang */
 .page {
     display: none;
-  }
+}
   
 /* Chỉ trang active mới hiển thị */
 .page.active {
@@ -412,23 +412,43 @@
     padding-bottom: 10px;
 }
 
-.after-upload {
+#after-upload {
+    display: flex;
+    justify-content: space-between; /* căn trái - phải */
+    align-items: center;
+    padding: 10px 20px;
     margin-top: 20px;
 }
   
 .after-upload a {
     display: block; /* Làm cho link file và nút Next nằm trên các dòng riêng biệt */
     margin-bottom: 10px; /* Khoảng cách giữa file name và nút Next */
+    text-decoration: none; /* Bỏ gạch chân */
+    color: #000; 
+}
+
+.after-upload a:visited {
+    text-decoration: none; /* Bỏ gạch chân khi đã nhấp */
+    color: #000;            /* Giữ nguyên màu */
+}
+
+.file-info a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+
+.file-info a:visited {
+    color: #000;
 }
   
 #next-btn {
-    padding: 8px 16px;
     background-color: #009688;
-    color: #fff;
+    color: white;
+    padding: 8px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-     /* Nút next sẽ nằm sát phải */
 }
   
 #next-btn:hover {
@@ -523,7 +543,7 @@ textarea {
 }
 
 .next-button {
-    background-color: #4CAF50;
+    background-color: #009688;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -534,7 +554,7 @@ textarea {
 }
 
 .next-button:hover {
-    background-color: #45a049;
+    background-color: #00796b;
 }
 
 /* Done */
@@ -581,7 +601,7 @@ textarea {
 }
   
 .done-button {
-    background-color: #4CAF50;
+    background-color: #009688;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -592,7 +612,7 @@ textarea {
 }
   
 .done-button:hover {
-    background-color: #45a049;
+    background-color: #00796b;
 }
   
 .done-button:focus {
