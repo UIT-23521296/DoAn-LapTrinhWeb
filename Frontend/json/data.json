@@ -1,0 +1,16 @@
+{
+  "chuyen-nganh": {
+    "section_title": "Môn chuyên ngành",
+    "mon_hoc": [
+      { "ten": "IoT hiện đại", "link": "iot.html" },
+      { "ten": "Truyền thông đa phương tiện", "link": "truyen-thong.html" }
+    ]
+  },
+  "dai-cuong": {
+    "section_title": "Môn đại cương",
+    "mon_hoc": [
+      { "ten": "Giải tích", "link": "giai-tich.html" },
+      { "ten": "Đại số tuyến tính", "link": "dai-so.html" }
+    ]
+  }
+}
