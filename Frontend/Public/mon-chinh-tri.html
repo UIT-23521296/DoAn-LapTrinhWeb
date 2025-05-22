@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeShare</title>
     <link rel="icon" href="../assets/logo-web.png">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/standard.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="../js/main.js"></script>
-    <script src="../js/index.js"></script>
+    <script src="../js/standard.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -22,8 +20,8 @@
         <div class="nav-header">
             <nav class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="blog.html">Blog</a>
-                <a href="standard.html">Tài liệu</a>
+                <a href="#">Blog</a>
+                <a href="#">Tài liệu</a>
             </nav>
     
             <div class="btn-login-signup">
@@ -126,7 +124,7 @@
             </div>
 
             <div class="menu-item">
-                <a href="blog.html">
+                <a href="#">
                     <div class="menu-item-title">
                         Blog
                     </div>
@@ -155,85 +153,22 @@
             </div>
         </div>
 
-        <div class="introduce">
-            <div class="introduce-content">
-                <h2>Learn without limits</h2>
-                <p>
-                    Nền tảng chia sẻ tài liệu và blog học tập do sinh viên đóng góp, 
-                    với mục tiêu hỗ trợ nhau trong quá trình học tập và phát triển bản thân.
-                </p>
-            </div>
-            <div class="introduce-content-img">
-                <img src="../assets/inntroduce-content-img.jpg" alt="">
-            </div>
-        </div>
+        <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
 
-        <div class="document">
-                <h1>Tài liệu</h1>
-                <div class="latest-document">
-                    <h2>Mới nhất</h2>
-                    <div class="document-list">
-                        <div class="document-item">
-                            <h3>Giải tích 1 - Bài tập</h3>
-                            <p>Tài liệu bài tập và lời giải chi tiết.</p>
-                        </div>
-                        <div class="document-item">
-                            <h3>Lập trình C++ cơ bản</h3>
-                            <p>Slide bài giảng và ví dụ thực hành.</p>
-                        </div>
-                        <!-- thêm các document-item khác -->
-                    </div>
-                </div>
-
-                <div class="most-viewed-document">
-                    <h2>Được xem nhiều</h2>
-                    <div class="document-list">
-                        <div class="document-item">
-                            <h3>Giải tích 1 - Bài tập</h3>
-                            <p>Tài liệu bài tập và lời giải chi tiết.</p>
-                        </div>
-                        <div class="document-item">
-                            <h3>Lập trình C++ cơ bản</h3>
-                            <p>Slide bài giảng và ví dụ thực hành.</p>
-                        </div>
-                        <!-- thêm các document-item khác -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="blog">
-                <h1>Blog</h1>
-                <div class="latest-blog">
-                    <h2>Mới nhất</h2>
-                    <div class="blog-list">
-                        <div class="blog-item">
-                            <h3>SIEM Roadmap</h3>
-                            <p></p>
-                        </div>
-
-                        <div class="blog-item">
-                            <h3>Blockchain Roadmap</h3>
-                            <p></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="most-viewed-blog">
-                    <h2>Được xem nhiều</h2>
-                    <div class="blog-list">
-                        <div class="blog-item">
-                            <h3>SIEM Roadmap</h3>
-                            <p></p>
-                        </div>
-
-                        <div class="blog-item">
-                            <h3>Blockchain Roadmap</h3>
-                            <p></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <section class="course-list-section">
+            <h2 class="section-title">Danh sách</h2>
+            
+            <ul class="course-list">
+                <li><a href="tu-tuong.html" class="course-item"><span class="icon">📁</span> Tư tưởng Hồ Chí Minh</a></li>
+                <li><a href="pldc.html" class="course-item"><span class="icon">📁</span> Pháp luật đại cương</a></li>
+                <li><a href="triet-hoc.html" class="course-item"><span class="icon">📁</span> Triết học Mác-Lênin</a></li>
+                <li><a href="kt-ct.html" class="course-item"><span class="icon">📁</span> Kinh tế chính trị Mác-Lênin</a></li>
+                <li><a href="cn-xh-kh.html" class="course-item"><span class="icon">📁</span> Chủ nghĩa xã hội khoa học</a></li>
+                <li><a href="lsd.html" class="course-item"><span class="icon">📁</span> Lịch sử Đảng Cộng sản Việt nam</a></li>
+            </ul>
+              
+            <a href="upload1.html" class="contribute-btn">Đóng góp tài liệu</a>
+        </section>     
     </div>
 
     <div class="footer">
@@ -261,5 +196,7 @@
             </div>
         </div>
     </div>
+
+    <script src="../js/set-title.js"></script>
 </body>
 </html>
