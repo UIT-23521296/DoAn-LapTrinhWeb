@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeShare</title>
     <link rel="icon" href="../assets/logo-web.png">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/upload1.css">
+    <link rel="stylesheet" href="../css/userQL.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="../js/main.js"></script>
-    <script src="../js/upload1.js"></script>
+    <script src="../js/index.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -137,6 +136,8 @@
         </nav>
     </div>
 
+    
+
     <div class="content-container">
         <div class="banner">
             <div class="overlay"></div>
@@ -155,90 +156,56 @@
             </div>
         </div>
 
-        <div class="steps">
-            <div id="Upload" class="step active" onclick="showPage('upload', this)">
-                <span class="circle">1</span> Upload
-            </div>
-            <div id="Detail" class="step" onclick="showPage('detail', this)">
-                <span class="circle">2</span> Detail
-            </div>
-            <div id="Done" class="step" onclick="showPage('done', this)">
-                <span class="circle">3</span> Done
-            </div>
-        </div>
-
-        <div id="upload" class="page active">
-            <div class="upload-box">
-                <div class="upload-content">
-                    <i class="fas fa-upload icon"></i>
-                    <p>Drag and Drop here</p>
-                    <span>or</span>
-                    <input type="file" id="fileUpload" style="display: none;" multiple>
-                    <label id="browse-button" for="fileUpload">Browse here</label>
-                </div>
-                
-            </div>
-            <div class="after-upload" id="after-upload">
-                <div class="file-info">
-                    <a href="#"><i class="fas fa-file-alt"></i> Tên file.docx</a>
-                </div>
-                <button id="next-btn">Next</button>
-            </div>
-        </div>
-            
-        <div id="detail" class="page">
-            <div class="detail-box">
-                <div class="detail-search-bar">
-                    <p><i class="fa-solid fa-school icon"></i>Course</p>
-                    <input type="text" placeholder="Search something">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
+        <div class="document">
+            <h1>Tài liệu đã đăng</h1>
+            <div class="my-documents">
+                <div class="document-list">
+                    <div class="document-item">
+                        <div class="doc-content">
+                            <h3>Tài liệu 1</h3>
+                            <p>Mô tả tài liệu 1</p>
+                        </div>
+                        <div class="doc-action">
+                            <i class="fas fa-trash delete-icon"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="line"></div>
-                <form class="form-container">
-                    <label class="detail-label">
-                      Subject
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
-                
-                    <label class="detail-label">
-                      Title
-                      <input type="text" placeholder="Title" class="detail-title-input">
-                    </label>
-                
-                    <label class="detail-label">
-                      Year
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
-                
-                    <label class="detail-label">
-                      Description
-                      <textarea placeholder="Write something to note the importance"></textarea>
-                    </label>
-                
-                    <div class="button-row">
-                      <button type="submit" class="next-button">Next</button>
+                    <div class="document-item">
+                        <div class="doc-content">
+                            <h3>Tài liệu 2</h3>
+                            <p>Mô tả tài liệu 2</p>
+                        </div>
+                        <div class="doc-action">
+                            <i class="fas fa-trash delete-icon"></i>
+                        </div>
                     </div>
-                </form>
+                    <!-- thêm các tài liệu khác -->
+                </div>
             </div>
         </div>
-
-        <div id="done" class="page">
-            <div class="done-box">
-                <div class="icon-done">
-                    <i class="fa-solid fa-thumbs-up icon"></i>
-                </div>
-                <div class="thank">
-                    <p>Cảm ơn bạn đã đóng góp vào kho tài liệu của trang</p>
-                    <p>Tài liệu của bạn sẽ mất một lúc để kiểm tra và phê duyệt</p>
-                </div>
-                <div class="done-btn">
-                    <button class="done-button">Done</button>
+    
+        <div class="blog">
+            <h1>Blog đã đăng</h1>
+            <div class="my-blogs">
+                <div class="blog-list">
+                    <div class="blog-item">
+                        <div class="blog-content">
+                            <h3>Blog 1</h3>
+                            <p>Mô tả blog 1</p>
+                        </div>
+                        <div class="blog-action">
+                            <i class="fas fa-trash delete-icon"></i>
+                        </div>
+                    </div>
+                    <div class="blog-item">
+                        <div class="blog-content">
+                            <h3>Blog 2</h3>
+                            <p>Mô tả blog 2</p>
+                        </div>
+                        <div class="blog-action">
+                            <i class="fas fa-trash delete-icon"></i>
+                        </div>
+                    </div>
+                    <!-- thêm các blog khác -->
                 </div>
             </div>
         </div>
@@ -269,6 +236,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
