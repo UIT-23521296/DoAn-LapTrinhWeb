@@ -164,7 +164,7 @@ window.onload = function() {
     document.getElementById("post-date").innerText = "";
     document.getElementById("post-image").src = "";
     document.getElementById("post-image").alt = "";
-    document.getElementById("post-content").innerHTML = "<p>Không tìm thấy bài viết tương ứng.</p>";
+    document.getElementById("post-content").innerHTML = "<p>Không tìm thấy bài viết</p>";
   }
 };
 document.addEventListener('DOMContentLoaded', function () {
@@ -177,11 +177,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const commentText = textarea.value.trim();
     if (commentText === '') {
-      alert('Bạn chưa nhập nội dung bình luận!');
       return;
     }
-
-    // Tạo comment mới
     const newComment = document.createElement('div');
     newComment.classList.add('comment-item');
 
@@ -192,11 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <p>${commentText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
       </div>
     `;
-
-    // Thêm comment mới sau form
     commentsList.appendChild(newComment);
-
-    // Reset textarea
     textarea.value = '';
   });
 });

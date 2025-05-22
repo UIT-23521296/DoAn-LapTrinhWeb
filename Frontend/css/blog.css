@@ -2,7 +2,6 @@
     box-sizing: border-box;
     font-family: Muli, "Open Sans", sans-serif;
 }
-
 /* header */
 .main-header {
     display: flex;
@@ -445,4 +444,34 @@
 
 .contact-info a:hover  {
    color: #504f4f;
+}
+/* ===================== Tablet (768px - 1023px) ===================== */
+@media screen and (max-width: 1023px) {
+    body {
+        overflow-x: hidden;
+    }
+    .search-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .search-bar select,
+    .search-bar input,
+    .search-icon {
+        width: 100%;
+        border-radius: 8px !important;
+        border: 1px solid #ccc;
+    }
+    .search-icon {
+        justify-content: center;
+    }
+    
+}
+/* ===================== Mobile L (480px - 767px) ===================== */
+@media screen and (max-width: 767px) {
+    
+}
+
+/* ===================== Mobile S (≤ 479px) ===================== */
+@media screen and (max-width: 479px) {
+    
 }
