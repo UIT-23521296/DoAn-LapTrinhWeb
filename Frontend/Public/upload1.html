@@ -6,10 +6,10 @@
     <title>WeShare</title>
     <link rel="icon" href="../assets/logo-web.png">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/upload1.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="../js/main.js"></script>
-    <script src="../js/index.js"></script>
+    <script src="../js/upload1.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -22,8 +22,8 @@
         <div class="nav-header">
             <nav class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="blog.html">Blog</a>
-                <a href="standard.html">Tài liệu</a>
+                <a href="#">Blog</a>
+                <a href="#">Tài liệu</a>
             </nav>
     
             <div class="btn-login-signup">
@@ -126,7 +126,7 @@
             </div>
 
             <div class="menu-item">
-                <a href="blog.html">
+                <a href="#">
                     <div class="menu-item-title">
                         Blog
                     </div>
@@ -155,82 +155,83 @@
             </div>
         </div>
 
-        <div class="introduce">
-            <div class="introduce-content">
-                <h2>Learn without limits</h2>
-                <p>
-                    Nền tảng chia sẻ tài liệu và blog học tập do sinh viên đóng góp, 
-                    với mục tiêu hỗ trợ nhau trong quá trình học tập và phát triển bản thân.
-                </p>
+        <div class="steps">
+            <div id="Upload" class="step active" onclick="showPage('upload', this)">
+                <span class="circle">1</span> Upload
             </div>
-            <div class="introduce-content-img">
-                <img src="../assets/inntroduce-content-img.jpg" alt="">
+            <div id="Detail" class="step" onclick="showPage('detail', this)">
+                <span class="circle">2</span> Detail
+            </div>
+            <div id="Done" class="step" onclick="showPage('done', this)">
+                <span class="circle">3</span> Done
             </div>
         </div>
 
-        <div class="document">
-                <h1>Tài liệu</h1>
-                <div class="latest-document">
-                    <h2>Mới nhất</h2>
-                    <div class="document-list">
-                        <div class="document-item">
-                            <h3>Giải tích 1 - Bài tập</h3>
-                            <p>Tài liệu bài tập và lời giải chi tiết.</p>
-                        </div>
-                        <div class="document-item">
-                            <h3>Lập trình C++ cơ bản</h3>
-                            <p>Slide bài giảng và ví dụ thực hành.</p>
-                        </div>
-                        <!-- thêm các document-item khác -->
-                    </div>
-                </div>
-
-                <div class="most-viewed-document">
-                    <h2>Được xem nhiều</h2>
-                    <div class="document-list">
-                        <div class="document-item">
-                            <h3>Giải tích 1 - Bài tập</h3>
-                            <p>Tài liệu bài tập và lời giải chi tiết.</p>
-                        </div>
-                        <div class="document-item">
-                            <h3>Lập trình C++ cơ bản</h3>
-                            <p>Slide bài giảng và ví dụ thực hành.</p>
-                        </div>
-                        <!-- thêm các document-item khác -->
-                    </div>
+        <div id="upload" class="page active">
+            <div class="upload-box">
+                <div class="upload-content">
+                    <i class="fas fa-upload icon"></i>
+                    <p>Drag and Drop here</p>
+                    <span>or</span>
+                    <button id="browse-button">Browse here</button>
+                    <input type="file" id="fileInput" style="display: none;" />
                 </div>
             </div>
-
-            <div class="blog">
-                <h1>Blog</h1>
-                <div class="latest-blog">
-                    <h2>Mới nhất</h2>
-                    <div class="blog-list">
-                        <div class="blog-item">
-                            <h3>SIEM Roadmap</h3>
-                            <p></p>
-                        </div>
-
-                        <div class="blog-item">
-                            <h3>Blockchain Roadmap</h3>
-                            <p></p>
-                        </div>
+        </div>
+            
+        <div id="detail" class="page">
+            <div class="detail-box">
+                <div class="detail-search-bar">
+                    <p><i class="fa-solid fa-school icon"></i>Course</p>
+                    <input type="text" placeholder="Search something">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
                     </div>
                 </div>
-
-                <div class="most-viewed-blog">
-                    <h2>Được xem nhiều</h2>
-                    <div class="blog-list">
-                        <div class="blog-item">
-                            <h3>SIEM Roadmap</h3>
-                            <p></p>
-                        </div>
-
-                        <div class="blog-item">
-                            <h3>Blockchain Roadmap</h3>
-                            <p></p>
-                        </div>
+                <div class="line"></div>
+                <form class="form-container">
+                    <label class="detail-label">
+                      Subject
+                      <select class="detail-select">
+                        <option>Please select</option>
+                      </select>
+                    </label>
+                
+                    <label class="detail-label">
+                      Title
+                      <input type="text" placeholder="Title" class="detail-title-input">
+                    </label>
+                
+                    <label class="detail-label">
+                      Year
+                      <select class="detail-select">
+                        <option>Please select</option>
+                      </select>
+                    </label>
+                
+                    <label class="detail-label">
+                      Description
+                      <textarea placeholder="Write something to note the importance"></textarea>
+                    </label>
+                
+                    <div class="button-row">
+                      <button type="submit" class="next-button">Next</button>
                     </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="done" class="page">
+            <div class="done-box">
+                <div class="icon-done">
+                    <i class="fa-solid fa-thumbs-up icon"></i>
+                </div>
+                <div class="thank">
+                    <p>Cảm ơn bạn đã đóng góp vào kho tài liệu của trang</p>
+                    <p>Tài liệu của bạn sẽ mất một lúc để kiểm tra và phê duyệt</p>
+                </div>
+                <div class="done-btn">
+                    <button class="done-button">Done</button>
                 </div>
             </div>
         </div>
@@ -261,5 +262,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>

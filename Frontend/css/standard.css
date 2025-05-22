@@ -1,0 +1,97 @@
+/* Document */
+.document-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.breadcrumb {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: left;
+    align-self: flex-start; /* Đẩy riêng nó sang trái */
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.section {
+    margin: 40px 0;
+    width: 100%;
+}
+  
+.section-title {
+    text-align: left;
+    padding-left: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+  
+.document-grid {
+    display: flex;
+    justify-content: flex-start; 
+    flex-wrap: wrap;
+    gap: 30px;
+    padding-left: 20px;
+}
+  
+.document-item {
+    text-align: center;
+    width: 150px;
+}
+  
+.document-item img {
+    width: 100%;
+    border-radius: 10px;
+    border: 4px solid #ddd;
+}
+
+/* document-list */
+.course-list-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 50px;           /* khoảng cách với khối phía trên */
+    padding: 0 20px;            /* padding hai bên nếu cần */
+}
+  
+.course-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .course-item {
+    display: flex;           /* Để giữ icon và text căn đều */
+    align-items: center;     /* Căn giữa theo chiều dọc */
+    padding: 10px;
+    color: #333;
+    text-decoration: none;   /* Bỏ gạch chân */
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    border: none;            /* Không có khung viền */
+    outline: none;           /* Không có viền khi focus */
+}
+.course-item .icon {
+    margin-right: 10px;      /* Khoảng cách giữa icon và text */
+    font-size: 1.3rem;       /* Kích thước icon */
+}
+  
+  
+.contribute-btn {
+    align-self: flex-end;       
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #41707b;  
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 30px;
+}
+  
+.contribute-btn:hover {
+    opacity: 0.9;
+}

@@ -1,0 +1,298 @@
+/* Step */
+.steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    padding-top: 30px;
+}
+
+/* Mỗi bước */
+.step {
+    flex: 1;
+    max-width: 150px;
+    text-align: center;
+    font-weight: bold;
+    color: #999;
+    padding: 10px 0;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa vòng tròn và chữ */
+}
+
+/* Vòng tròn */
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Tạo vòng tròn */
+    background-color: #ccc; /* Màu nền vòng tròn */
+    color: white; /* Màu chữ */
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px; /* Cách khoảng giữa vòng tròn và văn bản */
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/* Tạo thanh dưới */
+.step::after {
+    content: '';
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    bottom: 0;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 50px;
+}
+
+/* Nếu active thì đổi màu thanh */
+.step.active::after {
+    background-color: #009688;
+}
+
+.step.active .circle {
+    background-color: #009688; /* Đổi màu vòng tròn khi active */
+}
+
+.step.active {
+    color: #000;
+}
+
+/* Ẩn tất cả các trang */
+.page {
+    display: none;
+  }
+  
+/* Chỉ trang active mới hiển thị */
+.page.active {
+    display: block;
+}
+  
+/* upload */
+#upload.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Chiều cao 50% của cửa sổ */
+}
+  
+  /* Khung Drag and Drop */
+.upload-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ddd;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    width: 90%;
+    max-width: 1000px;
+    max-height: 80vh; /* Giới hạn chiều cao tối đa */
+}
+  
+  /* Icon trong phần upload */
+.upload-content i.icon {
+    font-size: 50px;
+    display: block;
+    margin-bottom: 20px;
+}
+  
+  /* Nội dung text trong upload */
+.upload-content p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+  
+.upload-content span {
+    display: block;
+    margin: 10px 0;
+    color: #777;
+}
+  
+/* Style cho button Browse */
+#browse-button {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+#browse-button:hover {
+    background-color: #00796b;
+}
+
+/* detail */
+#detail.active {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+}
+.detail-box i.icon{
+    padding-right: 15px;
+}
+
+.detail-search-bar p{
+    display: flex;
+}
+
+.detail-search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.detail-search-bar p,
+.detail-search-bar input {
+    font-size: 16px;
+    height: 45px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.detail-search-bar p {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    align-items: center;
+    text-align: center;
+}
+
+.detail-search-bar input {
+    border-left: none;
+    width: 500px;
+    border-right: none;
+}
+
+.line {
+    height: 1px;
+    background-color: black;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 15px 20px;
+    max-width: 600px;
+    padding: 30px;
+    margin: auto;
+}
+
+.detail-label{
+    display: contents;
+}
+
+.detail-title-input, 
+.detail-select,
+textarea {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+}
+
+.button-row {
+    grid-column: 2 / 3;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.next-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+    background-color: #45a049;
+}
+
+/* Done */
+#done.active {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+}
+
+.done-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+    text-align: center;
+}
+
+.icon-done i {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 200px;  
+    color: #1877f2;
+    transition: all 0.3s ease;
+}
+
+.icon-done i.icon:hover {
+    color: #1f87dc;
+    transform: scale(1.2);
+}
+
+.thank p {
+    font-size: 30px;
+    color: #333; 
+    margin: 10px 0;
+}
+
+.done-btn {
+    width: 100%;                /* Chiếm hết chiều ngang của .done-box */
+    display: flex;              /* Kích hoạt flexbox */
+    justify-content: flex-end;  /* Đẩy nội dung (nút) về bên phải */
+    margin-top: 20px;
+    padding-top: 50px;
+}
+  
+.done-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.done-button:hover {
+    background-color: #45a049;
+}
+  
+.done-button:focus {
+    outline: none;
+}
