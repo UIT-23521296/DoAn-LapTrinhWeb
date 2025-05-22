@@ -173,9 +173,16 @@
                     <i class="fas fa-upload icon"></i>
                     <p>Drag and Drop here</p>
                     <span>or</span>
-                    <button id="browse-button">Browse here</button>
-                    <input type="file" id="fileInput" style="display: none;" />
+                    <input type="file" id="fileUpload" style="display: none;" multiple>
+                    <label id="browse-button" for="fileUpload">Browse here</label>
                 </div>
+                
+            </div>
+            <div class="after-upload" id="after-upload">
+                <div class="file-info">
+                    <a href="#"><i class="fas fa-file-alt"></i> Tên file.docx</a>
+                </div>
+                <button id="next-btn">Next</button>
             </div>
         </div>
             
