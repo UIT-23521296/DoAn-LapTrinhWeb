@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeShare</title>
     <link rel="icon" href="../assets/logo-web.png">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/upload1.css">
+    <link rel="stylesheet" href="../css/standard.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="../js/main.js"></script>
-    <script src="../js/upload1.js"></script>
+    <script src="../js/standard.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -155,86 +153,17 @@
             </div>
         </div>
 
-        <div class="steps">
-            <div id="Upload" class="step active" onclick="showPage('upload', this)">
-                <span class="circle">1</span> Upload
-            </div>
-            <div id="Detail" class="step" onclick="showPage('detail', this)">
-                <span class="circle">2</span> Detail
-            </div>
-            <div id="Done" class="step" onclick="showPage('done', this)">
-                <span class="circle">3</span> Done
-            </div>
-        </div>
+        <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
 
-        <div id="upload" class="page active">
-            <div class="upload-box">
-                <div class="upload-content">
-                    <i class="fas fa-upload icon"></i>
-                    <p>Drag and Drop here</p>
-                    <span>or</span>
-                    <button id="browse-button">Browse here</button>
-                    <input type="file" id="fileInput" style="display: none;" />
-                </div>
-            </div>
-        </div>
+        <section class="course-list-section">
+            <h2 class="section-title">Danh sách</h2>
             
-        <div id="detail" class="page">
-            <div class="detail-box">
-                <div class="detail-search-bar">
-                    <p><i class="fa-solid fa-school icon"></i>Course</p>
-                    <input type="text" placeholder="Search something">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </div>
-                <div class="line"></div>
-                <form class="form-container">
-                    <label class="detail-label">
-                      Subject
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
+            <ul class="course-list">
                 
-                    <label class="detail-label">
-                      Title
-                      <input type="text" placeholder="Title" class="detail-title-input">
-                    </label>
-                
-                    <label class="detail-label">
-                      Year
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
-                
-                    <label class="detail-label">
-                      Description
-                      <textarea placeholder="Write something to note the importance"></textarea>
-                    </label>
-                
-                    <div class="button-row">
-                      <button type="submit" class="next-button">Next</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div id="done" class="page">
-            <div class="done-box">
-                <div class="icon-done">
-                    <i class="fa-solid fa-thumbs-up icon"></i>
-                </div>
-                <div class="thank">
-                    <p>Cảm ơn bạn đã đóng góp vào kho tài liệu của trang</p>
-                    <p>Tài liệu của bạn sẽ mất một lúc để kiểm tra và phê duyệt</p>
-                </div>
-                <div class="done-btn">
-                    <button class="done-button">Done</button>
-                </div>
-            </div>
-        </div>
+            </ul>
+              
+            <a href="upload1.html" class="contribute-btn">Đóng góp tài liệu</a>
+        </section>     
     </div>
 
     <div class="footer">
@@ -263,5 +192,6 @@
         </div>
     </div>
 
+    <script src="../js/set-title.js"></script>
 </body>
 </html>
