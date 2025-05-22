@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeShare</title>
     <link rel="icon" href="../assets/logo-web.png">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/upload1.css">
+    <link rel="stylesheet" href="../css/blog.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="../js/main.js"></script>
-    <script src="../js/upload1.js"></script>
+    <script src="../js/blog.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -126,7 +124,7 @@
             </div>
 
             <div class="menu-item">
-                <a href="#">
+                <a href="blog.html">
                     <div class="menu-item-title">
                         Blog
                     </div>
@@ -155,91 +153,148 @@
             </div>
         </div>
 
-        <div class="steps">
-            <div id="Upload" class="step active" onclick="showPage('upload', this)">
-                <span class="circle">1</span> Upload
-            </div>
-            <div id="Detail" class="step" onclick="showPage('detail', this)">
-                <span class="circle">2</span> Detail
-            </div>
-            <div id="Done" class="step" onclick="showPage('done', this)">
-                <span class="circle">3</span> Done
-            </div>
-        </div>
+        <div class="blog">
+            <h1>Blog</h1>
+            <div class="latest-blog">
+                <h2>Mới nhất</h2>
+                <div class="blog-list">
+                    <a href="blog-read.html?post=siem" class="blog-item">
+                        <img src="../assets/img-blog-1.webp" alt="" class="blog-image">
+                        <h3>SIEM Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
 
-        <div id="upload" class="page active">
-            <div class="upload-box">
-                <div class="upload-content">
-                    <i class="fas fa-upload icon"></i>
-                    <p>Drag and Drop here</p>
-                    <span>or</span>
-                    <input type="file" id="fileUpload" style="display: none;" multiple>
-                    <label id="browse-button" for="fileUpload">Browse here</label>
-                </div>
-                
-            </div>
-            <div class="after-upload" id="after-upload">
-                <div class="file-info">
-                    <a href="#"><i class="fas fa-file-alt"></i> Tên file.docx</a>
-                </div>
-                <button id="next-btn">Next</button>
-            </div>
-        </div>
-            
-        <div id="detail" class="page">
-            <div class="detail-box">
-                <div class="detail-search-bar">
-                    <p><i class="fa-solid fa-school icon"></i>Course</p>
-                    <input type="text" placeholder="Search something">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </div>
-                <div class="line"></div>
-                <form class="form-container">
-                    <label class="detail-label">
-                      Subject
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
-                
-                    <label class="detail-label">
-                      Title
-                      <input type="text" placeholder="Title" class="detail-title-input">
-                    </label>
-                
-                    <label class="detail-label">
-                      Year
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
-                
-                    <label class="detail-label">
-                      Description
-                      <textarea placeholder="Write something to note the importance"></textarea>
-                    </label>
-                
-                    <div class="button-row">
-                      <button type="submit" class="next-button">Next</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                    <a href="blog-read.html?post=blockchain" class="blog-item">
+                        <img src="../assets/img-blog-2.webp" alt="" class="blog-image">
+                        <h3>Blockchain Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
 
-        <div id="done" class="page">
-            <div class="done-box">
-                <div class="icon-done">
-                    <i class="fa-solid fa-thumbs-up icon"></i>
+                    <a href="blog-read.html?post=pentester" class="blog-item">
+                        <img src="../assets/img-blog-3.webp" alt="" class="blog-image">
+                        <h3>pEnTester Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=malware" class="blog-item">
+                        <img src="../assets/img-blog-4.webp" alt="" class="blog-image">
+                        <h3>Malware Analyst Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
                 </div>
-                <div class="thank">
-                    <p>Cảm ơn bạn đã đóng góp vào kho tài liệu của trang</p>
-                    <p>Tài liệu của bạn sẽ mất một lúc để kiểm tra và phê duyệt</p>
+            </div>
+
+            <div class="most-viewed-blog">
+                <h2>Được xem nhiều</h2>
+                <div class="blog-list">
+                    <a href="blog-read.html?post=siem" class="blog-item">
+                        <img src="../assets/img-blog-1.webp" alt="" class="blog-image">
+                        <h3>SIEM Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=blockchain" class="blog-item">
+                        <img src="../assets/img-blog-2.webp" alt="" class="blog-image">
+                        <h3>Blockchain Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=pentester" class="blog-item">
+                        <img src="../assets/img-blog-3.webp" alt="" class="blog-image">
+                        <h3>pEnTester Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=malware" class="blog-item">
+                        <img src="../assets/img-blog-4.webp" alt="" class="blog-image">
+                        <h3>Malware Analyst Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
                 </div>
-                <div class="done-btn">
-                    <button class="done-button">Done</button>
+            </div>
+
+            <div class="list-blog">
+                <h2>Danh sách</h2>
+                <div class="blog-list">
+                    <a href="blog-read.html?post=siem" class="blog-item">
+                        <img src="../assets/img-blog-1.webp" alt="" class="blog-image">
+                        <h3>SIEM Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=blockchain" class="blog-item">
+                        <img src="../assets/img-blog-2.webp" alt="" class="blog-image">
+                        <h3>Blockchain Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=pentester" class="blog-item">
+                        <img src="../assets/img-blog-3.webp" alt="" class="blog-image">
+                        <h3>pEnTester Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=malware" class="blog-item">
+                        <img src="../assets/img-blog-4.webp" alt="" class="blog-image">
+                        <h3>Malware Analyst Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=pwnable" class="blog-item">
+                        <img src="../assets/img-blog-5.webp" alt="" class="blog-image">
+                        <h3>Pwnable Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=RER" class="blog-item">
+                        <img src="../assets/img-blog-6.webp" alt="" class="blog-image">
+                        <h3>Reverse Engineering Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=WAFE" class="blog-item">
+                        <img src="../assets/img-blog-7.webp" alt="" class="blog-image">
+                        <h3>Web Application Firewall Exploit: If you cannot protect yourself, who can you protect?</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=WASR" class="blog-item">
+                        <img src="../assets/img-blog-8.webp" alt="" class="blog-image">
+                        <h3>Web Application Security Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
+
+                    <a href="blog-read.html?post=forensic" class="blog-item">
+                        <img src="../assets/img-avatar-1.webp" alt="" class="blog-image">
+                        <h3>Forensic Roadmap</h3>
+                        <h6>April 28, 2025</h6>
+                        <p></p>
+                    </a>
                 </div>
+            </div>
+
+            <div class="btn-post-blog">
+                <a href="blog-post.html">
+                    <button class="btn-post">
+                        Post your blog
+                    </button>
+                </a>
             </div>
         </div>
     </div>
@@ -261,7 +316,8 @@
             <nav class="footer-navbar">
                 <a href="">Truy cập nhanh</a>
                 <a href="">Tài liệu</a>
-                <a href="">Home</a>
+                <a href="index.html">Home</a>
+                <a href="blog.html">Blog</a>
             </nav>
     
             <div class="contact-info">
@@ -269,6 +325,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

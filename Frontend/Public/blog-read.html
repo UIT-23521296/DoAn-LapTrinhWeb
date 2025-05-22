@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeShare</title>
     <link rel="icon" href="../assets/logo-web.png">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/upload1.css">
+    <link rel="stylesheet" href="../css/blog-read.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="../js/main.js"></script>
-    <script src="../js/upload1.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -126,7 +123,7 @@
             </div>
 
             <div class="menu-item">
-                <a href="#">
+                <a href="blog.html">
                     <div class="menu-item-title">
                         Blog
                     </div>
@@ -154,91 +151,52 @@
                 </div>
             </div>
         </div>
-
-        <div class="steps">
-            <div id="Upload" class="step active" onclick="showPage('upload', this)">
-                <span class="circle">1</span> Upload
-            </div>
-            <div id="Detail" class="step" onclick="showPage('detail', this)">
-                <span class="circle">2</span> Detail
-            </div>
-            <div id="Done" class="step" onclick="showPage('done', this)">
-                <span class="circle">3</span> Done
+        
+        <div class="blog-post-wrapper">
+            <div class="blog-post">
+                <img id="post-image" src="" alt="" class="blog-post-image">
+                <h1 id="post-title"></h1>
+                <p id="post-date" class="post-date"></p>
+                <hr>
+                <div id="post-content"></div>
             </div>
         </div>
 
-        <div id="upload" class="page active">
-            <div class="upload-box">
-                <div class="upload-content">
-                    <i class="fas fa-upload icon"></i>
-                    <p>Drag and Drop here</p>
-                    <span>or</span>
-                    <input type="file" id="fileUpload" style="display: none;" multiple>
-                    <label id="browse-button" for="fileUpload">Browse here</label>
+
+        <div class="comment-section">
+            <h2>Bình luận</h2>
+        
+            <div class="comments-list">
+                <div class="comment-item">
+                    <img src="../assets/img-avatar-1.webp" alt="Avatar" class="avatar">
+                    <form class="comment-form">
+                        <textarea name="comment" placeholder="Viết bình luận của bạn..." rows="2" required></textarea>
+                        <button type="submit">Gửi bình luận</button>
+                    </form>
                 </div>
                 
-            </div>
-            <div class="after-upload" id="after-upload">
-                <div class="file-info">
-                    <a href="#"><i class="fas fa-file-alt"></i> Tên file.docx</a>
-                </div>
-                <button id="next-btn">Next</button>
-            </div>
-        </div>
-            
-        <div id="detail" class="page">
-            <div class="detail-box">
-                <div class="detail-search-bar">
-                    <p><i class="fa-solid fa-school icon"></i>Course</p>
-                    <input type="text" placeholder="Search something">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
+                <div class="comment-item">
+                    <img src="../assets/img-avatar-2.jpg" alt="Avatar" class="avatar">
+                    <div class="comment-content">
+                        <strong>Vũ NMQ</strong>
+                        <p>Bài viết khá là hay với truyền cảm hứng rất nhiều</p>
                     </div>
                 </div>
-                <div class="line"></div>
-                <form class="form-container">
-                    <label class="detail-label">
-                      Subject
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
-                
-                    <label class="detail-label">
-                      Title
-                      <input type="text" placeholder="Title" class="detail-title-input">
-                    </label>
-                
-                    <label class="detail-label">
-                      Year
-                      <select class="detail-select">
-                        <option>Please select</option>
-                      </select>
-                    </label>
-                
-                    <label class="detail-label">
-                      Description
-                      <textarea placeholder="Write something to note the importance"></textarea>
-                    </label>
-                
-                    <div class="button-row">
-                      <button type="submit" class="next-button">Next</button>
+        
+                <div class="comment-item">
+                    <img src="../assets/img-blog-8.webp" alt="Avatar" class="avatar">
+                    <div class="comment-content">
+                        <strong>Lương TPA</strong>
+                        <p>Bản thân mình cũng đang trong quá trình tìm hiểu về SIEM, cảm ơn bài viết đã giúp mình hiểu hơn về chủ đề này</p>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
 
-        <div id="done" class="page">
-            <div class="done-box">
-                <div class="icon-done">
-                    <i class="fa-solid fa-thumbs-up icon"></i>
-                </div>
-                <div class="thank">
-                    <p>Cảm ơn bạn đã đóng góp vào kho tài liệu của trang</p>
-                    <p>Tài liệu của bạn sẽ mất một lúc để kiểm tra và phê duyệt</p>
-                </div>
-                <div class="done-btn">
-                    <button class="done-button">Done</button>
+                <div class="comment-item">
+                    <img src="../assets/img-blog-7.webp" alt="Avatar" class="avatar">
+                    <div class="comment-content">
+                        <strong>Phan QV</strong>
+                        <p>Bạn có thể làm giới thiệu thêm một vài chủ đề khác có nội dung tương tự để mình tìm hiểu thêm được không</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -261,7 +219,8 @@
             <nav class="footer-navbar">
                 <a href="">Truy cập nhanh</a>
                 <a href="">Tài liệu</a>
-                <a href="">Home</a>
+                <a href="index.html">Home</a>
+                <a href="blog.html">Blog</a>
             </nav>
     
             <div class="contact-info">
@@ -269,6 +228,6 @@
             </div>
         </div>
     </div>
-
+    <script src="../js/blog-read.js"></script>
 </body>
 </html>
