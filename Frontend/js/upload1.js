@@ -9,15 +9,26 @@ document.addEventListener("DOMContentLoaded", function () {
     afterUpload.style.display = "none";
 
     fileInput.addEventListener("change", function () {
+        const allowedTypes = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+
         if (fileInput.files.length > 0) {
-            // Hiện tên file đầu tiên
-            fileNameDisplay.textContent = fileInput.files[0].name;
-            // Hiện phần chứa tên file và nút Next
-            afterUpload.style.display = "flex"; // hoặc block tùy CSS bạn dùng
+            const file = fileInput.files[0];
+
+            if (!allowedTypes.includes(file.type)) {
+                alert("Chỉ cho phép upload file PDF hoặc DOC/DOCX.");
+                fileInput.value = ""; // Xóa file không hợp lệ
+                afterUpload.style.display = "none";
+                return;
+            }
+
+            // Hiện tên file nếu hợp lệ
+            fileNameDisplay.textContent = file.name;
+            afterUpload.style.display = "flex";
         } else {
             afterUpload.style.display = "none";
         }
     });
+
 
     uploadNextBtn.addEventListener("click", function () {
         document.getElementById("upload").classList.remove("active");
