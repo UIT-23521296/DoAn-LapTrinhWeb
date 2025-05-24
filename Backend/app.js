@@ -60,20 +60,63 @@ app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/signup.html'));
 });
 
+app.get('/userql', authMiddleware, (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/userQL.html'));
+});
+
+app.get('/usertk', authMiddleware, (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/userTK.html'));
+});
+
+app.get('/blog', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/blog.html'));
+});
+
+app.get('/blog-read', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/blog-read.html'));
+});
+
+app.get('/blog-post', authMiddleware,(req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/blog-post.html'));
+});
+
+app.get('/document', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/standard.html'));
+});
+
+app.get('/mon-dai-cuong', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-dai-cuong.html'));
+});
+
+app.get('/mon-co-so-nganh', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-co-so-nganh.html'));
+});
+
+app.get('/mon-chinh-tri', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-chinh-tri.html'));
+});
+
+app.get('/mon-chuyen-nganh', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-chuyen-nganh.html'));
+});
+
+app.get('/mon-tu-chon', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-tu-chon.html'));
+});
+
+app.get('/upload', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/Public/upload1.html'));
+});
+
+
 app.use('/api/auth', authRoutes);
 
 // Route trả thông tin người dùng
 app.get('/api/user-info', authMiddleware, (req, res) => {
-  console.log('hehehe')
     res.json({
         username: req.session.user.username,
         email: req.session.user.email
     });
-});
-
-// Route dashboard bảo vệ, trả về index.html
-app.get('/dashboard', authMiddleware, (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public/index.html'));
 });
 
 const PORT = process.env.PORT || 5000;

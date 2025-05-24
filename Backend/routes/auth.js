@@ -11,7 +11,7 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 
 //Đăng xuất
-router.post('/logout', authController.logout);
+router.get('/logout', authController.logout);
 
 //Gửi otp
 router.post('/send-otp', authController.sendOtp);
@@ -29,6 +29,7 @@ router.get('/dashboard', authMiddleware, (req, res) => {
 
 // Trả thông tin người dùng
 router.get('/api/user-info', authMiddleware, (req, res) => {
+    console.log("toi da o day")
     res.json({
         username: req.session.user.username,
         email: req.session.user.email
