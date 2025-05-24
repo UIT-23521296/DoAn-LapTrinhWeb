@@ -18,242 +18,243 @@
 
     <div class="main-content" id="main" style="display: none;">
         <header class="main-header">
-        <div class="logo">
-            <a href="/">
-                <img src="../assets/logo-web-full.png" alt="WeShare">
-            </a>
-        </div>
-
-        <div class="nav-header">
-            <nav class="nav-links">
-                <a href="/">Home</a>
-                <a href="/blog">Blog</a>
-                <a href="/standard">Tài liệu</a>
-            </nav>
-    
-            <div class="btn-login-signup" id="auth-buttons">
-                <a href="/login">
-                    <button class="btn-login">
-                        Đăng nhập
-                    </button>
-                </a>
-
-                <a href="/signup">
-                    <button class="btn-signup">
-                        Đăng ký
-                    </button>
-                </a>
-            </div>
-
-            <div class="user-info" id="user-info" style="display: none;">
-                <span class="Hello-User">Xin chào, <strong id="username"></strong>!</span>
-                <img src="../assets/default_avaatar.jpg" id="user_avatar" alt="Avatar">
-                
-                <div class="dropdown-menu">
-                    <a href="/userql">Quản lý tài liệu/blog</a>
-                    <a href="/usertk">Quản lý tài khoản</a>
-                    <a href="" id="logout-btn">Đăng xuất</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="side-bar">
-        <div class="hamburger" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-        
-        <!-- Side Navigation -->
-        <nav id="side-nav" class="side-nav">
-            <div class="menu-item">
+            <div class="logo">
                 <a href="/">
-                    <div class="menu-item-title">
-                        Home
-                    </div>
+                    <img src="../assets/logo-web-full.png" alt="WeShare">
                 </a>
             </div>
 
-            <div class="menu-item">
-                <div class="menu-item-title" onclick="toggleSubmenu(this)">
-                    Môn chuyên ngành <i class="fa-solid fa-chevron-down"></i>
+            <div class="nav-header">
+                <nav class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/standard">Tài liệu</a>
+                </nav>
+        
+                <div class="btn-login-signup" id="auth-buttons">
+                    <a href="/login">
+                        <button class="btn-login">
+                            Đăng nhập
+                        </button>
+                    </a>
+
+                    <a href="/signup">
+                        <button class="btn-signup">
+                            Đăng ký
+                        </button>
+                    </a>
                 </div>
 
-                <div class="sub-menu">
-                    <a href="#">NT532 - Công nghệ Internet of Things hiện đại</a>
-                    <a href="#">NT533 - Hệ tính toán phân bố</a>
-                    <a href="#">NT536 - Công nghệ truyền thông đa phương tiện</a>
-                    <a href="#">NT538 - Giải thuật xử lý song song và phân bố</a>
-                    <a href="#">NT541 - Công nghệ mạng khả lập trình</a>
-                    <a href="#">NT402 - Công nghệ mạng viễn thông</a>
-                    <a href="#">NT531 - Đánh giá hiệu năng hệ thống mạng máy tính</a>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-title" onclick="toggleSubmenu(this)">
-                    Môn cơ sở ngành <i class="fa-solid fa-chevron-down"></i>
-                </div>
-
-                <div class="sub-menu">
-                    <a href="#">IT004 - Cơ sở dữ liệu</a>
-                    <a href="#">IT005 - Nhập môn mạng máy tính</a>
-                    <a href="#">IT006 - Kiến trúc máy tính</a>
-                    <a href="#">IT007 - Hệ điều hành</a>
-                    <a href="#">IT002 - Lập trình hướng đối tượng</a>
-                    <a href="#">IT003 - Cấu trúc dữ liệu và giải thuật</a>
-                    <a href="#">NT101 - An toàn mạng máy tính</a>
-                    <a href="#">NT105 - Truyền dữ liệu</a>
-                    <a href="#">NT106 - Lập trình mạng căn bản</a>
-                    <a href="#">NT113 - Thiết kế mạng</a>
-                    <a href="#">NT118 - Phát triển ứng dụng trên thiết bị di động</a>
-                    <a href="#">NT131 - Hệ thống nhúng mạng không dây</a>
-                    <a href="#">NT132 - Quản trị mạng và hệ thống</a>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-title" onclick="toggleSubmenu(this)">
-                    Môn học đại cương <i class="fa-solid fa-chevron-down"></i>
-                </div>
-
-                <div class="sub-menu">
-                    <a href="#">IT001 - Nhập môn lập trình</a>
-                    <a href="#">MA003 - Đại số tuyến tính</a>
-                    <a href="#">MA004 - Cấu trúc rời rạc</a>
-                    <a href="#">MA005 - Xác suất thống kê</a>
-                    <a href="#">MA006 - Giải tích</a>
-                    <a href="#">PH002 - Nhập môn mạch số</a>
-                </div>
-            </div>
-            
-            <div class="menu-item">
-                <div class="menu-item-title" onclick="toggleSubmenu(this)">
-                    Môn học CT & XH (SS) <i class="fa-solid fa-chevron-down"></i>
-                </div>
-
-                <div class="sub-menu">
-                    <a href="#">SS003 - Tư tưởng Hồ Chí Minh</a>
-                    <a href="#">SS006 - Pháp luật đại cương</a>
-                    <a href="#">SS007 - Triết học Mác - Lênin</a>
-                    <a href="#">SS008 - Kinh tế chính trị Mác - Lênin</a>
-                    <a href="#">SS009 - Chủ nghĩa xã hội khoa học</a>
-                    <a href="#">SS010 - Lịch sử Đảng Cộng sản Việt Nam</a>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <a href="#">
-                    <div class="menu-item-title">
-                        Blog
-                    </div>
-                </a>
-                
-            </div>
-            
-        </nav>
-    </div>
-
-    <div class="content-container">
-        <div class="banner">
-            <div class="overlay"></div>
-            <div class="banner-content">
-                <h2>Tìm kiếm tài liệu tại đây</h2>
-                <div class="search-bar">
-                    <select>
-                        <option>Tài liệu</option>
-                        <option>Blog</option>
-                    </select>
-                    <input type="text" placeholder="Search something">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
+                <div class="user-info" id="user-info" style="display: none;">
+                    <span class="Hello-User">Xin chào, <strong id="username"></strong>!</span>
+                    <img src="../assets/default_avaatar.jpg" id="user_avatar" alt="Avatar">
+                    
+                    <div class="dropdown-menu">
+                        <a href="/userql">Quản lý tài liệu/blog</a>
+                        <a href="/usertk">Quản lý tài khoản</a>
+                        <a href="" id="logout-btn">Đăng xuất</a>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="document-box">
-            <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
-            
-            <div class="section">
-                <h2 class="section-title">Mới nhất</h2>
-                <div class="document-grid">
-                  <div class="document-item">
-                    <img src="img.png" alt="doc 1">
-                    <p>Bài tập XSTK chương 1</p>
-                  </div>
-                  <div class="document-item">
-                    <img src="img.png" alt="doc 2">
-                    <p>Bài tập XSTK chương 2</p>
-                  </div>
-                  <div class="document-item">
-                    <img src="img.png" alt="doc 3">
-                    <p>Bài tập XSTK chương 3</p>
-                  </div>
-                </div>
-            </div>
-              
-            <div class="section">
-                <h2 class="section-title">Được xem nhiều</h2>
-                <div class="document-grid">
-                    <div class="document-grid">
-                        <div class="document-item">
-                          <img src="img.png" alt="doc 1">
-                          <p>Bài tập XSTK chương 1</p>
-                        </div>
-                        <div class="document-item">
-                          <img src="img.png" alt="doc 2">
-                          <p>Bài tập XSTK chương 2</p>
-                        </div>
-                        <div class="document-item">
-                          <img src="img.png" alt="doc 3">
-                          <p>Bài tập XSTK chương 3</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section class="course-list-section">
-            
-            <h2 class="section-title">Danh sách</h2>
-            
-            <ul class="course-list">
-                <li><a href="/mon-dai-cuong" class="course-item"><span class="icon">📁</span> Môn đại cương</a></li>
-                <li><a href="/mon-co-so-nganh" class="course-item"><span class="icon">📁</span> Môn cơ sở ngành</a></li>
-                <li><a href="/mon-chinh-tri" class="course-item"><span class="icon">📁</span> Môn chính trị</a></li>
-                <li><a href="/mon-chuyen-nganh" class="course-item"><span class="icon">📁</span> Môn chuyên ngành</a></li>
-                <li><a href="/mon-tu-chon" class="course-item"><span class="icon">📁</span> Môn tự chọn</a></li>
-            </ul>
-              
-            <a href="/upload" class="contribute-btn">Đóng góp tài liệu</a>
-        </section>     
-    </div>
-
-    <div class="footer">
-        <div class="info-school">
-            <div class="footer-logo">
-                <img src="../assets/logo-uit.png" alt="">
-            </div>
-            
-            <div class="info-school-detail">
-                <p>ĐẠI HỌC QUỐC GIA TPHCM</p>
-                <p>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</p>
-                <p>VNUHCM - UIT</p>
-            </div>
-        </div>
-
-        <div class="footer-nav">
-            <nav class="footer-navbar">
-                <a href="">Truy cập nhanh</a>
-                <a href="">Tài liệu</a>
-                <a href="">Home</a>
-            </nav>
+        </header>
     
-            <div class="contact-info">
-                <span>Liên hệ: </span><a href="">fb.com/vnmq</a>
+
+        <div class="side-bar">
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            
+            <!-- Side Navigation -->
+            <nav id="side-nav" class="side-nav">
+                <div class="menu-item">
+                    <a href="/">
+                        <div class="menu-item-title">
+                            Home
+                        </div>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-title" onclick="toggleSubmenu(this)">
+                        Môn chuyên ngành <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-menu">
+                        <a href="#">NT532 - Công nghệ Internet of Things hiện đại</a>
+                        <a href="#">NT533 - Hệ tính toán phân bố</a>
+                        <a href="#">NT536 - Công nghệ truyền thông đa phương tiện</a>
+                        <a href="#">NT538 - Giải thuật xử lý song song và phân bố</a>
+                        <a href="#">NT541 - Công nghệ mạng khả lập trình</a>
+                        <a href="#">NT402 - Công nghệ mạng viễn thông</a>
+                        <a href="#">NT531 - Đánh giá hiệu năng hệ thống mạng máy tính</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-title" onclick="toggleSubmenu(this)">
+                        Môn cơ sở ngành <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-menu">
+                        <a href="#">IT004 - Cơ sở dữ liệu</a>
+                        <a href="#">IT005 - Nhập môn mạng máy tính</a>
+                        <a href="#">IT006 - Kiến trúc máy tính</a>
+                        <a href="#">IT007 - Hệ điều hành</a>
+                        <a href="#">IT002 - Lập trình hướng đối tượng</a>
+                        <a href="#">IT003 - Cấu trúc dữ liệu và giải thuật</a>
+                        <a href="#">NT101 - An toàn mạng máy tính</a>
+                        <a href="#">NT105 - Truyền dữ liệu</a>
+                        <a href="#">NT106 - Lập trình mạng căn bản</a>
+                        <a href="#">NT113 - Thiết kế mạng</a>
+                        <a href="#">NT118 - Phát triển ứng dụng trên thiết bị di động</a>
+                        <a href="#">NT131 - Hệ thống nhúng mạng không dây</a>
+                        <a href="#">NT132 - Quản trị mạng và hệ thống</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-title" onclick="toggleSubmenu(this)">
+                        Môn học đại cương <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-menu">
+                        <a href="#">IT001 - Nhập môn lập trình</a>
+                        <a href="#">MA003 - Đại số tuyến tính</a>
+                        <a href="#">MA004 - Cấu trúc rời rạc</a>
+                        <a href="#">MA005 - Xác suất thống kê</a>
+                        <a href="#">MA006 - Giải tích</a>
+                        <a href="#">PH002 - Nhập môn mạch số</a>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="menu-item-title" onclick="toggleSubmenu(this)">
+                        Môn học CT & XH (SS) <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-menu">
+                        <a href="#">SS003 - Tư tưởng Hồ Chí Minh</a>
+                        <a href="#">SS006 - Pháp luật đại cương</a>
+                        <a href="#">SS007 - Triết học Mác - Lênin</a>
+                        <a href="#">SS008 - Kinh tế chính trị Mác - Lênin</a>
+                        <a href="#">SS009 - Chủ nghĩa xã hội khoa học</a>
+                        <a href="#">SS010 - Lịch sử Đảng Cộng sản Việt Nam</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <a href="#">
+                        <div class="menu-item-title">
+                            Blog
+                        </div>
+                    </a>
+                    
+                </div>
+                
+            </nav>
+        </div>
+
+        <div class="content-container">
+            <div class="banner">
+                <div class="overlay"></div>
+                <div class="banner-content">
+                    <h2>Tìm kiếm tài liệu tại đây</h2>
+                    <div class="search-bar">
+                        <select>
+                            <option>Tài liệu</option>
+                            <option>Blog</option>
+                        </select>
+                        <input type="text" placeholder="Search something">
+                        <div class="search-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-box">
+                <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
+                
+                <div class="section">
+                    <h2 class="section-title">Mới nhất</h2>
+                    <div class="document-grid">
+                    <div class="document-item">
+                        <img src="img.png" alt="doc 1">
+                        <p>Bài tập XSTK chương 1</p>
+                    </div>
+                    <div class="document-item">
+                        <img src="img.png" alt="doc 2">
+                        <p>Bài tập XSTK chương 2</p>
+                    </div>
+                    <div class="document-item">
+                        <img src="img.png" alt="doc 3">
+                        <p>Bài tập XSTK chương 3</p>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">Được xem nhiều</h2>
+                    <div class="document-grid">
+                        <div class="document-grid">
+                            <div class="document-item">
+                            <img src="img.png" alt="doc 1">
+                            <p>Bài tập XSTK chương 1</p>
+                            </div>
+                            <div class="document-item">
+                            <img src="img.png" alt="doc 2">
+                            <p>Bài tập XSTK chương 2</p>
+                            </div>
+                            <div class="document-item">
+                            <img src="img.png" alt="doc 3">
+                            <p>Bài tập XSTK chương 3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="course-list-section">
+                
+                <h2 class="section-title">Danh sách</h2>
+                
+                <ul class="course-list">
+                    <li><a href="/mon-dai-cuong" class="course-item"><span class="icon">📁</span> Môn đại cương</a></li>
+                    <li><a href="/mon-co-so-nganh" class="course-item"><span class="icon">📁</span> Môn cơ sở ngành</a></li>
+                    <li><a href="/mon-chinh-tri" class="course-item"><span class="icon">📁</span> Môn chính trị</a></li>
+                    <li><a href="/mon-chuyen-nganh" class="course-item"><span class="icon">📁</span> Môn chuyên ngành</a></li>
+                    <li><a href="/mon-tu-chon" class="course-item"><span class="icon">📁</span> Môn tự chọn</a></li>
+                </ul>
+                
+                <a href="/upload" class="contribute-btn">Đóng góp tài liệu</a>
+            </section>     
+        </div>
+
+        <div class="footer">
+            <div class="info-school">
+                <div class="footer-logo">
+                    <img src="../assets/logo-uit.png" alt="">
+                </div>
+                
+                <div class="info-school-detail">
+                    <p>ĐẠI HỌC QUỐC GIA TPHCM</p>
+                    <p>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</p>
+                    <p>VNUHCM - UIT</p>
+                </div>
+            </div>
+
+            <div class="footer-nav">
+                <nav class="footer-navbar">
+                    <a href="">Truy cập nhanh</a>
+                    <a href="">Tài liệu</a>
+                    <a href="">Home</a>
+                </nav>
+        
+                <div class="contact-info">
+                    <span>Liên hệ: </span><a href="">fb.com/vnmq</a>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </body>
 </html>
