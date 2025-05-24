@@ -39,7 +39,17 @@ exports.login = async(req, res) => {
             email: user.email
         }
 
-        res.json({ msg: 'Login successful'}) //redirect: '/dashboard' })
+        console.log('Đã tạo session:', req.session);
+
+        return res.json({ 
+            msg: 'Login successful',
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
+
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }
@@ -47,11 +57,12 @@ exports.login = async(req, res) => {
 
 //Đăng xuất
 exports.logout = (req, res) => {
+    console.log("toi da o day");
     req.session.destroy((err) => {
         if (err) 
             return res.status(500).json({ msg: 'Logout failed' });
         res.clearCookie('connect.sid');
-        res.json({ msg: 'Logged out successfully' });
+        res.redirect('http://localhost:5000/');
     })
 }
 
