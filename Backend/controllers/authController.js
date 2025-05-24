@@ -39,7 +39,7 @@ exports.login = async(req, res) => {
             email: user.email
         }
 
-        res.json({ msg: 'Login successful', user: req.session.user })
+        res.json({ msg: 'Login successful'}) //redirect: '/dashboard' })
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }
@@ -100,6 +100,8 @@ exports.sendOtp = async(req, res) => {
     }
 };
 
+
+//Xác thực Otp
 exports.verifyOtp = async (req, res) => {
     const { email, otp } = req.body;
 
@@ -126,3 +128,12 @@ exports.verifyOtp = async (req, res) => {
         return res.status(500).json({ msg: 'Lỗi server' });
     }
 };
+
+//Kiểm tra trạng thái đăng nhập
+exports.getSession = async(req, res) => {
+    if (req.session.user) {
+        return res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        return res.json({ loggedIn: false });
+    }
+}
