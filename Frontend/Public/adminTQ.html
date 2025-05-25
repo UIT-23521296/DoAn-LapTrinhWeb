@@ -6,23 +6,54 @@
     <title>Admin Dashboard - WeShare</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/adminTQ.css">
-    <script src="../js/index.js"></script>
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="../js/main.js"></script>
 </head>
 <body>
+    <div class="loading-container" id="loading">
+        <img src="../assets/logo-web-full.png" alt="Loading..." class="loading-image">
+    </div>
+
+    <div class="main-content" id="main" style="display: none;">
     <header class="main-header">
         <div class="logo">
-            <a href="index.html">
+            <a href="/">
                 <img src="../assets/logo-web-full.png" alt="WeShare">
             </a>
         </div>
 
+        
         <div class="nav-header">
             <nav class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="blog.html">Blog</a>
-                <a href="standard.html">Tài liệu</a>
+                <a href="/">Home</a>
+                <a href="/blog">Blog</a>
+                <a href="/document">Tài liệu</a>
             </nav>
     
+            <div class="btn-login-signup" id="auth-buttons">
+                <a href="/login">
+                    <button class="btn-login">
+                        Đăng nhập
+                    </button>
+                </a>
+
+                <a href="/signup">
+                    <button class="btn-signup">
+                        Đăng ký
+                    </button>
+                </a>
+            </div>
+
+            <div class="user-info" id="user-info" style="display: none;">
+                    <span class="Hello-User">Xin chào, <strong id="username"></strong>!</span>
+                    <img src="../assets/default_avaatar.jpg" id="user_avatar" alt="Avatar">
+                    
+                    <div class="dropdown-menu">
+                        <a href="/userql">Quản lý tài liệu/blog</a>
+                        <a href="/usertk">Quản lý tài khoản</a>
+                        <a href="" id="logout-btn">Đăng xuất</a>
+                    </div>
+            </div>
         </div>
     </header>
     <div class="admin-container">
@@ -32,9 +63,9 @@
                 <h2><i class="fas fa-user-shield"></i> Admin Panel</h2>
             </div>
             <ul class="sidebar-menu">
-                <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="adminTL.html"><i class="fas fa-file-alt"></i> Quản lý tài liệu</a></li>
-                <li><a href="adminND.html"><i class="fas fa-users"></i> Quản lý người dùng</a></li>
+                <li class="active"><a href="/adminTQ"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="/adminTL"><i class="fas fa-file-alt"></i> Quản lý tài liệu</a></li>
+                <li><a href="/adminND"><i class="fas fa-users"></i> Quản lý người dùng</a></li>
             </ul>
         </div>
 
@@ -42,12 +73,6 @@
         <div class="admin-main">
             <div class="admin-header">
                 <h1>Tổng quan hệ thống</h1>
-                <div class="user-info">
-                    <span>Xin chào, <strong>Admin</strong></span>
-                    <div class="user-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                </div>
             </div>
             <!-- Stats Cards -->
             <div class="stats-container">
@@ -167,6 +192,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 </html>
