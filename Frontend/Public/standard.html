@@ -11,32 +11,49 @@
     <script src="../js/main.js"></script>
 </head>
 <body>
-    <header class="main-header">
+    <!-- Loading -->
+    <div class="loading-container" id="loading">
+        <img src="../assets/logo-web-full.png" alt="Loading..." class="loading-image">
+    </div>
+
+    <div class="main-content" id="main" style="display: none;">
+        <header class="main-header">
         <div class="logo">
-            <a href="index.html">
+            <a href="/">
                 <img src="../assets/logo-web-full.png" alt="WeShare">
             </a>
         </div>
 
         <div class="nav-header">
             <nav class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="blog.html">Blog</a>
-                <a href="standard.html">Tài liệu</a>
+                <a href="/">Home</a>
+                <a href="/blog">Blog</a>
+                <a href="/standard">Tài liệu</a>
             </nav>
     
-            <div class="btn-login-signup">
-                <a href="login.html">
+            <div class="btn-login-signup" id="auth-buttons">
+                <a href="/login">
                     <button class="btn-login">
                         Đăng nhập
                     </button>
                 </a>
 
-                <a href="signup.html">
+                <a href="/signup">
                     <button class="btn-signup">
                         Đăng ký
                     </button>
                 </a>
+            </div>
+
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="Hello-User">Xin chào, <strong id="username"></strong>!</span>
+                <img src="../assets/default_avaatar.jpg" id="user_avatar" alt="Avatar">
+                
+                <div class="dropdown-menu">
+                    <a href="/userql">Quản lý tài liệu/blog</a>
+                    <a href="/usertk">Quản lý tài khoản</a>
+                    <a href="" id="logout-btn">Đăng xuất</a>
+                </div>
             </div>
         </div>
     </header>
@@ -49,7 +66,7 @@
         <!-- Side Navigation -->
         <nav id="side-nav" class="side-nav">
             <div class="menu-item">
-                <a href="index.html">
+                <a href="/">
                     <div class="menu-item-title">
                         Home
                     </div>
@@ -201,14 +218,14 @@
             <h2 class="section-title">Danh sách</h2>
             
             <ul class="course-list">
-                <li><a href="mon-dai-cuong.html" class="course-item"><span class="icon">📁</span> Môn đại cương</a></li>
-                <li><a href="mon-co-so-nganh.html" class="course-item"><span class="icon">📁</span> Môn cơ sở ngành</a></li>
-                <li><a href="mon-chinh-tri.html" class="course-item"><span class="icon">📁</span> Môn chính trị</a></li>
-                <li><a href="mon-chuyen-nganh.html" class="course-item"><span class="icon">📁</span> Môn chuyên ngành</a></li>
-                <li><a href="mon-tu-chon.html" class="course-item"><span class="icon">📁</span> Môn tự chọn</a></li>
+                <li><a href="/mon-dai-cuong" class="course-item"><span class="icon">📁</span> Môn đại cương</a></li>
+                <li><a href="/mon-co-so-nganh" class="course-item"><span class="icon">📁</span> Môn cơ sở ngành</a></li>
+                <li><a href="/mon-chinh-tri" class="course-item"><span class="icon">📁</span> Môn chính trị</a></li>
+                <li><a href="/mon-chuyen-nganh" class="course-item"><span class="icon">📁</span> Môn chuyên ngành</a></li>
+                <li><a href="/mon-tu-chon" class="course-item"><span class="icon">📁</span> Môn tự chọn</a></li>
             </ul>
               
-            <a href="upload1.html" class="contribute-btn">Đóng góp tài liệu</a>
+            <a href="/upload" class="contribute-btn">Đóng góp tài liệu</a>
         </section>     
     </div>
 
@@ -237,6 +254,6 @@
             </div>
         </div>
     </div>
-
+    </div>
 </body>
 </html>
