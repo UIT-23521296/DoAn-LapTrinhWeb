@@ -2,13 +2,15 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const Otp = require('../models/Otp');
 const User = require('../models/User');
+const Admin = require('../models/Admin')
 
 //Đăng ký
 exports.register = async(req, res) => {
     const {username, email, password} = req.body;
     try {
         const existingUser = await User.findOne({ email });
-        if (existingUser) 
+        const existingAdmin = await Admin.findOne({ email });
+        if (existingUser || existingAdmin) 
             return res.status(400).json({ msg: 'Email already exists' });
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,6 +27,32 @@ exports.register = async(req, res) => {
 exports.login = async(req, res) => {
     const {email, password} = req.body;
     try {
+        const admin = await Admin.findOne({email});
+        if (admin)
+        {
+            const isMatch = await bcrypt.compare(password, admin.password);
+            if (!isMatch)
+            {
+                return res.status(400).json({ msg: 'Invalid credentials' });
+            }
+
+            req.session.admin = {
+                id: admin._id,
+                username: admin.username,
+                email: admin.email,
+                role: 'admin'
+            }
+
+            return res.json({
+                msg: 'Login successful',
+                user: {
+                    id: admin._id,
+                    username: admin.username,
+                    email: admin.email
+                }
+            })
+        }
+
         const user = await User.findOne({ email });
         if (!user) 
             return res.status(400).json({ msg: 'Invalid credentials' });
@@ -36,7 +64,8 @@ exports.login = async(req, res) => {
         req.session.user = {
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            role: 'user'
         }
 
         console.log('Đã tạo session:', req.session);
@@ -49,8 +78,8 @@ exports.login = async(req, res) => {
                 email: user.email
             }
         });
-
     } catch (err) {
+        console.error('Login error:', err);
         res.status(500).json({ msg: 'Server error' });
     }
 }
