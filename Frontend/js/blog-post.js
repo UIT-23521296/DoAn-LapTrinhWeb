@@ -1,7 +1,26 @@
 
 let savedRange = null;
 
+function getLocalStorage(key) {
+    const data = localStorage.getItem(key);
+
+    if (!data) {
+        // Nếu không có dữ liệu thì trả về null hoặc giá trị mặc định
+        return null;
+    }
+
+    try {
+        return JSON.parse(data);
+    } catch (error) {
+        return data;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+    const usernameE2 = document.getElementById('username2');
+    const userInfo = getLocalStorage('user');
+    usernameE2.innerHTML = userInfo.username;
+
     const postContent = document.getElementById("postContent");
     const emojiBtn = document.querySelector('.fa-smile');
     const emojiPicker = document.getElementById('emojiPicker');
@@ -97,9 +116,46 @@ function insertImage() {
 }
 
 function submitPost() {
+    const postTitle = document.getElementById("postTitle").value.trim();
+    const postContent = document.getElementById("postContent").innerHTML.trim();
 
-    const postContent = document.getElementById("postContent");
-    postContent.innerHTML = '';
-    const imageInput = document.getElementById("imageUpload");
-    imageInput.value = '';
+    if (!postTitle) {
+        alert("Vui lòng nhập tiêu đề bài viết!");
+        return;
+    }
+
+    if (!postContent) {
+        alert("Nội dung bài viết không được để trống!");
+        return;
+    }
+
+    const postData = {
+        title: postTitle,
+        content: postContent,
+    };
+
+    fetch('http://localhost:5000/api/blogs', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(postData)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Lỗi khi đăng bài');
+        return res.json();
+    })
+    .then(data => {
+        alert('Đăng bài thành công!');
+        // Xóa form hoặc chuyển hướng
+        document.getElementById("postTitle").value = '';
+        document.getElementById("postContent").innerHTML = '';
+        document.getElementById("imageUpload").value = '';
+        // Ví dụ chuyển về trang blog list
+        window.location.href = '/blog';
+    })
+    .catch(err => {
+        alert('Đã xảy ra lỗi: ' + err.message);
+    });
 }

@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
-    if (!req.session.user) {
-        res.redirect('/login');  // Redirect về trang login
+    if (!req.session.user && !req.session.admin) {
+        return res.redirect('/login');  
     }
-    next();
+    next(); 
 }
