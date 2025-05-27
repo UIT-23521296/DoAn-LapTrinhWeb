@@ -3,6 +3,42 @@
     font-family: Muli, "Open Sans", sans-serif;
 }
 
+<<<<<<< Updated upstream:Frontend/css/userTK.css
+=======
+/*Trang loading*/
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-image {
+    width: auto;
+    height: auto;
+    animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+>>>>>>> Stashed changes:Frontend/css/main.css
 /* header */
 .main-header {
     display: flex;
@@ -62,13 +98,95 @@
     width: 100%;
 }
 
+<<<<<<< Updated upstream:Frontend/css/userTK.css
+=======
+/*Avatar người dùng*/
+.user-info {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-info:hover {
+    background-color: #e8e8e8;
+}
+
+.Hello-User {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#user_avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s ease;
+    align-items: center;
+    vertical-align: middle;
+}
+
+#user_avatar:hover {
+    border-color: #666;
+}
+
+#username {
+    font-weight: 600;
+}
+
+/*Drop down menu của người dùng */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 0;
+    min-width: 180px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+}
+
+.dropdown-menu a {
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+.user-info:hover .dropdown-menu {
+    display: flex;
+}
+
+>>>>>>> Stashed changes:Frontend/css/main.css
 /* Nút đăng nhập, đăng ký */
 .btn-login-signup {
     display: flex;
     gap: 50px;
 }
 
-.btn-login, .btn-signup {
+.btn-login,
+.btn-signup {
     padding: 8px 20px;
     font-size: 16px;
     background-color: white;
@@ -79,7 +197,8 @@
     cursor: pointer;
 }
 
-.btn-login:hover, .btn-signup:hover {
+.btn-login:hover,
+.btn-signup:hover {
     transform: scale(0.98);
     background-color: #356859;
     color: white;
@@ -161,8 +280,9 @@
 .side-nav.active {
     height: 70vh;
     padding: 60px 40px 20px 20px;
-    overflow-y: auto; /* cho phép cuộn trong sidebar nếu nội dung dài */
-    opacity: 1; 
+    overflow-y: auto;
+    /* cho phép cuộn trong sidebar nếu nội dung dài */
+    opacity: 1;
 }
 
 .side-nav a {
@@ -260,8 +380,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 45px; 
-    width: 50px; 
+    height: 45px;
+    width: 50px;
     background-color: white;
     border: 1px solid #ccc;
     border-left: none;
@@ -271,8 +391,8 @@
 }
 
 .search-icon i {
-    color: black;     
-    font-size: 20px;    
+    color: black;
+    font-size: 20px;
 }
 
 /* Nội dung */
@@ -479,30 +599,32 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    padding: 20px;
     background-color: #427489;
     color: #eeeded;
 }
 
-.footer-logo img {
-    margin-left: 20px;
-    width: 100px;
-    height: auto;
+.footer-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .info-school {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 20px;
+    order: 1;
+    /* Đảm bảo nằm bên trái */
 }
 
 .footer-nav {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
     gap: 100px;
+    order: 2;
+    /* Đảm bảo nằm bên phải */
 }
 
 .footer-navbar {
@@ -514,7 +636,6 @@
     text-decoration: none;
     color: #eeeded;
     font-weight: 500;
-    position: relative;
     margin: 8px 0;
     transition: all 0.3s ease;
 }
@@ -527,11 +648,11 @@
     text-decoration: none;
     color: #eeeded;
     font-weight: 500;
-    position: relative;
     transition: color 0.3s ease;
     margin-right: 20px;
 }
 
+<<<<<<< Updated upstream:Frontend/css/userTK.css
 .contact-info a:hover  {
    color: #504f4f;
 }
@@ -568,4 +689,118 @@
 .delete-icon:hover {
     color: #cc0000;
     transform: scale(1.2);
+=======
+.contact-info a:hover {
+    color: #504f4f;
+}
+
+.footer-logo img {
+    width: 100px;
+    height: auto;
+}
+
+@media (max-width: 780px) {
+
+    /* HEADER */
+    .main-header {
+        padding: 10px 20px;
+        flex-wrap: wrap;
+    }
+
+    .nav-header {
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .btn-login-signup {
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    .footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .info-school {
+        order: 1;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .footer-nav {
+        order: 2;
+        width: 100%;
+        justify-content: space-between;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .footer-logo img {
+        width: 80px;
+    }
+}
+
+@media (max-width: 470px) {
+
+    /* HEADER */
+    .main-header {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+    }
+
+    .nav-header,
+    .nav-links,
+    .btn-login-signup {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .btn-login,
+    .btn-signup {
+        font-size: 14px;
+        padding: 6px 14px;
+    }
+
+    .logo img {
+        height: 36px;
+    }
+
+    /* FOOTER */
+    .footer {
+        padding: 15px;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .footer-nav {
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .info-school {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .footer-logo img {
+        width: 70px;
+    }
+
+    .footer-navbar a,
+    .contact-info a {
+        font-size: 14px;
+    }
+>>>>>>> Stashed changes:Frontend/css/main.css
 }
