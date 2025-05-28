@@ -47,8 +47,12 @@ app.use(express.static(path.join(__dirname, '../Frontend')));
 // Routes
 const authRoutes = require('./routes/auth');
 const blogRoutes = require('./routes/blogRoutes');
+const adminRoutes = require('./routes/Admin');
 const authMiddleware = require('./middleware/authMiddleware'); 
 const requireAdmin = require('./middleware/requireAdmin');
+
+app.use('/api/admin', adminRoutes);
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/index.html'));
@@ -134,6 +138,7 @@ app.get('/upload', authMiddleware, (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Route trả thông tin người dùng
 app.get('/api/user-info', authMiddleware, (req, res) => {
