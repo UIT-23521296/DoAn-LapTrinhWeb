@@ -91,33 +91,12 @@
     text-align: center;
 }
 
-.latest-blog, 
-.most-viewed-blog {
-    background-color: #fdfdfd;
-    padding: 30px 20px;
-    border-radius: 16px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-}
-
-.latest-blog:hover, 
-.most-viewed-blog:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-.latest-blog h2, 
-.most-viewed-blog h2 {
-    font-size: 28px;
-    color: #7D8491;
-    margin-bottom: 20px;
-}
-
 .blog-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /*tự động đổ cột, mỗi cột rộng ít nhất 250px*/
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-top: 20px;
+    align-items: stretch;
 }
 
 .blog-item {
@@ -126,8 +105,15 @@
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    transition: all 0.3s ease
+    transition: all 0.3s ease;
+    text-decoration: none;
+
+    box-sizing: border-box;  /* thêm dòng này */
+    display: flex;
+    flex-direction: column;
+    height: 100%;            /* cho blog-item cao bằng chiều cao cell grid */
 }
+
 
 .blog-item:hover {
     transform: translateY(-5px);
@@ -145,18 +131,30 @@
     color: #777;
 }
 
-.document-item, .blog-item {
+.blog-item img {
+    width: 100%; 
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+}
+
+.blog-item h6 {
+    color: silver;
+}
+
+.document-item {
     position: relative;
     display: flex;
     flex-direction: column;
     padding-bottom: 40px; /* Tạo khoảng trống cho icon */
 }
 
-.doc-content, .blog-content {
+.doc-content {
     flex: 1;
 }
 
-.doc-action, .blog-action {
+.doc-action {
     position: absolute;
     bottom: 15px;
     left: 0;
@@ -175,7 +173,7 @@
 
 .delete-icon:hover {
     color: #cc0000;
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 /* Account Management Styles */
 .account-section {
