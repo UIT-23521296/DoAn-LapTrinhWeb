@@ -1,6 +1,8 @@
 const Blog = require('../models/Blog');
 const BlogContent = require('../models/BlogContent');
 const Comment = require('../models/Comment');
+const fs = require('fs');
+const { uploadFileToDrive } = require('../uploads/googleDrive');
 
 // --- Blog ---
 
@@ -32,15 +34,31 @@ exports.getAllBlogs = async (req, res) => {
 
 exports.getBlogById = async (req, res) => {
   try {
-    // Tìm blog theo id và phải được duyệt
-    const blog = await Blog.findOne({ _id: req.params.id, approved: true });
-    if (!blog) return res.status(404).json({ msg: 'Blog not found or not approved' });
+    const { preview } = req.query;
+    const isPreview = preview === 'true';
+    const session = req.session;
 
-    blog.views += 1;
-    await blog.save();
+    let blog;
+
+    if (isPreview) {
+      // Nếu là preview, chỉ cho admin xem
+      if (!session || !session.admin) {
+        return res.status(403).json({ msg: 'Unauthorized preview' });
+      }
+      blog = await Blog.findById(req.params.id); // không cần kiểm approved
+    } else {
+      // Nếu không phải preview thì chỉ lấy blog đã duyệt
+      blog = await Blog.findOne({ _id: req.params.id, approved: true });
+    }
+
+    if (!blog) return res.status(404).json({ msg: 'Blog not found' });
+
+    if (!isPreview) {
+      blog.views += 1;
+      await blog.save();
+    }
 
     const blogContent = await BlogContent.findOne({ blog: blog._id });
-
     const comments = await Comment.find({ blog: blog._id }).sort({ createdAt: -1 }).lean();
 
     res.json({ 
@@ -49,6 +67,7 @@ exports.getBlogById = async (req, res) => {
       comments 
     });
   } catch (err) {
+    console.error('getBlogById error:', err);
     res.status(500).json({ msg: 'Server error' });
   }
 };
@@ -67,6 +86,7 @@ exports.createBlog = async (req, res) => {
   try {
     const { title, content } = req.body;
     const author = req.session.user?.username;
+    const path = require('path');
 
     // Kiểm tra bắt buộc
     if (!title || !content) {
@@ -78,14 +98,23 @@ exports.createBlog = async (req, res) => {
       return res.status(400).json({ msg: 'Thumbnail image is required' });
     }
 
-    // Xử lý ảnh thumbnail (encode base64)
-    const thumbnailImage = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    // Tạm lưu file từ buffer (multer memoryStorage)
+    const tempPath = path.join(__dirname, '..', 'uploads', 'Img', `${Date.now()}-${req.file.originalname}`);
+
+    fs.writeFileSync(tempPath, req.file.buffer);
+
+    // Upload file lên Google Drive (thay folderId bằng ID thư mục Drive của bạn)
+    const folderId = '185Efbd-izYwsA4r41TXgVMu_rGoWDXf9'; 
+    const thumbnailImage = await uploadFileToDrive(tempPath, req.file.originalname, folderId);
+
+    // Xóa file tạm
+    fs.unlinkSync(tempPath);
 
     // Tạo blog mới
     const newBlog = new Blog({
       title,
       author,
-      thumbnailImage,
+      thumbnailImage, // URL file trên Drive
       views: 0
     });
     await newBlog.save();
@@ -100,7 +129,7 @@ exports.createBlog = async (req, res) => {
 
     res.status(201).json({ msg: 'Blog created', blog: newBlog });
   } catch (err) {
-    console.error('createBlog error:', err);
+    console.error('createBlog error:', err.message || err);
     res.status(500).json({ msg: 'Server error' });
   }
 };
@@ -168,7 +197,7 @@ exports.deleteBlog = async (req, res) => {
     await BlogContent.deleteOne({ blog: blog._id });
     await Comment.deleteMany({ blog: blog._id });
     await Blog.deleteOne({ _id: blog._id });
-    
+
     console.log("Deleted blog successfully");
     res.json({ msg: 'Blog and all related content deleted' });
   } catch (err) {

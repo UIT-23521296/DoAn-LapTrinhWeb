@@ -1,6 +1,21 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const blogListContainer = document.querySelector(".blog-list");
 
+  // Chuyển link Google Drive thành link ảnh trực tiếp
+  function getDriveDirectLink(url) {
+    const regex = /\/d\/([a-zA-Z0-9_-]+)/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    }
+    return url;
+  }
+
+  // Nếu cần proxy qua server để tránh lỗi CORS
+  function proxyImageURL(url) {
+    return `/api/proxy-image?url=${encodeURIComponent(url)}`;
+  }
+
   // Hàm loại bỏ thẻ img trong content
   function stripHTML(html) {
     const div = document.createElement("div");
@@ -15,7 +30,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Hàm tạo HTML cho từng blog, có thêm nút delete
   function createBlogItem(blog) {
     const contentText = stripHTML(blog.content || "");
-    const image = blog.thumbnailImage || "../assets/img-blog-1.webp";
+
+    // Xử lý thumbnail từ Google Drive nếu có
+    let image = "../assets/img-blog-1.webp";
+    if (blog.thumbnailImage) {
+      const direct = getDriveDirectLink(blog.thumbnailImage);
+      image = proxyImageURL(direct); // hoặc chỉ dùng direct nếu không muốn proxy
+    }
 
     let date = "";
     if (blog.createdAt) {
@@ -28,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `
       <div class="blog-item" data-id="${blog._id}">
         <a href="/blog-read?post=${blog._id}" class="blog-link" style="text-decoration: none">
-          <img src="${image}" alt="" class="blog-image">
+          <img src="${image}" alt="Thumbnail" class="blog-image" onerror="this.style.display='none'">
           <h3>${blog.title}</h3>
           <h6>${date}</h6>
           <p>${contentText.substring(0, 50)}...</p>
