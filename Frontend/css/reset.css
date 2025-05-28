@@ -195,3 +195,115 @@ body {
     text-decoration: underline;
 }
 
+/* Responsive styles for Signup Page */
+@media (max-width: 780px) {
+    body {
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .signup {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .img-container {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 20px;
+        max-height: 200px;
+        overflow: hidden;
+    }
+
+    .img-container img {
+        border-radius: 12px 12px 0 0;
+    }
+
+    .signup-container {
+        width: 100%;
+        padding: 30px 20px;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-social {
+        width: 100%;
+    }
+
+    .detail-info {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .signup {
+        flex-direction: column; /* Ensures image stays on top */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 150px;
+        margin-bottom: 15px;
+        order: -1; /* Forces image to appear first */
+    }
+
+    .img-container img {
+        border-radius: 12px 12px 0 0;
+    }
+
+    .signup-container {
+        padding: 25px 15px;
+        border-radius: 0 0 12px 12px;
+        width: 100%;
+    }
+
+    /* Keep all other 480px styles from previous version */
+    .detail-info {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .btn-signup {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .separator {
+        margin: 15px 0;
+        font-size: 12px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .login-page {
+        font-size: 12px;
+    }
+
+    .btn-social {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .btn-social img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .form-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}

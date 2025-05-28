@@ -210,3 +210,100 @@ input[type="password"] {
 .signup-page:hover {
     text-decoration: underline;
 }
+
+/* Responsive styles for Login Page */
+@media (max-width: 780px) {
+    body {
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .login {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .img-container {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+        max-height: 200px;
+        overflow: hidden;
+    }
+
+    .img-container img {
+        border-radius: 12px 12px 0 0;
+    }
+
+    .login-container {
+        width: 100%;
+        padding: 30px 20px;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-social {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+        background: linear-gradient(to bottom, #B1DEF1, #849859);
+    }
+
+    .login {
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 150px;
+    }
+
+    .login-container {
+        padding: 25px 15px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .btn-login {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .separator {
+        margin: 15px 0;
+        font-size: 12px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .forgot-password,
+    .signup-page {
+        font-size: 12px;
+    }
+
+    .btn-social {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .btn-social img {
+        width: 18px;
+        height: 18px;
+    }
+}
