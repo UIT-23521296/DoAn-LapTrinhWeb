@@ -168,7 +168,13 @@ function insertImage() {
 
 async function submitPost() {
     const postTitle = document.getElementById("postTitle").value.trim();
-    const postContent = document.getElementById("postContent").innerHTML.trim();
+    const postContent = document.getElementById("postContent");
+    const rawContent = document.getElementById("postContent").innerText.trim();
+    if (!rawContent) {
+        alert("Nội dung bài viết không được để trống!");
+        return;
+    }
+
     const thumbnailInput = document.getElementById('thumbnailUpload');
     const thumbnailFile = thumbnailInput.files[0];
 

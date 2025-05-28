@@ -7,15 +7,18 @@ function getQueryParam(param) {
 
 window.addEventListener("DOMContentLoaded", async function () {
   const postId = getQueryParam("post");
+  const isPreview = getQueryParam("preview") === "true";
   if (!postId) {
     showError("Không tìm thấy ID bài viết trong URL");
     return;
   }
 
   try {
-    const res = await fetch(`http://localhost:5000/api/blogs/${postId}`);
+    const res = await fetch(`http://localhost:5000/api/blogs/${postId}?preview=${isPreview}`, {
+      credentials: 'include',
+    });
     if (!res.ok) throw new Error("Không tìm thấy bài viết");
-    
+
     const data = await res.json();
     const blog = data.blog;
     const content = data.content || '';
@@ -24,10 +27,26 @@ window.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("post-date").innerText = formatDate(blog.createdAt);
     document.getElementById("post-content").innerHTML = content;
 
+    // Convert Google Drive link to direct download ID
+    function getDriveFileId(url) {
+      const regex = /(?:\/d\/|id=)([a-zA-Z0-9_-]+)/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+
     const img = document.getElementById("post-image");
     if (img && blog.thumbnailImage) {
-      img.src = blog.thumbnailImage;
-      img.style.display = 'block';
+      const fileId = getDriveFileId(blog.thumbnailImage);
+      if (fileId) {
+        const proxyUrl = `http://localhost:5000/api/proxy-image?url=https://drive.google.com/uc?id=${fileId}`;
+        img.src = proxyUrl;
+        img.onerror = () => {
+          img.style.display = 'none';
+        };
+        img.style.display = 'block';
+      } else {
+        img.style.display = 'none';
+      }
     } else if (img) {
       img.style.display = 'none';
     }
@@ -37,6 +56,7 @@ window.addEventListener("DOMContentLoaded", async function () {
     showError("Không tìm thấy hoặc tải bài viết thất bại");
   }
 });
+
 
 function formatDate(dateString) {
   const d = new Date(dateString);
@@ -123,8 +143,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function loadComments() {
+    const isPreview = getQueryParam("preview") === "true";
       try {
-        const res = await fetch(`/api/blogs/${blogId}`);
+        const res = await fetch(`/api/blogs/${blogId}?preview=${isPreview}`);
         if (!res.ok) throw new Error('Không thể tải bài viết');
         const data = await res.json();
 
