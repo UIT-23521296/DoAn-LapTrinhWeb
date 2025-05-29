@@ -9,4 +9,6 @@ router.get('/pending-blogs', requireAdmin, blogAdminController.getPendingBlogs);
 // Route duyệt bài (approve)
 router.put('/approve-blog/:id', requireAdmin, blogAdminController.approveBlog);
 
+router.get('/blogs', requireAdmin, blogAdminController.getBlogsForAdmin);
+
 module.exports = router;

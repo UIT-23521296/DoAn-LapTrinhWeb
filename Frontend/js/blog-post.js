@@ -169,7 +169,7 @@ function insertImage() {
 async function submitPost() {
     const postTitle = document.getElementById("postTitle").value.trim();
     const postContent = document.getElementById("postContent");
-    const rawContent = document.getElementById("postContent").innerText.trim();
+    const rawContent = postContent.innerText.trim();
     if (!rawContent) {
         alert("Nội dung bài viết không được để trống!");
         return;
@@ -183,14 +183,9 @@ async function submitPost() {
         return;
     }
 
-    if (!postContent) {
-        alert("Nội dung bài viết không được để trống!");
-        return;
-    }
-
     const formData = new FormData();
     formData.append('title', postTitle);
-    formData.append('content', postContent);
+    formData.append('content', postContent.innerHTML); // ✅ Sửa chỗ này
     if (thumbnailFile) {
         formData.append('thumbnailImage', thumbnailFile);
     }
@@ -210,12 +205,11 @@ async function submitPost() {
         alert('Đăng bài thành công!');
         // Reset form
         document.getElementById("postTitle").value = '';
-        document.getElementById("postContent").innerHTML = '';
+        postContent.innerHTML = ''; // ✅ Clear content HTML
         document.getElementById("imageUpload").value = '';
         document.getElementById("thumbnailUpload").value = '';
         document.getElementById("thumbnailPreview").innerHTML = '';
 
-        // Chuyển về trang blog list hoặc trang khác
         window.location.href = '/blog';
     } catch (err) {
         alert('Đã xảy ra lỗi: ' + err.message);
