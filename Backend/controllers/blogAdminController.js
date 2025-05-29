@@ -45,3 +45,16 @@ exports.approveBlog = async (req, res) => {
     res.status(500).json({ msg: 'Lỗi khi duyệt bài' });
   }
 };
+// Ví dụ trong blogAdminController.js
+exports.getBlogsForAdmin = async (req, res) => {
+  try {
+    const approvedBlogs = await Blog.find({ approved: true }).sort({ createdAt: -1 });
+    const pendingBlogs = await Blog.find({ approved: false }).sort({ createdAt: -1 });
+
+    res.json({ approvedBlogs, pendingBlogs });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Lỗi khi lấy dữ liệu blog' });
+  }
+};
+

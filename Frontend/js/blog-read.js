@@ -34,6 +34,15 @@ window.addEventListener("DOMContentLoaded", async function () {
       return match ? match[1] : null;
     }
 
+    const contentDiv = document.getElementById("post-content");
+    const imgs = contentDiv.querySelectorAll('img');
+    imgs.forEach(img => {
+      const fileId = getDriveFileId(img.src);
+      if (fileId) {
+        img.src = `http://localhost:5000/api/proxy-image?url=https://drive.google.com/uc?id=${fileId}`;
+      }
+    });
+
     const img = document.getElementById("post-image");
     if (img && blog.thumbnailImage) {
       const fileId = getDriveFileId(blog.thumbnailImage);
