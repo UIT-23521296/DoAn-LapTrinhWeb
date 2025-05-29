@@ -15,9 +15,6 @@ function getLocalStorage(key) {
     }
 }
 
-// Bỏ đoạn này nếu đang dùng:
-// document.querySelector('.thumbnail-picker').addEventListener('click', ...);
-
 // Chỉ gán click vào label thôi:
 document.getElementById('thumbnailLabel').addEventListener('click', (e) => {
   e.preventDefault();
@@ -167,25 +164,41 @@ function insertImage() {
 }
 
 async function submitPost() {
+    const submitBtn = document.querySelector(".post-button");
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Đang đăng...";
+
     const postTitle = document.getElementById("postTitle").value.trim();
     const postContent = document.getElementById("postContent");
-    const rawContent = postContent.innerText.trim();
-    if (!rawContent) {
-        alert("Nội dung bài viết không được để trống!");
-        return;
-    }
+    const rawContent = postContent.innerHTML.trim();
 
     const thumbnailInput = document.getElementById('thumbnailUpload');
     const thumbnailFile = thumbnailInput.files[0];
 
+     if (!thumbnailFile || !thumbnailFile.type.startsWith('image/')) {
+        showToast('Vui lòng chọn một ảnh minh họa!', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Đăng bài";
+        return;
+    }
+
     if (!postTitle) {
-        alert("Vui lòng nhập tiêu đề bài viết!");
+        showToast('Vui lòng nhập tiêu đề bài viết!', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Đăng bài";
+        return;
+    }
+
+    if (!rawContent) {
+        showToast('Nội dung bài viết không được để trống!', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Đăng bài";
         return;
     }
 
     const formData = new FormData();
     formData.append('title', postTitle);
-    formData.append('content', postContent.innerHTML); // ✅ Sửa chỗ này
+    formData.append('content', postContent.innerHTML);
     if (thumbnailFile) {
         formData.append('thumbnailImage', thumbnailFile);
     }
@@ -202,16 +215,44 @@ async function submitPost() {
             throw new Error(data.msg || 'Lỗi khi đăng bài');
         }
 
-        alert('Đăng bài thành công!');
+        showToast('Đăng bài thành công!', 'success');
         // Reset form
         document.getElementById("postTitle").value = '';
-        postContent.innerHTML = ''; // ✅ Clear content HTML
+        postContent.innerHTML = '';
         document.getElementById("imageUpload").value = '';
         document.getElementById("thumbnailUpload").value = '';
         document.getElementById("thumbnailPreview").innerHTML = '';
 
-        window.location.href = '/blog';
+        setTimeout(() => {
+            window.location.href = '/blog';
+        }, 500);
+
     } catch (err) {
-        alert('Đã xảy ra lỗi: ' + err.message);
+        showToast('Đã xảy ra lỗi: ' + err.message, 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Đăng bài";
     }
+}
+
+function showToast(message, type = 'success') {
+    const toastE1 = document.getElementById("liveToast");
+    const toastBody = toastE1.querySelector(".toast-body");
+
+    // Xóa hết class bg- cũ, giữ lại border-0
+    toastE1.classList.remove("bg-success", "bg-danger", "text-white");
+
+    if (type === 'error') {
+        toastE1.classList.add("bg-danger", "text-white");
+    } else {
+        toastE1.classList.add("bg-success", "text-white");
+    }
+
+    toastBody.innerHTML = message;
+
+    const toast = new bootstrap.Toast(toastE1, {
+        delay: 2000,
+        autohide: true
+    });
+
+    toast.show();
 }
