@@ -70,18 +70,41 @@ document.addEventListener("DOMContentLoaded", function () {
         el.addEventListener("change", toggleDetailNextButton);
     });
 
-    formDetail.addEventListener("submit", function (e) {
-        e.preventDefault();
-        if (validateDetailForm()) {
-            document.getElementById("detail").classList.remove("active");
-            document.getElementById("done").classList.add("active");
+    formDetail.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    
+    if (!validateDetailForm()) return;
+
+    const file = fileInput.files[0];
+    if (!file) {
+        alert("Chưa có file được chọn.");
+        return;
+    }
+
+    const formData = new FormData(formDetail);
+    formData.append("file", file);
+    formData.append("uploader", "test_user"); // hoặc lấy từ localStorage/session
+
+    try {
+        const response = await fetch(`${window.location.origin}/upload`, {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error("Upload thất bại");
         }
-    });
+
+        // Nếu thành công, chuyển bước
+        document.getElementById("detail").classList.remove("active");
+        document.getElementById("done").classList.add("active");
+    } catch (error) {
+        alert("Lỗi khi upload: " + error.message);
+    }
+});
+
 
 
     // === PHẦN DONE ===
     const doneBtn = document.querySelector(".done-button");
-    doneBtn.addEventListener("click", function () {
-        window.location.href = "index.html"; // Chuyển về trang chủ hoặc bạn muốn chuyển tới đâu
-    });
 });

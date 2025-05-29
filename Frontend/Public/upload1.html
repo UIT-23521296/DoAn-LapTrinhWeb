@@ -213,35 +213,37 @@
                         </div>
                     </div>
                     <div class="line"></div>
-                    <form class="form-container">
+                        <form class="form-container">
                         <label class="detail-label">
-                        Subject
-                        <select class="detail-select">
+                            Subject
+                            <select class="detail-select" name="subject">
                             <option>Please select</option>
-                        </select>
+                            <option value="test">Test</option>
+                            </select>
                         </label>
-                    
+
                         <label class="detail-label">
-                        Title
-                        <input type="text" placeholder="Title" class="detail-title-input">
+                            Title
+                            <input type="text" name="title" placeholder="Title" class="detail-title-input">
                         </label>
-                    
+
                         <label class="detail-label">
-                        Year
-                        <select class="detail-select">
+                            Year
+                            <select class="detail-select" name="year">
                             <option>Please select</option>
-                        </select>
+                            <option value="test">2000</option>
+                            </select>
                         </label>
-                    
+
                         <label class="detail-label">
-                        Description
-                        <textarea placeholder="Write something to note the importance"></textarea>
+                            Description
+                            <textarea name="description" placeholder="Write something to note the importance"></textarea>
                         </label>
-                    
+
                         <div class="button-row">
-                        <button type="submit" class="next-button">Next</button>
+                            <button type="submit" class="next-button">Next</button>
                         </div>
-                    </form>
+                        </form>
                 </div>
             </div>
 
@@ -255,7 +257,9 @@
                         <p>Tài liệu của bạn sẽ mất một lúc để kiểm tra và phê duyệt</p>
                     </div>
                     <div class="done-btn">
-                        <button class="done-button">Done</button>
+                        <a href="/">
+                            <button class="done-button">Done</button>
+                        </a>
                     </div>
                 </div>
             </div>
