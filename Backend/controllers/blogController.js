@@ -142,7 +142,6 @@ exports.createBlog = async (req, res) => {
       }
     }
 
-
     // === Lưu blog ===
     const newBlog = new Blog({
       title,
@@ -165,8 +164,6 @@ exports.createBlog = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
-
-
 
 exports.updateBlog = async (req, res) => {
   try {

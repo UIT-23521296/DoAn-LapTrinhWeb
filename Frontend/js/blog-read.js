@@ -30,16 +30,24 @@ window.addEventListener("DOMContentLoaded", async function () {
     // Convert Google Drive link to direct download ID
     function getDriveFileId(url) {
       const regex = /(?:\/d\/|id=)([a-zA-Z0-9_-]+)/;
-      const match = url.match(regex);
+      const match = url.match(regex); 
       return match ? match[1] : null;
     }
 
     const contentDiv = document.getElementById("post-content");
     const imgs = contentDiv.querySelectorAll('img');
+
+    // Áp dụng lazy load cho tất cả ảnh trong content
     imgs.forEach(img => {
       const fileId = getDriveFileId(img.src);
       if (fileId) {
-        img.src = `http://localhost:5000/api/proxy-image?url=https://drive.google.com/uc?id=${fileId}`;
+        const proxyUrl = `http://localhost:5000/api/proxy-image?url=https://drive.google.com/uc?id=${fileId}`;
+        const placeholder = '../assets/login_pic.jpg';
+
+        img.src = placeholder;          // gán placeholder
+        img.classList.remove('fade-in');
+        img.classList.add('lazy-img');  // thêm class lazy-img
+        img.setAttribute('data-src', proxyUrl); // đặt url thật vào data-src
       }
     });
 
@@ -48,10 +56,12 @@ window.addEventListener("DOMContentLoaded", async function () {
       const fileId = getDriveFileId(blog.thumbnailImage);
       if (fileId) {
         const proxyUrl = `http://localhost:5000/api/proxy-image?url=https://drive.google.com/uc?id=${fileId}`;
-        img.src = proxyUrl;
-        img.onerror = () => {
-          img.style.display = 'none';
-        };
+        const placeholder = '../assets/login_pic.jpg';
+
+        img.src = placeholder;
+        img.classList.remove('fade-in');
+        img.classList.add('lazy-img');          // thêm class lazy-img
+        img.setAttribute('data-src', proxyUrl); // đặt url thật vào data-src
         img.style.display = 'block';
       } else {
         img.style.display = 'none';
@@ -60,6 +70,14 @@ window.addEventListener("DOMContentLoaded", async function () {
       img.style.display = 'none';
     }
 
+    lazyLoadImages(() => {
+      document.querySelectorAll("img.lazy-img").forEach(image => {
+        if (image._preloadedSrc) {
+          image.src = image._preloadedSrc;
+          image.classList.add("fade-in");
+        }
+      });
+    });
   } catch (err) {
     console.error(err);
     showError("Không tìm thấy hoặc tải bài viết thất bại");
@@ -217,8 +235,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         content: commentText
       };
       await renderComment(newComment);
-
-
       // Xóa textarea để người dùng có thể nhập bình luận mới
       textarea.value = '';
     } catch (err) {
@@ -227,3 +243,31 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   });
 });
+
+function lazyLoadImages(callback) {
+    const lazyImages = document.querySelectorAll("img.lazy-img");
+    let loadedCount = 0;
+    const total = lazyImages.length;
+
+    if (total === 0) {
+      callback();
+      return;
+    }
+
+    lazyImages.forEach(img => {
+      const realSrc = img.getAttribute("data-src");
+      if (!realSrc) {
+        loadedCount++;
+        if (loadedCount === total) callback();
+        return;
+      }
+
+      const temp = new Image();
+      temp.onload = temp.onerror = () => {
+        loadedCount++;
+        img._preloadedSrc = realSrc;
+        if (loadedCount === total) callback();
+      };
+      temp.src = realSrc;
+    });
+  }
