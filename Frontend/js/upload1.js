@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const formData = new FormData(formDetail);
     formData.append("file", file);
-    formData.append("uploader", "test_user"); // hoặc lấy từ localStorage/session
+    formData.append("uploader", "test_user");
+
 
     try {
         const response = await fetch(`${window.location.origin}/upload`, {

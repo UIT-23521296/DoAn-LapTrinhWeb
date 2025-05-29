@@ -50,6 +50,7 @@ const blogRoutes = require('./routes/blogRoutes');
 const authMiddleware = require('./middleware/authMiddleware'); 
 const requireAdmin = require('./middleware/requireAdmin');
 const uploadRoute = require('./routes/upload');
+const adminDocumentsRoute = require('./routes/adminDocuments');
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/index.html'));
@@ -106,6 +107,9 @@ app.get('/blog-post', authMiddleware,(req, res) => {
 
 //Đăng tài liệu
 app.use('/upload', uploadRoute);
+
+//Duyệt tài liệu
+app.use('/api', adminDocumentsRoute);
 
 //Tìm tài liệu
 app.get('/document', (req, res) => {

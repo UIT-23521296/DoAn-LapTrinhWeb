@@ -1,29 +1,38 @@
-const mongoose = require('mongoose');
+    const mongoose = require('mongoose');
 
-const documentSchema = new mongoose.Schema({
-  title: {
+    const documentSchema = new mongoose.Schema({
+    title: {
     type: String,
     required: true
-  },
-  description: String,
-  fileUrl: {
+    },
+    description: String,
+    fileUrl: {
     type: String,
     required: true
-  },
-  uploader: {
+    },
+    uploader: {
     type: String,
     required: true
-  },
-  status: {
+    },
+    status: {
     type: String,
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending'
-  },
-  uploadDate: {
+    },
+    uploadDate: {
     type: Date,
     default: Date.now
-  },
-  rejectionReason: String
-});
+    },
+    subject: {
+    type: String,
+    required: true
+    },
+    year: {
+    type: String,
+    required: true
+    },
 
-module.exports = mongoose.model('Document', documentSchema);
+    rejectionReason: String
+    });
+
+    module.exports = mongoose.model('Document', documentSchema);
