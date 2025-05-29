@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           const blogItem = e.target.closest(".blog-item");
           const blogId = blogItem.getAttribute("data-id");
 
-          if (confirm("Bạn có chắc chắn muốn xóa blog này không?")) {
+          showConfirmModal("Bạn có chắc chắn muốn xóa blog này không?", async () => {
             try {
               const deleteRes = await fetch(`http://localhost:5000/api/blogs/${blogId}`, {
                 method: 'DELETE',
@@ -92,17 +92,17 @@ document.addEventListener("DOMContentLoaded", async () => {
               });
               if (!deleteRes.ok) {
                 const errData = await deleteRes.json();
-                alert("Xóa thất bại: " + (errData.msg || deleteRes.statusText));
+                showToast('Xóa thất bại: ' + (errData.msg || deleteRes.statusText), 'error');
                 return;
               }
 
-              alert("Xóa blog thành công!");
+              showToast('Xóa blog thành công!', 'success');
               // Tải lại danh sách blog sau khi xóa
               loadMyBlogs();
             } catch (err) {
-              alert("Lỗi khi xóa blog: " + err.message);
+              showToast('Lỗi khi xóa blog: ' + err.message, 'error');
             }
-          }
+          });
         });
       });
     } catch (err) {
@@ -111,6 +111,47 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Gọi hàm load blog khi DOM ready
   loadMyBlogs();
 });
+
+function showToast(message, type = 'success') {
+    const toastE1 = document.getElementById("liveToast");
+    const toastBody = toastE1.querySelector(".toast-body");
+
+    // Xóa hết class bg- cũ, giữ lại border-0
+    toastE1.classList.remove("bg-success", "bg-danger", "text-white");
+
+    if (type === 'error') {
+        toastE1.classList.add("bg-danger", "text-white");
+    } else {
+        toastE1.classList.add("bg-success", "text-white");
+    }
+
+    toastBody.innerHTML = message;
+
+    const toast = new bootstrap.Toast(toastE1, {
+        delay: 2000,
+        autohide: true
+    });
+
+    toast.show();
+}
+function showConfirmModal(message, onConfirm) {
+  const modalEl = document.getElementById("confirmModal");
+  const messageEl = document.getElementById("confirmModalMessage");
+  const confirmBtn = document.getElementById("confirmModalOk");
+
+  messageEl.textContent = message;
+
+  const bsModal = new bootstrap.Modal(modalEl);
+  bsModal.show();
+
+  // Gỡ sự kiện cũ và gán mới
+  const newConfirmBtn = confirmBtn.cloneNode(true);
+  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+  newConfirmBtn.addEventListener("click", () => {
+    bsModal.hide();
+    onConfirm();
+  });
+}

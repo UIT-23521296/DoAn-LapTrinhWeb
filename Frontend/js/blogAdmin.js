@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' }
       });
       if (!res.ok) throw new Error('Duyệt bài thất bại');
-      alert('Duyệt bài thành công!');
+      showToast('Duyệt bài thành công!', 'success');
       const row = document.querySelector(`button.approve-btn[data-id="${id}"]`).closest('tr');
       const badge = row.querySelector('.status-badge');
       badge.textContent = 'Đã duyệt';
@@ -123,10 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
       badge.classList.add('approved');
       const buttons = row.querySelector('.approval-buttons');
       if (buttons) buttons.remove();
-      const previewBtn = row.querySelector('.action-btn.preview');
-      if (previewBtn) previewBtn.remove();
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, 'error');
     }
   }
 
@@ -142,11 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(data.msg || 'Lỗi khi từ chối bài viết');
       }
 
-      alert('Đã xóa bài viết!');
+      showToast('Xóa blog thành công!', 'success');
       const blogRow = document.querySelector(`.blog-row[data-id="${id}"]`);
       if (blogRow) blogRow.remove();
     } catch (err) {
-      alert('Lỗi: ' + err.message);
+      showToast('Lỗi: ' + err.message, 'error');
     }
   }
 
@@ -154,18 +152,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.approve-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
-        if (confirm('Bạn có chắc muốn duyệt tài liệu này không?')) {
+        showConfirmModal('Bạn có chắc muốn duyệt tài liệu này không?', () => {
           approveBlog(id);
-        }
+        });
       });
     });
 
     document.querySelectorAll('.reject-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
-        if (confirm('Bạn có chắc muốn từ chối tài liệu này không?')) {
+        showConfirmModal('Bạn có chắc muốn từ chối tài liệu này không?', () => {
           rejectBlog(id);
-        }
+        });
       });
     });
 
@@ -219,3 +217,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadBlogs();
 });
+
+function showToast(message, type = 'success') {
+    const toastE1 = document.getElementById("liveToast");
+    const toastBody = toastE1.querySelector(".toast-body");
+
+    // Xóa hết class bg- cũ, giữ lại border-0
+    toastE1.classList.remove("bg-success", "bg-danger", "text-white");
+
+    if (type === 'error') {
+        toastE1.classList.add("bg-danger", "text-white");
+    } else {
+        toastE1.classList.add("bg-success", "text-white");
+    }
+
+    toastBody.innerHTML = message;
+
+    const toast = new bootstrap.Toast(toastE1, {
+        delay: 2000,
+        autohide: true
+    });
+
+    toast.show();
+}
+function showConfirmModal(message, onConfirm) {
+  const modalEl = document.getElementById("confirmModal");
+  const messageEl = document.getElementById("confirmModalMessage");
+  const confirmBtn = document.getElementById("confirmModalOk");
+
+  messageEl.textContent = message;
+
+  const bsModal = new bootstrap.Modal(modalEl);
+  bsModal.show();
+
+  // Gỡ sự kiện cũ và gán mới
+  const newConfirmBtn = confirmBtn.cloneNode(true);
+  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+  newConfirmBtn.addEventListener("click", () => {
+    bsModal.hide();
+    onConfirm();
+  });
+}
+
