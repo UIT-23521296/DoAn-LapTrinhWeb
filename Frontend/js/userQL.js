@@ -30,12 +30,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Hàm tạo HTML cho từng blog, có thêm nút delete
   function createBlogItem(blog) {
     const contentText = stripHTML(blog.content || "");
-
+    const placeholder = "../assets/login_pic.jpg";
+    let realImage = placeholder;
     // Xử lý thumbnail từ Google Drive nếu có
-    let image = "../assets/img-blog-1.webp";
     if (blog.thumbnailImage) {
-      const direct = getDriveDirectLink(blog.thumbnailImage);
-      image = proxyImageURL(direct); // hoặc chỉ dùng direct nếu không muốn proxy
+      realImage = proxyImageURL(getDriveDirectLink(blog.thumbnailImage));
     }
 
     let date = "";
@@ -49,7 +48,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `
       <div class="blog-item" data-id="${blog._id}">
         <a href="/blog-read?post=${blog._id}" class="blog-link" style="text-decoration: none">
-          <img src="${image}" alt="Thumbnail" class="blog-image" onerror="this.style.display='none'">
+          <img 
+            src="${placeholder}" 
+            data-src="${realImage}" 
+            alt="Thumbnail" 
+            class="blog-image lazy-img"
+          >
           <h3>${blog.title}</h3>
           <h6>${date}</h6>
           <p>${contentText.substring(0, 50)}...</p>
@@ -57,6 +61,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         <button class="fas fa-trash delete-icon"></button>
       </div>
     `;
+  }
+
+  function lazyLoadImages(callback) {
+    const lazyImages = document.querySelectorAll("img.lazy-img");
+    let loadedCount = 0;
+    const total = lazyImages.length;
+
+    if (total === 0) {
+      callback();
+      return;
+    }
+
+    lazyImages.forEach(img => {
+      const realSrc = img.getAttribute("data-src");
+      if (!realSrc) {
+        loadedCount++;
+        if (loadedCount === total) callback();
+        return;
+      }
+
+      const temp = new Image();
+      temp.onload = temp.onerror = () => {
+        loadedCount++;
+        img._preloadedSrc = realSrc;
+        if (loadedCount === total) callback();
+      };
+      temp.src = realSrc;
+    });
   }
 
   // Hàm load blog của user và render
@@ -77,6 +109,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       blogListContainer.innerHTML = blogs.map(createBlogItem).join('');
+      lazyLoadImages(() => {
+        document.querySelectorAll("img.lazy-img").forEach(img => {
+          if (img._preloadedSrc) {
+            img.src = img._preloadedSrc;
+            img.classList.add("fade-in");
+          }
+        });
+      });
 
       // Gắn sự kiện xóa cho từng nút
       document.querySelectorAll(".delete-icon").forEach(button => {

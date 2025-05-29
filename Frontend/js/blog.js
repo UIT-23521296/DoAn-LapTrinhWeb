@@ -14,6 +14,77 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `/api/proxy-image?url=${encodeURIComponent(url)}`;
   }
 
+  function stripHTML(html) {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    div.querySelectorAll("img").forEach(img => img.remove());
+    return div.textContent || div.innerText || "";
+  }
+
+  function createBlogItem(blog) {
+    const contentText = stripHTML(blog.content || "");
+
+    let placeholder = "../assets/login_pic.jpg";
+    let realImage = placeholder;
+
+    if (blog.thumbnailImage) {
+      const direct = getDriveDirectLink(blog.thumbnailImage);
+      realImage = proxyImageURL(direct);
+    }
+
+    let date = "";
+    if (blog.createdAt) {
+      const parsedDate = new Date(blog.createdAt);
+      if (!isNaN(parsedDate)) {
+        date = parsedDate.toLocaleDateString("vi-VN");
+      }
+    }
+
+    return `
+      <a href="/blog-read?post=${blog._id}" class="blog-item">
+        <img 
+          src="${placeholder}" 
+          data-src="${realImage}" 
+          alt="thumbnail" 
+          class="blog-image lazy-img">
+        <h3>${blog.title}</h3>
+        <h6>${date}</h6>
+        <p>${contentText.substring(0, 50)}...</p>
+      </a>
+    `;
+  }
+
+  function lazyLoadImages(callback) {
+    const lazyImages = document.querySelectorAll("img.lazy-img");
+    let loadedCount = 0;
+    const total = lazyImages.length;
+
+    lazyImages.forEach(img => {
+      const realSrc = img.getAttribute("data-src");
+      if (!realSrc) {
+        loadedCount++;
+        if (loadedCount === total) callback();
+        return;
+      }
+
+      const temp = new Image();
+      temp.onload = () => {
+        loadedCount++;
+        if (loadedCount === total) {
+          callback();
+        }
+      };
+      temp.onerror = () => {
+        loadedCount++;
+        if (loadedCount === total) {
+          callback();
+        }
+      };
+      temp.src = realSrc;
+      img._preloadedSrc = temp.src; // lưu để sau gán lại
+    });
+  }
+
   try {
     const res = await fetch('http://localhost:5000/api/blogs', {
       credentials: 'include',
@@ -21,51 +92,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!res.ok) throw new Error("Không lấy được danh sách blog");
 
     const blogs = await res.json();
-
-    console.log("Danh sách blog:", blogs);
+    if (!Array.isArray(blogs)) throw new Error("Dữ liệu blogs không hợp lệ");
 
     blogListContainers.forEach(container => container.innerHTML = "");
-
-    function stripHTML(html) {
-      const div = document.createElement("div");
-      div.innerHTML = html;
-
-      // Xóa tất cả các thẻ <img>
-      const images = div.querySelectorAll("img");
-      images.forEach(img => img.remove());
-
-      return div.textContent || div.innerText || "";
-    }
-
-    function createBlogItem(blog) {
-      const contentText = stripHTML(blog.content || "");
-      if (!blog.content) {
-        console.warn(`Blog thiếu content: ${blog._id}`);
-      }
-
-      let image = "../assets/img-blog-1.webp"; // fallback
-      if (blog.thumbnailImage) {
-        const direct = getDriveDirectLink(blog.thumbnailImage);
-        image = proxyImageURL(direct);
-      }
-
-      let date = "";
-      if (blog.createdAt) {
-        const parsedDate = new Date(blog.createdAt);
-        if (!isNaN(parsedDate)) {
-          date = parsedDate.toLocaleDateString("vi-VN");
-        }
-      }
-
-      return `
-        <a href="/blog-read?post=${blog._id}" class="blog-item">
-          <img src="${image}" alt="" class="blog-image">
-          <h3>${blog.title}</h3>
-          <h6>${date}</h6>
-          <p>${contentText.substring(0, 50)}...</p>
-        </a>
-      `;
-    }
 
     if (blogs.length > 0) {
       const latestBlogs = [...blogs]
@@ -78,6 +107,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       blogListContainers[0].innerHTML = latestBlogs.map(createBlogItem).join('');
       blogListContainers[1].innerHTML = mostViewedBlogs.map(createBlogItem).join('');
       blogListContainers[2].innerHTML = blogs.map(createBlogItem).join('');
+
+      lazyLoadImages(() => {
+        // Khi tất cả ảnh đã được preload xong
+        document.querySelectorAll("img.lazy-img").forEach(img => {
+          if (img._preloadedSrc) {
+            img.src = img._preloadedSrc;
+            img.classList.add("fade-in"); // optional: hiệu ứng fade
+          }
+        });
+      });
     }
   } catch (err) {
     console.error("Lỗi khi load blog:", err);
