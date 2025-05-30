@@ -44,6 +44,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-top: 20px;
+    align-items: stretch;
 }
 
 .blog-item {
@@ -52,8 +53,15 @@
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    transition: all 0.3s ease
+    transition: all 0.3s ease;
+    text-decoration: none;
+
+    box-sizing: border-box;  /* thêm dòng này */
+    display: flex;
+    flex-direction: column;
+    height: 100%;            /* cho blog-item cao bằng chiều cao cell grid */
 }
+
 
 .blog-item:hover {
     transform: translateY(-5px);
@@ -86,7 +94,6 @@
 .btn-post-blog {
     display: flex;
     justify-content: flex-end;
-
 }
 
 .btn-post {
@@ -108,31 +115,66 @@
 
 /* ===================== Tablet (768px - 1023px) ===================== */
 @media screen and (max-width: 1023px) {
-    body {
-        overflow-x: hidden;
+    .blog-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+        align-items: stretch;
     }
-    .search-bar {
-        flex-direction: column;
-        gap: 10px;
+    .sidebar-open .blog-list{
+        grid-template-columns: repeat(2, 1fr);
     }
-    .search-bar select,
-    .search-bar input,
-    .search-icon {
-        width: 100%;
-        border-radius: 8px !important;
-        border: 1px solid #ccc;
-    }
-    .search-icon {
-        justify-content: center;
-    }
-    
 }
 /* ===================== Mobile L (480px - 767px) ===================== */
 @media screen and (max-width: 767px) {
-    
-}
+    .blog-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+        align-items: stretch;
+    }
+    .sidebar-open .blog-list{
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-/* ===================== Mobile S (≤ 479px) ===================== */
-@media screen and (max-width: 479px) {
-    
+    .blog h1 {
+        font-size: 24px;
+    }
+
+    .latest-blog, .list-blog,
+    .most-viewed-blog {
+        background-color: #fdfdfd;
+        padding: 15px 10px;
+        border-radius: 16px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+    .latest-blog h2, .list-blog h2,
+    .most-viewed-blog h2 {
+        font-size: 18px;
+    }
+    .blog-item p {
+        font-size: 10px;
+        color: #777;
+    }
+    .blog-item h3 {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .blog-item {
+        padding: 10px;
+    }
+    .btn-post {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #9BBEB0;
+        color: black;
+        border: #9BBEB0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
 }

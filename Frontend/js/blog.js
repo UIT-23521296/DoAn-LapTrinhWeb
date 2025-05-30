@@ -1,64 +1,127 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const blogListContainers = document.querySelectorAll(".blog-list");
+  const blogListContainers = document.querySelectorAll(".blog-list");
 
-    // Gọi API lấy danh sách blog
-    try {
-      const res = await fetch('http://localhost:5000/api/blogs');
-      if (!res.ok) throw new Error("Không lấy được danh sách blog");
+  function getDriveDirectLink(url) {
+    const regex = /\/d\/([a-zA-Z0-9_-]+)/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    }
+    return url;
+  }
 
-      const blogs = await res.json();
+  function proxyImageURL(url) {
+    return `/api/proxy-image?url=${encodeURIComponent(url)}`;
+  }
 
-      console.log("Danh sách blog:", blogs);
+  function stripHTML(html) {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    div.querySelectorAll("img").forEach(img => img.remove());
+    return div.textContent || div.innerText || "";
+  }
 
+  function createBlogItem(blog) {
+    const contentText = stripHTML(blog.content || "");
 
-      // Xóa nội dung mẫu cũ
-      blogListContainers.forEach(container => container.innerHTML = "");
+    let placeholder = "../assets/login_pic.jpg";
+    let realImage = placeholder;
 
-      // Hàm loại bỏ thẻ HTML từ content
-      function stripHTML(html) {
-        const div = document.createElement("div");
-        div.innerHTML = html;
-        return div.textContent || div.innerText || "";
+    if (blog.thumbnailImage) {
+      const direct = getDriveDirectLink(blog.thumbnailImage);
+      realImage = proxyImageURL(direct);
+    }
+
+    let date = "";
+    if (blog.createdAt) {
+      const parsedDate = new Date(blog.createdAt);
+      if (!isNaN(parsedDate)) {
+        date = parsedDate.toLocaleDateString("vi-VN");
+      }
+    }
+
+    return `
+      <a href="/blog-read?post=${blog._id}" class="blog-item">
+        <img 
+          src="${placeholder}" 
+          data-src="${realImage}" 
+          alt="thumbnail" 
+          class="blog-image lazy-img">
+        <h3>${blog.title}</h3>
+        <h6>${date}</h6>
+        <p>${contentText.substring(0, 50)}...</p>
+      </a>
+    `;
+  }
+
+  function lazyLoadImages(callback) {
+    const lazyImages = document.querySelectorAll("img.lazy-img");
+    let loadedCount = 0;
+    const total = lazyImages.length;
+
+    lazyImages.forEach(img => {
+      const realSrc = img.getAttribute("data-src");
+      if (!realSrc) {
+        loadedCount++;
+        if (loadedCount === total) callback();
+        return;
       }
 
-      // Hàm tạo item blog HTML
-      function createBlogItem(blog) {
-        const contentText = stripHTML(blog.content || "");
-        const image = blog.image || "../assets/img-blog-2.webp";
-        if (blog.createdAt) {
-            const parsedDate = new Date(blog.createdAt);
-              if (!isNaN(parsedDate)) {
-              date = parsedDate.toLocaleDateString("vi-VN");
-            }
+      const temp = new Image();
+      temp.onload = () => {
+        loadedCount++;
+        if (loadedCount === total) {
+          callback();
         }
+      };
+      temp.onerror = () => {
+        loadedCount++;
+        if (loadedCount === total) {
+          callback();
+        }
+      };
+      temp.src = realSrc;
+      img._preloadedSrc = temp.src; // lưu để sau gán lại
+    });
+  }
 
-        return `
-          <a href="/blog-read?post=${blog._id}" class="blog-item">
-            <img src="${image}" alt="" class="blog-image">
-            <h3>${blog.title}</h3>
-            <h6>${date}</h6>
-            <p>${contentText.substring(0, 100)}...</p>
-          </a>
-        `;
-      }
+  try {
+    const res = await fetch('http://localhost:5000/api/blogs', {
+      credentials: 'include',
+    });
+    if (!res.ok) throw new Error("Không lấy được danh sách blog");
 
-      if (blogs.length > 0) {
-        const latestBlogs = [...blogs]
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 3);
-        const mostViewedBlogs = [...blogs]
-          .sort((a, b) => (b.views || 0) - (a.views || 0))
-          .slice(0, 3);
+    const blogs = await res.json();
+    if (!Array.isArray(blogs)) throw new Error("Dữ liệu blogs không hợp lệ");
 
-        // Gắn nội dung vào các container
-        blogListContainers[0].innerHTML = latestBlogs.map(createBlogItem).join('');
-        blogListContainers[1].innerHTML = mostViewedBlogs.map(createBlogItem).join('');
-        blogListContainers[2].innerHTML = blogs.map(createBlogItem).join('');
-      }
-    } catch (err) {
-      console.error("Lỗi khi load blog:", err);
-      blogListContainers.forEach(container => {
-        container.innerHTML = `<p>Không thể tải bài viết. Vui lòng thử lại sau.</p>`;
+    blogListContainers.forEach(container => container.innerHTML = "");
+
+    if (blogs.length > 0) {
+      const latestBlogs = [...blogs]
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 3);
+      const mostViewedBlogs = [...blogs]
+        .sort((a, b) => (b.views || 0) - (a.views || 0))
+        .slice(0, 3);
+
+      blogListContainers[0].innerHTML = latestBlogs.map(createBlogItem).join('');
+      blogListContainers[1].innerHTML = mostViewedBlogs.map(createBlogItem).join('');
+      blogListContainers[2].innerHTML = blogs.map(createBlogItem).join('');
+
+      lazyLoadImages(() => {
+        // Khi tất cả ảnh đã được preload xong
+        document.querySelectorAll("img.lazy-img").forEach(img => {
+          if (img._preloadedSrc) {
+            img.src = img._preloadedSrc;
+            img.classList.add("fade-in"); // optional: hiệu ứng fade
+          }
+        });
       });
     }
+  } catch (err) {
+    console.error("Lỗi khi load blog:", err);
+    blogListContainers.forEach(container => {
+      container.innerHTML = `<p>Không thể tải bài viết. Vui lòng thử lại sau.</p>`;
+    });
+  }
 });
