@@ -258,4 +258,9 @@ function showConfirmModal(message, onConfirm) {
     bsModal.hide();
     onConfirm();
   });
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 7b10084b05106cdabfefe00af2790c0afed5bc99

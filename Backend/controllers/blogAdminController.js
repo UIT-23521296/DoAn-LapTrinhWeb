@@ -1,6 +1,9 @@
 const Blog = require('../models/Blog');
 const BlogContent = require('../models/BlogContent');
+<<<<<<< HEAD
 const User = require('../models/User');
+=======
+>>>>>>> 7b10084b05106cdabfefe00af2790c0afed5bc99
 
 // Lấy danh sách bài blog chưa được duyệt
 exports.getPendingBlogs = async (req, res) => {
@@ -59,6 +62,7 @@ exports.getBlogsForAdmin = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 exports.getAdminStats = async (req, res) => {
   try {
     const totalDocuments = await Blog.countDocuments(); // tổng tài liệu
@@ -75,3 +79,5 @@ exports.getAdminStats = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+=======
+>>>>>>> 7b10084b05106cdabfefe00af2790c0afed5bc99
