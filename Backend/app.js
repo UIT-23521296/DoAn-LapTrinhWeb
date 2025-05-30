@@ -46,13 +46,24 @@ app.use(express.static(path.join(__dirname, '../Frontend')));
 app.use('/json', express.static(path.join(__dirname, 'json')));
 
 
+//Imagines
+const multer = require('multer');
+const fs = require('fs');
+const upload = multer({ dest: 'uploads/Img/' });  // folder tạm lưu file upload
+const { uploadFileToDrive } = require('./uploads/googleDrive');
+
 // Routes
 const authRoutes = require('./routes/auth');
 const blogRoutes = require('./routes/blogRoutes');
+const adminRoutes = require('./routes/Admin');
 const authMiddleware = require('./middleware/authMiddleware'); 
 const requireAdmin = require('./middleware/requireAdmin');
+const proxyRoutes = require('./routes/proxy');
 const uploadRoutes = require('./routes/upload');
 const adminDocumentsRoute = require('./routes/adminDocuments');
+
+app.use('/api/admin', adminRoutes);
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/index.html'));
@@ -144,6 +155,8 @@ app.get('/upload', authMiddleware, (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api', proxyRoutes);
 
 // Route trả thông tin người dùng
 app.get('/api/user-info', authMiddleware, (req, res) => {
