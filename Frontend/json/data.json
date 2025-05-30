@@ -1,16 +1,39 @@
 {
-  "chuyen-nganh": {
-    "section_title": "Môn chuyên ngành",
-    "mon_hoc": [
-      { "ten": "IoT hiện đại", "link": "iot.html" },
-      { "ten": "Truyền thông đa phương tiện", "link": "truyen-thong.html" }
-    ]
-  },
-  "dai-cuong": {
-    "section_title": "Môn đại cương",
-    "mon_hoc": [
-      { "ten": "Giải tích", "link": "giai-tich.html" },
-      { "ten": "Đại số tuyến tính", "link": "dai-so.html" }
-    ]
-  }
+  "mon-chinh-tri": [
+    "Tư tưởng Hồ Chí Minh",
+    "Pháp luật đại cương",
+    "Triết học Mác – Lênin",
+    "Kinh tế chính trị Mác – Lênin",
+    "Chủ nghĩa xã hội khoa học",
+    "Lịch sử Đảng Cộng sản Việt Nam"
+  ],
+  "mon-tu-chon": ["Kỹ năng mềm", "Ngoại ngữ"],
+  "mon-chuyen-nganh": [
+    "Bảo mật Internet of things",
+    "An toàn dữ liệu, khôi phục thông tin sau sự cố",
+    "An toàn kiến trúc hệ thống",
+    "Tấn công mạng",
+    "Bảo mật web và ứng dụng",
+    "An toàn mạng máy tính nâng cao",
+    "Hệ thống tìm kiếm, phát hiện & ngăn ngừa xâm nhập",
+    "Quản lý rủi ro và an toàn thông tin trong doanh nghiệp"
+  ],
+  "mon-co-so-nganh": [
+    "Lập trình hướng đối tượng",
+    "Cấu trúc dữ liệu và giải thuật",
+    "Cơ sở dữ liệu",
+    "Kiến trúc máy tính",
+    "Hệ điều hành",
+    "Lập trình mạng căn bản",
+    "Lập trình hệ thống",
+    "Lập trình ứng dụng web"
+  ],
+  "mon-dai-cuong": [
+    "Giải tích",
+    "Đại số tuyến tính",
+    "Cấu trúc rời rạc",
+    "Xác xuất thống kê",
+    "Nhập môn lập trình",
+    "Nhập môn mạch số"
+  ]
 }

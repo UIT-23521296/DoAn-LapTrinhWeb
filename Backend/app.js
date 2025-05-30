@@ -43,13 +43,15 @@ app.use(session({
 
 // Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, '../Frontend')));
+app.use('/json', express.static(path.join(__dirname, 'json')));
+
 
 // Routes
 const authRoutes = require('./routes/auth');
 const blogRoutes = require('./routes/blogRoutes');
 const authMiddleware = require('./middleware/authMiddleware'); 
 const requireAdmin = require('./middleware/requireAdmin');
-const uploadRoute = require('./routes/upload');
+const uploadRoutes = require('./routes/upload');
 const adminDocumentsRoute = require('./routes/adminDocuments');
 
 app.get('/', (req, res) => {
@@ -106,7 +108,7 @@ app.get('/blog-post', authMiddleware,(req, res) => {
 });
 
 //Đăng tài liệu
-app.use('/upload', uploadRoute);
+app.use('/api', uploadRoutes);
 
 //Duyệt tài liệu
 app.use('/api', adminDocumentsRoute);

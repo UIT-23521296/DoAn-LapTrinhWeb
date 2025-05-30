@@ -2,26 +2,26 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../config/multerConfig");
 const Document = require("../models/Document");
+const authMiddleware = require('../middleware/authMiddleware.js');  // import middleware
 
-router.post("/", upload.single("file"), async (req, res) => {
+router.post("/upload", authMiddleware, upload.single("file"), async (req, res) => {
   try {
-    const { title, description, uploader, subject, year } = req.body;
+    console.log('Session user:', req.session.user); // << kiểm tra user có không
 
-    // Kiểm tra có file upload không
-    if (!req.file) {
-      return res.status(400).json({ error: "Chưa upload file" });
-    }
+    const { title, subjectType, subjectName, documentType, description } = req.body;
 
-    // Kiểm tra các trường bắt buộc
-    if (!title || !subject || !year || !uploader) {
+    if (!req.file) return res.status(400).json({ error: "Chưa upload file" });
+    if (!title || !subjectType || !subjectName || !documentType)
       return res.status(400).json({ error: "Thiếu thông tin bắt buộc" });
-    }
+
+    const uploader = "test_user";
 
     const newDoc = new Document({
       title,
       description,
-      subject,
-      year,
+      subjectType,
+      subjectName,
+      documentType,
       uploader,
       fileUrl: req.file.path,
       status: "pending"

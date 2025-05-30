@@ -72,4 +72,34 @@ router.delete('/admin/documents/reject/:id', isAdmin, async (req, res) => {
   }
 });
 
+
+router.get('/admin/documents', isAdmin, async (req, res) => {
+  try {
+    const { status } = req.query;
+
+    let filter = {};
+
+    if (status && status !== 'all') {
+      // Chỉ cho phép pending hoặc approved
+      if (['pending', 'approved'].includes(status)) {
+        filter.status = status;
+      } else {
+        // Nếu status khác các giá trị trên, trả lỗi
+        return res.status(400).json({ message: 'Trạng thái không hợp lệ' });
+      }
+    } else {
+      // Khi status = all hoặc không truyền, lấy tất cả ngoại trừ rejected
+      filter.status = { $ne: 'rejected' };
+    }
+
+    const docs = await Document.find(filter).sort({ uploadDate: -1 });
+    res.json(docs);
+  } catch (err) {
+    console.error('Lỗi lấy danh sách tài liệu:', err);
+    res.status(500).json({ message: 'Lỗi server' });
+  }
+});
+
+
+
 module.exports = router;
