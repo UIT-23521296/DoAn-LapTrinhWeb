@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Hàm load blog của user và render
   async function loadMyBlogs() {
     try {
-      const res = await fetch('http://localhost:5000/api/blogs', { credentials: 'include' });
+      const res = await fetch('http://localhost:5000/api/blogs/my', { credentials: 'include' });
       if (!res.ok) throw new Error("Không lấy được danh sách blog");
 
       const blogs = await res.json();
