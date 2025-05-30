@@ -1,5 +1,6 @@
 const Blog = require('../models/Blog');
 const BlogContent = require('../models/BlogContent');
+const User = require('../models/User');
 
 // Lấy danh sách bài blog chưa được duyệt
 exports.getPendingBlogs = async (req, res) => {
@@ -58,3 +59,19 @@ exports.getBlogsForAdmin = async (req, res) => {
   }
 };
 
+exports.getAdminStats = async (req, res) => {
+  try {
+    const totalDocuments = await Blog.countDocuments(); // tổng tài liệu
+    const totalUsers = await User.countDocuments(); // tổng user đăng ký
+    const pendingBlogs = await Blog.countDocuments({ approved: false }); // blog chưa duyệt
+
+    res.json({
+      totalDocuments,
+      totalUsers,
+      pendingBlogs
+    });
+  } catch (err) {
+    console.error('Error getting stats:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

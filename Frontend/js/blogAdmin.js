@@ -259,4 +259,3 @@ function showConfirmModal(message, onConfirm) {
     onConfirm();
   });
 }
-

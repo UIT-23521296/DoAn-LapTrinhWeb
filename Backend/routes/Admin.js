@@ -11,4 +11,6 @@ router.put('/approve-blog/:id', requireAdmin, blogAdminController.approveBlog);
 
 router.get('/blogs', requireAdmin, blogAdminController.getBlogsForAdmin);
 
+router.get('/stats', requireAdmin, blogAdminController.getAdminStats);
+
 module.exports = router;
