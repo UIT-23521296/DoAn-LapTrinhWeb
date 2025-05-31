@@ -447,3 +447,97 @@
 .contact-info a:hover  {
    color: #504f4f;
 }
+
+/* Responsive styles for header */
+@media screen and (max-width: 780px) {
+    .main-header {
+        padding: 15px 20px;
+    }
+    
+    .nav-header {
+        gap: 30px;
+    }
+    
+    .nav-links {
+        gap: 30px;
+    }
+    
+    .btn-login-signup {
+        gap: 20px;
+    }
+    
+    .logo img {
+        height: 40px;
+    }
+    
+    .user-info {
+        padding: 6px 12px;
+        gap: 8px;
+    }
+    
+    #user_avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .Hello-User {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-header {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+    }
+    
+    .logo {
+        order: 1;
+        flex: 1;
+    }
+    
+    .nav-header {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 10px;
+        gap: 10px;
+    }
+    
+    
+    
+    .btn-login-signup {
+        gap: 10px;
+    }
+    
+    .btn-login, 
+    .btn-signup {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    
+    .user-info {
+        order: 2;
+        padding: 4px 8px;
+    }
+    
+    #user_avatar {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .Hello-User {
+        display: none; /* Hide "Hello User" text on small screens */
+    }
+    
+    /* Show hamburger menu on mobile */
+    .hamburger {
+        display: block;
+    }
+    
+    /* Adjust dropdown menu for mobile */
+    .dropdown-menu {
+        min-width: 160px;
+        right: -10px;
+    }
+}

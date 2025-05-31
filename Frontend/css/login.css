@@ -56,21 +56,37 @@ body {
     align-items: center;
 }
 
-input[type="text"],
-input[type="password"] {
+.detail-info {
     width: 100%;
-    max-width: 290px;
+    max-width: 280px;
     border-radius: 8px;
     padding: 10px;
     box-sizing: border-box;
 }
 
+
 .password-wrapper {
     position: relative;
+    height: 44px;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px; /* Adjust as needed */
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 24px; /* Should be <= input height */
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #password {
-    padding-right: 40px; /* chừa chỗ cho icon con mắt */
+    padding-right: 40px;
 }
 
 .forgot-password {
@@ -213,97 +229,166 @@ input[type="password"] {
 
 /* Responsive styles for Login Page */
 @media (max-width: 780px) {
-    body {
-        padding: 20px;
-        height: auto;
-        min-height: 100vh;
-    }
+  body {
+    padding: 0;
+    height: 100vh;
+  }
 
-    .login {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 500px;
-    }
+  .signup {
+    flex-direction: row;
+    align-items: stretch;
+    width: auto;
+    max-width: none;
+  }
 
-    .img-container {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
-        max-height: 200px;
-        overflow: hidden;
-    }
+  .img-container {
+    width: 50%;
+    margin-left: 20px;
+    margin-bottom: 0;
+    max-height: none;
+  }
 
-    .img-container img {
-        border-radius: 12px 12px 0 0;
-    }
+  .img-container img {
+    border-radius: 15px;
+  }
 
-    .login-container {
-        width: 100%;
-        padding: 30px 20px;
-        border-radius: 0 0 12px 12px;
-    }
+  .signup-container {
+    width: 350px;
+    padding: 40px 30px;
+    border-radius: 12px;
+  }
 
-    .social-buttons {
-        flex-direction: column;
-        gap: 8px;
-    }
+  .social-buttons {
+    flex-direction: row;
+    gap: 10px;
+  }
 
-    .btn-social {
-        width: 100%;
-    }
+  .btn-social {
+    width: auto;
+  }
+
+  .detail-info {
+    padding-right: 40px;
+  }
+
+  .toggle-password {
+    right: 12px;
+  }
+
+  #password {
+    padding-right: 40px;
+  }
 }
 
 @media (max-width: 480px) {
     body {
+        height: auto;
+        min-height: 100vh;
         padding: 15px;
         background: linear-gradient(to bottom, #B1DEF1, #849859);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
-
+    
     .login {
+        flex-direction: column;
+        width: 100%;
         max-width: 100%;
+        margin-top: 20px;
     }
 
     .img-container {
-        max-height: 150px;
+        width: 100%;
+        margin: 0;
+        height: 200px;
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+    }
+
+    .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;
     }
 
     .login-container {
-        padding: 25px 15px;
+        width: 100%;
+        padding: 25px 20px;
+        border-radius: 0 0 10px 10px;
+        margin-top: -5px; /* Remove gap between image and form */
     }
 
-    input[type="text"],
-    input[type="password"] {
-        padding: 8px;
-        font-size: 14px;
+    /* Form elements */
+    .form-group {
+        margin-bottom: 15px;
     }
 
+    .detail-info {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+
+    /* Password field */
+    .password-wrapper {
+        margin-bottom: 5px;
+    }
+
+    .toggle-password {
+        right: 74px;
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Buttons */
     .btn-login {
-        padding: 10px;
-        font-size: 14px;
+        padding: 14px;
+        margin: 10px 0;
+        font-size: 16px;
     }
 
-    .separator {
-        margin: 15px 0;
-        font-size: 12px;
-    }
-
-    .subtitle {
-        font-size: 12px;
-    }
-
-    .forgot-password,
-    .signup-page {
-        font-size: 12px;
+    /* Social buttons */
+    .social-buttons {
+        flex-direction: column;
+        gap: 12px;
+        margin: 20px 0;
     }
 
     .btn-social {
-        padding: 8px;
-        font-size: 13px;
+        padding: 12px;
+        font-size: 15px;
     }
 
-    .btn-social img {
-        width: 18px;
-        height: 18px;
+    /* Text elements */
+    h2 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+    
+    .subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    
+    .separator {
+        margin: 15px 0;
+    }
+    
+    /* Links */
+    .forgot-password, 
+    .signup-page {
+        font-size: 14px;
+    }
+    
+    /* Remove hover effects on touch devices */
+    @media (hover: none) {
+        .btn-login:hover,
+        .btn-social:hover,
+        .img-container img:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
     }
 }
