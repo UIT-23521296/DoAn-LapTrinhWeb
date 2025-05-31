@@ -106,8 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
         el.addEventListener("change", toggleDetailNextButton);
     });
 
-    formDetail.addEventListener("click", async function (e) {
+    nextButton.addEventListener("click", async function (e) {
         e.preventDefault();
+
 
         if (!validateDetailForm()) return;
 
@@ -123,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch(`${window.location.origin}/api/upload`, {
                 method: "POST",
+                credentials: 'include',
                 body: formData
             });
 
