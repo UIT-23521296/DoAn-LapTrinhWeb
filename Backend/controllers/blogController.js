@@ -85,7 +85,7 @@ exports.getMostViewedBlogs = async (req, res) => {
 exports.createBlog = async (req, res) => {
   try {
     const { title, content } = req.body;
-    const author = req.session.user?.username;
+    const author = req.session.user?.username ?? req.session.admin?.username;
     const path = require('path');
     const fs = require('fs');
     const { uploadFileToDrive } = require('../uploads/googleDrive');
