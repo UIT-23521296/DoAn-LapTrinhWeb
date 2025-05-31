@@ -12,11 +12,12 @@ const upload = multer({ storage: storage });
 // Lấy tất cả blog
 router.get('/', blogController.getAllBlogs);
 
+router.get('/my', authMiddleware, blogController.getMyBlogs);
+
+router.get('/top/viewed', blogController.getMostViewedBlogs); 
+
 // Lấy blog theo ID
 router.get('/:id', blogController.getBlogById);
-
-// Lấy blog nhiều lượt xem nhất
-router.get('/top/viewed', blogController.getMostViewedBlogs); 
 
 // Tạo blog mới (dùng upload.single để xử lý ảnh thumbnail)
 router.post('/', authMiddleware, upload.single('thumbnailImage'), blogController.createBlog);
@@ -28,7 +29,5 @@ router.put('/:id', authMiddleware, blogController.updateBlog);
 router.delete('/:id', authMiddleware, blogController.deleteBlog);
 
 router.post('/:blogId/comments', authMiddleware, blogController.createComment);
-
-router.get('/my', authMiddleware, blogController.getMyBlogs);
 
 module.exports = router;
