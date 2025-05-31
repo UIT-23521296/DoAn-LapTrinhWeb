@@ -483,6 +483,42 @@
     .Hello-User {
         font-size: 14px;
     }
+
+    .side-nav {
+        position: fixed;
+        top: 0;
+        left: -300px; /* Ẩn sidebar ban đầu */
+        height: 100vh !important;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        border-radius: 0;
+    }
+    
+    .side-nav.active {
+        left: 0; /* Hiển thị sidebar khi active */
+    }
+    
+    /* Thêm lớp overlay khi sidebar mở */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+    }
+    
+    .sidebar-open .sidebar-overlay {
+        display: block;
+    }
+    
+    /* Đảm bảo nội dung không bị dịch chuyển */
+    .content-container {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -530,14 +566,45 @@
         display: none; /* Hide "Hello User" text on small screens */
     }
     
-    /* Show hamburger menu on mobile */
-    .hamburger {
-        display: block;
-    }
-    
     /* Adjust dropdown menu for mobile */
     .dropdown-menu {
         min-width: 160px;
         right: -10px;
+    }
+
+    .side-nav {
+        position: fixed;
+        top: 0;
+        left: -300px; /* Ẩn sidebar ban đầu */
+        height: 100vh !important;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        border-radius: 0;
+    }
+    
+    .side-nav.active {
+        left: 0; /* Hiển thị sidebar khi active */
+    }
+    
+    /* Thêm lớp overlay khi sidebar mở */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+    }
+    
+    .sidebar-open .sidebar-overlay {
+        display: block;
+    }
+    
+    /* Đảm bảo nội dung không bị dịch chuyển */
+    .content-container {
+        margin-left: 0 !important;
+        width: 100% !important;
     }
 }
