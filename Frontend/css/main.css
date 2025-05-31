@@ -447,3 +447,181 @@
 .contact-info a:hover  {
    color: #504f4f;
 }
+/* ===================== Tablet (768px - 1023px) ===================== */
+@media screen and (max-width: 1023px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .nav-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .sidebar-open .search-bar {
+        flex-direction: column;
+        align-items: 80%; /* cho các input/select rộng 100% */
+        width: 100%;
+    }
+
+    .sidebar-open .search-bar select,
+    .sidebar-open .search-bar input,
+    .sidebar-open .search-bar .search-icon {
+        width: 100%;  /* full width khi sidebar mở */
+        border-radius: 8px !important;
+        border: 1px solid #ccc;
+        height: 40px;
+    }
+
+    .sidebar-open .content-container {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+
+    .side-nav {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        height: 0;
+        flex-direction: column;
+        background-color: #9BBEB0;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        width: 245px;
+    }
+
+    .banner-content h2{
+        font-size: 20px;
+    }
+
+    .nav-links {
+        gap: 12px;
+        align-items: center;
+    }
+
+    .btn-login-signup {
+        gap: 12px;
+        flex-direction: row;
+    }  
+}
+/* ===================== Mobile L (480px - 767px) ===================== */
+@media screen and (max-width: 767px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .nav-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        align-items: 80%; /* cho các input/select rộng 100% */
+        width: 100%;
+    }
+
+    .search-bar select,
+    .search-bar input,
+    .search-bar .search-icon {
+        width: 100%;  /* full width khi sidebar mở */
+        border-radius: 8px !important;
+        border: 1px solid #ccc;
+        height: 40px;
+    }
+
+    .sidebar-open .content-container {
+        margin-left: 175px;
+        width: calc(100% - 175px);
+    }
+
+    .side-nav {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        height: 0;
+        flex-direction: column;
+        background-color: #9BBEB0;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        width: 170px;
+    }
+
+    .hamburger {
+        font-size: 20px;
+    }
+
+    .menu-item-title {
+        font-size: 14px;
+    }
+
+    .banner-content h2{
+        font-size: 20px;
+    }
+
+    .sub-menu a {
+        font-size: 10px;
+    }
+
+    .nav-links {
+        gap: 12px;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .btn-login-signup {
+        gap: 12px;
+        flex-direction: column;
+    }
+    
+    .footer {
+        flex-direction: column;
+        gap: 20px;
+        padding-left: 20px; /* Đẩy cả khối sang phải */
+    }
+
+    .footer-nav {
+        width: 100%;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 20px;                   /* Khoảng cách nhỏ hơn so với desktop */ 
+        flex-direction: column;
+    }
+
+    .footer-navbar {
+        flex-direction: row;       /* Chuyển footer-navbar thành hàng ngang */
+        gap: 15px;                 /* Khoảng cách giữa các link */
+    }
+
+    .footer-navbar a {
+        margin: 0 8px;             /* Giảm margin để các link nằm sát hơn */
+        white-space: nowrap;       /* Không cho link xuống dòng */
+    }
+
+    .footer-logo img {
+        margin-left: 0;            /* Loại bỏ margin trái */
+        width: 80px;               /* Thu nhỏ logo cho vừa màn hình nhỏ */
+    }
+
+    .info-school {
+        justify-content: flex-start; /* Căn trái cho phần info-school */
+        gap: 15px;
+        width: 100%;
+    }
+
+    .contact-info {
+        padding-left: 10px;
+        padding-bottom: 5px;
+    }
+
+    .contact-info a {
+        margin-right: 10px;
+    }
+
+}
