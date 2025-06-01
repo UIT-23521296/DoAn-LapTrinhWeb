@@ -9,7 +9,7 @@ router.get('/pending-blogs', requireAdmin, blogAdminController.getPendingBlogs);
 // Route duyệt bài (approve)
 router.put('/approve-blog/:id', requireAdmin, blogAdminController.approveBlog);
 
-router.get('/blogs', requireAdmin, blogAdminController.getBlogsForAdmin);
+router.get('/blogs', requireAdmin, blogAdminController.getAllItemsForAdmin);
 
 router.get('/stats', requireAdmin, blogAdminController.getAdminStats);
 

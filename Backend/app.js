@@ -57,6 +57,7 @@ const adminRoutes = require('./routes/Admin');
 const authMiddleware = require('./middleware/authMiddleware'); 
 const requireAdmin = require('./middleware/requireAdmin');
 const proxyRoutes = require('./routes/proxy');
+const documentRoutes = require('./routes/reviewDocumentRoutes');
 
 app.use('/api/admin', adminRoutes);
 
@@ -147,6 +148,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', proxyRoutes);
+app.use('/api/documents', documentRoutes);
 
 // Route trả thông tin người dùng
 app.get('/api/user-info', authMiddleware, (req, res) => {

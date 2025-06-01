@@ -1,6 +1,7 @@
 const Blog = require('../models/Blog');
 const BlogContent = require('../models/BlogContent');
 const User = require('../models/User');
+const Document = require('../models/Document');
 
 // Lấy danh sách bài blog chưa được duyệt
 exports.getPendingBlogs = async (req, res) => {
@@ -73,5 +74,43 @@ exports.getAdminStats = async (req, res) => {
   } catch (err) {
     console.error('Error getting stats:', err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.getAllItemsForAdmin = async (req, res) => {
+  try {
+    // Blog
+    const approvedBlogs = await Blog.find({ approved: true }).sort({ createdAt: -1 }).lean();
+    const pendingBlogs = await Blog.find({ approved: false }).sort({ createdAt: -1 }).lean();
+
+    const mapBlog = blog => ({
+      ...blog,
+      type: 'blog',
+      approved: blog.approved,
+      author: blog.author,
+      subject: 'Blog', // để frontend hiển thị
+      createdAt: blog.createdAt
+    });
+
+    // Document
+    const approvedDocuments = await Document.find({ status: 'approved' }).sort({ uploadDate: -1 }).lean();
+    const pendingDocuments = await Document.find({ status: { $in: ['pending', 'rejected'] } }).sort({ uploadDate: -1 }).lean();
+
+    const mapDoc = doc => ({
+      ...doc,
+      type: 'document',
+      approved: doc.status === 'approved',
+      author: doc.uploader,
+      subject: doc.subjectName,
+      createdAt: doc.uploadDate
+    });
+
+    res.json({
+      approvedItems: [...approvedBlogs.map(mapBlog), ...approvedDocuments.map(mapDoc)],
+      pendingItems: [...pendingBlogs.map(mapBlog), ...pendingDocuments.map(mapDoc)],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Lỗi khi lấy dữ liệu admin' });
   }
 };
