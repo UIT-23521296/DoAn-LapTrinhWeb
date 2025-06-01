@@ -1,6 +1,9 @@
+// /project-root/middlewares/upload.js
+
 const multer = require('multer');
 const path = require('path');
 
+// Cấu hình storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
@@ -10,18 +13,15 @@ const storage = multer.diskStorage({
   }
 });
 
-const filetypes = /pdf|doc|docx|ppt|pptx/;
+// Định nghĩa loại file được phép (PDF, DOC, DOCX, PPT, PPTX)
+const filetypes = /pdf/;
 const allowedMimeTypes = [
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'application/vnd.ms-powerpoint',
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+  'application/pdf'
 ];
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   fileFilter: function (req, file, cb) {
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedMimeTypes.includes(file.mimetype);

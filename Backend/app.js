@@ -57,11 +57,15 @@ const blogRoutes = require('./routes/blogRoutes');
 const adminRoutes = require('./routes/Admin');
 const authMiddleware = require('./middleware/authMiddleware'); 
 const requireAdmin = require('./middleware/requireAdmin');
-const uploadRoutes = require('./routes/upload');
 const proxyRoutes = require('./routes/proxy');
+const uploadRoutes = require('./routes/uploadDocumentRoutes');
+const documentRoutes = require('./routes/reviewDocumentRoutes');
+const reviewDocRoutes = require('./routes/documentRoutes');
+
 
 app.use('/api/admin', adminRoutes);
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/index.html'));
@@ -117,11 +121,17 @@ app.get('/blog-post', authMiddleware,(req, res) => {
 });
 
 //Đăng tài liệu
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/api', uploadRoutes);
+app.use('/api/documents', uploadRoutes);
 
 //Duyệt tài liệu
-//app.use('/api', adminDocumentsRoute);
+app.use('/api/documents', documentRoutes);
+
+//Xem tài liệu 
+app.use('/api/documents', reviewDocRoutes);
+app.use('/uploads', express.static('uploads'));
+app.get('/document.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Frontend/Public/document.html'));
+});
 
 //Tìm tài liệu
 app.get('/document', (req, res) => {

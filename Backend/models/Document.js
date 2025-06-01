@@ -1,19 +1,30 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const documentSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
   },
+  subjectTypeSlug: {
+    type: String,
+    required: true,
+    index: true
+  },
+  subjectTypeLabel: {
+    type: String,
+    required: true
+  },
+  subjectNameSlug: {
+    type: String,
+    required: true,
+    index: true
+  },
+  subjectNameLabel: {
+    type: String,
+    required: true
+  },
   fileUrl: {
-    type: String,
-    required: true
-  },
-  subjectType: {
-    type: String,
-    required: true
-  },
-  subjectName: {
     type: String,
     required: true
   },
@@ -37,4 +48,5 @@ const documentSchema = new mongoose.Schema({
   rejectionReason: String
 });
 
-module.exports = mongoose.model('Document', documentSchema);
+
+module.exports = mongoose.models.Document || mongoose.model('Document', documentSchema);

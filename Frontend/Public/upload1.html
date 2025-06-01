@@ -184,6 +184,7 @@
                 </div>
             </div>
 
+
             <div id="upload" class="page active">
                 <div class="upload-box">
                     <div class="upload-content">
@@ -216,7 +217,7 @@
                         <form class="form-container">
                         <label class="detail-label">
                             Loại môn học
-                            <select class="detail-select" name="subjectType" required>
+                            <select class="detail-select" name="subjectTypeSlug" required>
                                 <option value="">-- Chọn loại môn --</option>
                                 <option value="mon-chinh-tri">Môn Chính trị</option>
                                 <option value="mon-tu-chon">Môn Tự chọn</option>
@@ -228,10 +229,12 @@
 
                         <label class="detail-label">
                             Tên môn học
-                            <select class="detail-select" name="subjectName" id="subjectNameSelect">
+                            <select class="detail-select" name="subjectNameSlug" id="subjectNameSelect">
                                 <option value="">-- Chọn tên môn học --</option>
                             </select>
                         </label>
+                        <input type="hidden" name="subjectTypeLabel" id="subjectTypeLabel">
+                        <input type="hidden" name="subjectNameLabel" id="subjectNameLabel">
 
                         <label class="detail-label">
                             Thể loại tài liệu
@@ -254,7 +257,8 @@
                         </label>
 
                         <div class="button-row">
-                            <button  type="button" class="next-button">Next</button>
+                            <button type="button" class="back-button">Quay lại</button>
+                            <button type="button" class="next-button">Tiếp</button>
                         </div>
                         </form>
                 </div>
