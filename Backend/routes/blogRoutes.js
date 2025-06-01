@@ -21,6 +21,8 @@ router.get('/my', authMiddleware, blogController.getMyBlogs);
 
 router.get('/top/viewed', blogController.getMostViewedBlogs); 
 
+router.get('/search', blogController.searchBlogs);
+
 // Lấy blog theo ID
 router.get('/:id', blogController.getBlogById);
 

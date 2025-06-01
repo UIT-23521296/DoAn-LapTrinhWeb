@@ -295,3 +295,24 @@ exports.getMyBlogs = async (req, res) => {
     res.status(500).json({ msg: 'Lỗi khi lấy blog người dùng' });
   }
 };
+
+exports.searchBlogs = async (req, res) => {
+  const query = req.query.q;
+  const defaultList = req.query.default === 'true';
+
+  try {
+    const blogs = await Blog.find({
+      approved: true,
+      ...(defaultList
+        ? {}
+        : { title: { $regex: query || '', $options: 'i' } })
+    })
+    .sort({ createdAt: -1 })
+    .limit(6);
+
+    res.json(blogs);
+  } catch (err) {
+    console.error('Lỗi tìm kiếm blog:', err);
+    res.status(500).json({ message: 'Lỗi server' });
+  }
+};
