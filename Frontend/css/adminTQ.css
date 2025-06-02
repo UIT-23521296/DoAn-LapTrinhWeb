@@ -260,6 +260,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 thead {
@@ -282,6 +283,13 @@ th {
 tbody tr:hover {
     background-color: #f8f9fc;
 }
+
+th:nth-child(1), td:nth-child(1) { width: 30%; } /* Title */
+th:nth-child(2), td:nth-child(2) { width: 15%; } /* Author/Uploader */
+th:nth-child(3), td:nth-child(3) { width: 15%; } /* Date */
+th:nth-child(4), td:nth-child(4) { width: 15%; } /* Subject */
+th:nth-child(5), td:nth-child(5) { width: 15%; } /* Status */
+th:nth-child(6), td:nth-child(6) { width: 10%; } /* Actions */
 
 /* Status badges */
 .status {
@@ -339,4 +347,45 @@ tbody tr:hover {
 .action-btn:hover {
     opacity: 0.8;
     transform: scale(1.1);
+}
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #d1d3e2;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(.disabled):not(.active) {
+    background-color: #f8f9fc;
+}
+
+.page-btn.active {
+    background-color: #4e73df;
+    color: white;
+    border-color: #4e73df;
+}
+
+.page-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-numbers {
+    display: flex;
+    flex-direction: row; /* các nút trang xếp hàng ngang */
+    gap: 5px;
 }

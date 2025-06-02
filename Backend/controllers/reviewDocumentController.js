@@ -12,7 +12,7 @@ exports.getDocumentsForAdmin = async (req, res) => {
       approved: doc.status === 'approved',
       createdAt: doc.uploadDate,
       author: doc.uploader,
-      subject: doc.subjectName
+      subject: doc.subjectNameLabel
     });
 
     res.json({

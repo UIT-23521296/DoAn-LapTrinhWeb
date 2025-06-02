@@ -62,14 +62,19 @@ exports.getBlogsForAdmin = async (req, res) => {
 
 exports.getAdminStats = async (req, res) => {
   try {
-    const totalDocuments = await Blog.countDocuments(); // tổng tài liệu
+    const totalBlog = await Blog.countDocuments(); // tổng Blog
+    const totalDocuments = await Document.countDocuments(); // tổng tài liệu
     const totalUsers = await User.countDocuments(); // tổng user đăng ký
     const pendingBlogs = await Blog.countDocuments({ approved: false }); // blog chưa duyệt
+    const pendingDocuments = await Document.countDocuments({ status: { $in: ['pending', 'rejected'] } }); 
+
+    const total = totalBlog + totalDocuments;
+    const pending = pendingBlogs + pendingDocuments;
 
     res.json({
-      totalDocuments,
+      total,
       totalUsers,
-      pendingBlogs
+      pending
     });
   } catch (err) {
     console.error('Error getting stats:', err);
@@ -101,7 +106,7 @@ exports.getAllItemsForAdmin = async (req, res) => {
       type: 'document',
       approved: doc.status === 'approved',
       author: doc.uploader,
-      subject: doc.subjectName,
+      subject: doc.subjectNameLabel,
       createdAt: doc.uploadDate
     });
 

@@ -9,11 +9,21 @@ const documentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  subjectType: {
+  subjectTypeSlug: {
+    type: String,
+    required: true,
+    index: true
+  },
+  subjectTypeLabel: {
     type: String,
     required: true
   },
-  subjectName: {
+  subjectNameSlug: {
+    type: String,
+    required: true,
+    index: true
+  },
+  subjectNameLabel: {
     type: String,
     required: true
   },

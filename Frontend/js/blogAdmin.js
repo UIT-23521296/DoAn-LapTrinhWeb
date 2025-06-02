@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   let allItems = [];  // đổi tên để chung cho blog + document
+  let currentPage = 1;
+  const itemsPerPage = 10;
+  let filteredItems = [];
+
 
   function formatDate(isoDate) {
     const d = new Date(isoDate);
@@ -101,14 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const { approvedItems = [], pendingItems = [] } = data;
       allItems = [...pendingItems, ...approvedItems];
 
+      currentPage = 1;
       filterAndRender();
-
-      if (approvedItems.length === 0 && pendingItems.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Không có tài liệu</td></tr>';
-      } else {
-        const all = [...pendingItems, ...approvedItems];
-        tableBody.innerHTML = all.map((item, i) => createRow(item, i)).join('');
-      }
 
       if (loading) loading.style.display = 'none';
       if (mainContent) mainContent.style.display = 'block';
@@ -223,10 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (subject !== 'all') {
       if (subject === 'blog' || subject === 'document') {
-        // Lọc theo loại item
         filtered = filtered.filter(item => item.type === subject);
       } else {
-        // Lọc theo môn học / subject name
         filtered = filtered.filter(item => (item.subject || '').toLowerCase() === subject);
       }
     }
@@ -238,14 +234,50 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     }
 
+    filteredItems = filtered;
+
     if (filtered.length === 0) {
       tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Không có tài liệu phù hợp</td></tr>';
+      document.querySelector('.pagination')?.classList.add('hidden');
     } else {
-      tableBody.innerHTML = filtered.map((item, i) => createRow(item, i)).join('');
-      addEventListeners();
+      renderCurrentPage();
+      renderPagination();
     }
   }
+  function renderCurrentPage() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const pageItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+    tableBody.innerHTML = pageItems.map((item, i) => createRow(item, startIndex + i)).join('');
+    addEventListeners();
+  }
 
+  function renderPagination() {
+    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+    const paginationContainer = document.querySelector('.pagination');
+    if (!paginationContainer) return;
+
+    let html = '';
+    html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+
+    html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
+
+    paginationContainer.innerHTML = html;
+
+    paginationContainer.querySelectorAll('.page-btn').forEach(btn => {
+      const page = parseInt(btn.getAttribute('data-page'));
+      if (!btn.classList.contains('disabled') && !isNaN(page)) {
+        btn.addEventListener('click', () => {
+          currentPage = page;
+          renderCurrentPage();
+          renderPagination();
+        });
+      }
+    });
+  }
   statusFilter.addEventListener('change', filterAndRender);
   subjectFilter.addEventListener('change', filterAndRender);
   searchInput.addEventListener('input', filterAndRender);
