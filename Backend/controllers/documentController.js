@@ -1,4 +1,4 @@
-const Document = require('../models/document');
+const Document = require('../models/Document');
 const data = require('../data.json');
 
 // Trả lại cả label (hiển thị cho client), không dùng để query
@@ -35,13 +35,19 @@ exports.getDocumentsBySubject = async (req, res) => {
   console.log('[MongoDB Query]', query);
 
   try {
-    const documents = await Document.find(query).select('title fileUrl');
+    const documents = await Document.find(query).select('title fileUrl').lean();
 
     if (!documents || documents.length === 0) {
-      return res.status(404).json({ message: 'Không tìm thấy tài liệu phù hợp.' });
+      // Trả về mảng rỗng thay vì lỗi 404
+      return res.status(200).json({
+        subjectType: labels.subjectTypeLabel,
+        subjectName: labels.subjectNameLabel,
+        documents: [],
+        message: 'Chưa có tài liệu phù hợp.'
+      });
     }
 
-    res.json({
+    res.status(200).json({
       subjectType: labels.subjectTypeLabel,
       subjectName: labels.subjectNameLabel,
       documents
@@ -51,3 +57,4 @@ exports.getDocumentsBySubject = async (req, res) => {
     res.status(500).json({ message: 'Lỗi server.' });
   }
 };
+

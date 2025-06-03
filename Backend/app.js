@@ -138,26 +138,6 @@ app.get('/document', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/standard.html'));
 });
 
-app.get('/mon-dai-cuong', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-dai-cuong.html'));
-});
-
-app.get('/mon-co-so-nganh', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-co-so-nganh.html'));
-});
-
-app.get('/mon-chinh-tri', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-chinh-tri.html'));
-});
-
-app.get('/mon-chuyen-nganh', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-chuyen-nganh.html'));
-});
-
-app.get('/mon-tu-chon', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-tu-chon.html'));
-});
-
 app.get('/upload', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/upload1.html'));
 });
