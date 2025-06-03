@@ -1,7 +1,23 @@
 const fs = require('fs');
 const path = require('path');
+const mammoth = require('mammoth');
+const puppeteer = require('puppeteer');
 const Document = require('../models/Document');
-const data = require('../data.json'); // chứa slug và label
+const data = require('../data.json');
+
+async function convertDocxToPdf(inputPath, outputPath) {
+  const { value: html } = await mammoth.convertToHtml({ path: inputPath });
+
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.setContent(html, { waitUntil: "networkidle0" });
+  await page.pdf({
+    path: outputPath,
+    format: "A4",
+    printBackground: true,
+  });
+  await browser.close();
+}
 
 function getLabelsFromSlug(subjectTypeSlug, subjectNameSlug) {
   const subjectType = data[subjectTypeSlug];
@@ -11,8 +27,8 @@ function getLabelsFromSlug(subjectTypeSlug, subjectNameSlug) {
   if (!subject) return null;
 
   return {
-    subjectTypeLabel: subjectType.label, // "Môn Tự Chọn"
-    subjectNameLabel: subject.label      // "Ngoại ngữ"
+    subjectTypeLabel: subjectType.label,
+    subjectNameLabel: subject.label
   };
 }
 
@@ -33,15 +49,36 @@ exports.uploadDocument = async (req, res) => {
     }
 
     const labels = getLabelsFromSlug(subjectTypeSlug, subjectNameSlug);
-
     if (!labels) {
       fs.unlinkSync(req.file.path);
       return res.status(400).json({ error: 'Slug không hợp lệ hoặc không tồn tại trong data.json.' });
     }
 
+    const ext = path.extname(req.file.originalname).toLowerCase();
+    let filePathToSave = req.file.path; // file đường dẫn để lưu vào DB
+
+    // Nếu là doc hoặc docx thì convert sang pdf
+    if (ext === '.doc' || ext === '.docx') {
+      const pdfFilePath = req.file.path.replace(ext, '.pdf');
+
+      try {
+        await convertDocxToPdf(req.file.path, pdfFilePath);
+
+        // Xóa file doc/docx gốc đi nếu không cần giữ
+        fs.unlinkSync(req.file.path);
+
+        filePathToSave = pdfFilePath;
+      } catch (convertError) {
+        console.error('Lỗi chuyển đổi DOCX sang PDF:', convertError);
+        // Nếu convert lỗi, xóa file đã upload, trả về lỗi
+        fs.unlinkSync(req.file.path);
+        return res.status(500).json({ error: 'Lỗi chuyển đổi file DOCX sang PDF.' });
+      }
+    }
+
     const newDoc = new Document({
       title,
-      fileUrl: req.file.path,
+      fileUrl: filePathToSave,
       subjectTypeSlug,
       subjectTypeLabel: labels.subjectTypeLabel,
       subjectNameSlug,

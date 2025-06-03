@@ -11,24 +11,27 @@ document.addEventListener("DOMContentLoaded", function () {
   afterUpload.style.display = "none";
 
   fileInput.addEventListener("change", function () {
-    const allowedTypes = [
-      "application/pdf"
-    ];
+  const allowedTypes = [
+    "application/pdf",
+    "application/msword", // .doc
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" // .docx
+  ];
 
-    if (fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      if (!allowedTypes.includes(file.type)) {
-        alert("Chỉ cho phép upload file PDF.");
-        fileInput.value = "";
-        afterUpload.style.display = "none";
-        return;
-      }
-      fileNameDisplay.textContent = file.name;
-      afterUpload.style.display = "flex";
-    } else {
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Chỉ cho phép upload file PDF, DOC hoặc DOCX.");
+      fileInput.value = "";
       afterUpload.style.display = "none";
+      return;
     }
-  });
+    fileNameDisplay.textContent = file.name;
+    afterUpload.style.display = "flex";
+  } else {
+    afterUpload.style.display = "none";
+  }
+});
+
 
   uploadNextBtn.addEventListener("click", function () {
     // 1. Ẩn phần "upload", hiển thị phần "detail"

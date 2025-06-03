@@ -14,10 +14,13 @@ const storage = multer.diskStorage({
 });
 
 // Định nghĩa loại file được phép (PDF, DOC, DOCX, PPT, PPTX)
-const filetypes = /pdf/;
+const filetypes = /pdf|doc|docx/;
 const allowedMimeTypes = [
-  'application/pdf'
+  'application/pdf',
+  'application/msword', // .doc
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
 ];
+
 
 const upload = multer({
   storage: storage,
