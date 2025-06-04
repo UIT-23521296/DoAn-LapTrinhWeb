@@ -301,8 +301,9 @@
     height: 200px;
     border-radius: 12px;
     margin-top: 5px;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s ease;
+    z-index: 3;
 }
 
 .content-container {
@@ -329,6 +330,7 @@
 }
 
 .search-bar {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -370,6 +372,36 @@
 .search-icon i {
     color: black;     
     font-size: 20px;    
+}
+.suggestion-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  top: calc(100% + 4px); /* cách input khoảng 4px */
+  right: 0;
+  background: lightblue; /* đổi sang trắng cho rõ ràng */
+  width: calc(500px + 50px); /* đúng bằng input 500px + icon 50px */
+  z-index: 20; /* cao hơn .banner-content z-index:2 */
+  display: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  
+}
+
+/* Các item trong danh sách */
+.suggestion-list li {
+  padding: 10px;
+  cursor: pointer;
+  color: black;
+  text-align: left;
+}
+
+.suggestion-list li:hover {
+  background-color: #f0f0f0;
 }
 
 /*Lớp phủ*/

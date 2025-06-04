@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let allItems = [];  // đổi tên để chung cho blog + document
 
+  let currentPage = 1;
+  const itemsPerPage = 10;
+  let filteredItems = [];
+
   function formatDate(isoDate) {
     const d = new Date(isoDate);
     const day = String(d.getDate()).padStart(2, '0');
@@ -101,15 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const { approvedItems = [], pendingItems = [] } = data;
       allItems = [...pendingItems, ...approvedItems];
 
+      currentPage = 1;
       filterAndRender();
-
-      if (approvedItems.length === 0 && pendingItems.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Không có tài liệu</td></tr>';
-      } else {
-        const all = [...pendingItems, ...approvedItems];
-        tableBody.innerHTML = all.map((item, i) => createRow(item, i)).join('');
-      }
-
       if (loading) loading.style.display = 'none';
       if (mainContent) mainContent.style.display = 'block';
 
@@ -122,61 +119,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-async function approveItem(id, type) {
-  try {
-    let url;
-    if(type === 'blog') url = `/api/admin/approve-blog/${id}`;
-    else if(type === 'document') url = `/api/admin/approve-document/${id}`;  // đúng route backend
-    else throw new Error('Loại tài liệu không hợp lệ');
+  async function approveItem(id, type) {
+    try {
+      let url;
+      if(type === 'blog') url = `/api/admin/approve-blog/${id}`;
+      else if(type === 'document') url = `/api/admin/approve-document/${id}`;
+      else throw new Error('Loại tài liệu không hợp lệ');
 
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.msg || 'Duyệt tài liệu thất bại');
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (!res.ok) throw new Error('Duyệt tài liệu thất bại');
+      showToast('Duyệt tài liệu thành công!', 'success');
+
+      // Update trạng thái ở bảng
+      const row = document.querySelector(`button.approve-btn[data-id="${id}"][data-type="${type}"]`).closest('tr');
+      const badge = row.querySelector('.status-badge');
+      badge.textContent = 'Đã duyệt';
+      badge.classList.remove('pending');
+      badge.classList.add('approved');
+      const buttons = row.querySelector('.approval-buttons');
+      if (buttons) buttons.remove();
+    } catch (err) {
+      showToast(err.message, 'error');
     }
-    showToast('Duyệt tài liệu thành công!', 'success');
-
-    // Cập nhật trạng thái trên UI
-    const row = document.querySelector(`button.approve-btn[data-id="${id}"][data-type="${type}"]`).closest('tr');
-    const badge = row.querySelector('.status-badge');
-    badge.textContent = 'Đã duyệt';
-    badge.classList.remove('pending');
-    badge.classList.add('approved');
-    const buttons = row.querySelector('.approval-buttons');
-    if (buttons) buttons.remove();
-  } catch (err) {
-    showToast(err.message, 'error');
   }
-}
 
-async function rejectItem(id, type) {
-  try {
-    let url;
-    if(type === 'blog') url = `/api/admin/blogs/${id}`;  // route xóa blog của admin
-    else if(type === 'document') url = `/api/admin/documents/${id}`;  // route xóa document của admin
-    else throw new Error('Loại tài liệu không hợp lệ');
+  async function rejectItem(id, type) {
+    try {
+      let url;
+      if(type === 'blog') url = `/api/blogs/${id}`;
+      else if(type === 'document') url = `/api/admin/documents/${id}`;
+      else throw new Error('Loại tài liệu không hợp lệ');
 
-    const res = await fetch(url, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
-    });
+      const response = await fetch(url, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
 
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.msg || 'Lỗi khi từ chối tài liệu');
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.msg || 'Lỗi khi từ chối tài liệu');
+      }
+
+      showToast('Xóa tài liệu thành công!', 'success');
+      const itemRow = document.querySelector(`.item-row[data-id="${id}"][data-type="${type}"]`);
+      if (itemRow) itemRow.remove();
+    } catch (err) {
+      showToast('Lỗi: ' + err.message, 'error');
     }
-
-    showToast('Từ chối tài liệu thành công!', 'success');
-    const itemRow = document.querySelector(`.item-row[data-id="${id}"][data-type="${type}"]`);
-    if (itemRow) itemRow.remove();
-  } catch (err) {
-    showToast('Lỗi: ' + err.message, 'error');
   }
-}
-
 
   function addEventListeners() {
     document.querySelectorAll('.approve-btn').forEach(btn => {
@@ -227,10 +220,8 @@ async function rejectItem(id, type) {
 
     if (subject !== 'all') {
       if (subject === 'blog' || subject === 'document') {
-        // Lọc theo loại item
         filtered = filtered.filter(item => item.type === subject);
       } else {
-        // Lọc theo môn học / subject name
         filtered = filtered.filter(item => (item.subject || '').toLowerCase() === subject);
       }
     }
@@ -242,21 +233,57 @@ async function rejectItem(id, type) {
       );
     }
 
+    filteredItems = filtered;
+
     if (filtered.length === 0) {
       tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Không có tài liệu phù hợp</td></tr>';
+      document.querySelector('.pagination')?.classList.add('hidden');
     } else {
-      tableBody.innerHTML = filtered.map((item, i) => createRow(item, i)).join('');
-      addEventListeners();
+      renderCurrentPage();
+      renderPagination();
     }
   }
+  function renderCurrentPage() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const pageItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+    tableBody.innerHTML = pageItems.map((item, i) => createRow(item, startIndex + i)).join('');
+    addEventListeners();
+  }
 
+  function renderPagination() {
+    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+    const paginationContainer = document.querySelector('.pagination');
+    if (!paginationContainer) return;
+
+    let html = '';
+    html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+
+    html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
+
+    paginationContainer.innerHTML = html;
+
+    paginationContainer.querySelectorAll('.page-btn').forEach(btn => {
+      const page = parseInt(btn.getAttribute('data-page'));
+      if (!btn.classList.contains('disabled') && !isNaN(page)) {
+        btn.addEventListener('click', () => {
+          currentPage = page;
+          renderCurrentPage();
+          renderPagination();
+        });
+      }
+    });
+  }
   statusFilter.addEventListener('change', filterAndRender);
   subjectFilter.addEventListener('change', filterAndRender);
   searchInput.addEventListener('input', filterAndRender);
 
   loadItems();
 });
-// Các hàm showToast và showConfirmModal giữ nguyên như bạn đã có
+// Các hàm showToast và showConfirmModal giữ nguyên 
 
 function showToast(message, type = 'success') {
     const toastE1 = document.getElementById("liveToast");

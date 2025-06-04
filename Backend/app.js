@@ -63,6 +63,7 @@ const documentRoutes = require('./routes/reviewDocumentRoutes');
 const reviewDocRoutes = require('./routes/documentRoutes');
 
 
+
 app.use('/api/admin', adminRoutes);
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -146,6 +147,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', proxyRoutes);
+app.use('/api/documents', documentRoutes);
 
 // Route trả thông tin người dùng
 app.get('/api/user-info', authMiddleware, (req, res) => {

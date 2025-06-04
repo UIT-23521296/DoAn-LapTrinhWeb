@@ -161,14 +161,14 @@
                 <div class="banner-content">
                     <h2>Tìm kiếm tài liệu tại đây</h2>
                     <div class="search-bar">
-                        <select>
-                            <option>Tài liệu</option>
-                            <option>Blog</option>
+                        <select id="search-type">
+                            <option value="document">Tài liệu</option>
+                            <option value="blog">Blog</option>
                         </select>
-                        <input type="text" placeholder="Search something">
-                        <div class="search-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
+                        <input type="text" id="search-input" placeholder="Search something" autocomplete="off" />
+                        <div class="search-icon"><i class="fas fa-search"></i></div>
+
+                        <ul id="search-suggestions" class="suggestion-list"></ul>
                     </div>
                 </div>
             </div>

@@ -169,46 +169,65 @@
           </div>
         </div>
       </div>
+        <div class="content-container">
+            <div class="banner">
+                <div class="overlay"></div>
+                <div class="banner-content">
+                    <h2>Tìm kiếm tài liệu tại đây</h2>
+                    <div class="search-bar">
+                        <select id="search-type">
+                            <option value="document">Tài liệu</option>
+                            <option value="blog">Blog</option>
+                        </select>
+                        <input type="text" id="search-input" placeholder="Search something" autocomplete="off" />
+                        <div class="search-icon"><i class="fas fa-search"></i></div>
 
-      <div class="document-box">
-        <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
+                        <ul id="search-suggestions" class="suggestion-list"></ul>
+                    </div>
+                </div>
+            </div>
 
-        <div class="section">
-          <h2 class="section-title">Mới nhất</h2>
-          <div class="document-grid">
-            <div class="document-item">
-              <img src="img.png" alt="doc 1" />
-              <p>Bài tập XSTK chương 1</p>
+            <div class="document-box">
+                <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
+                
+                <div class="section">
+                    <h2 class="section-title">Mới nhất</h2>
+                    <div class="document-grid">
+                    <div class="document-item">
+                        <img src="img.png" alt="doc 1">
+                        <p>Bài tập XSTK chương 1</p>
+                    </div>
+                    <div class="document-item">
+                        <img src="img.png" alt="doc 2">
+                        <p>Bài tập XSTK chương 2</p>
+                    </div>
+                    <div class="document-item">
+                        <img src="img.png" alt="doc 3">
+                        <p>Bài tập XSTK chương 3</p>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">Được xem nhiều</h2>
+                    <div class="document-grid">
+                        <div class="document-grid">
+                            <div class="document-item">
+                            <img src="img.png" alt="doc 1">
+                            <p>Bài tập XSTK chương 1</p>
+                            </div>
+                            <div class="document-item">
+                            <img src="img.png" alt="doc 2">
+                            <p>Bài tập XSTK chương 2</p>
+                            </div>
+                            <div class="document-item">
+                            <img src="img.png" alt="doc 3">
+                            <p>Bài tập XSTK chương 3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="document-item">
-              <img src="img.png" alt="doc 2" />
-              <p>Bài tập XSTK chương 2</p>
-            </div>
-            <div class="document-item">
-              <img src="img.png" alt="doc 3" />
-              <p>Bài tập XSTK chương 3</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2 class="section-title">Được xem nhiều</h2>
-          <div class="document-grid">
-            <div class="document-item">
-              <img src="img.png" alt="doc 1" />
-              <p>Bài tập XSTK chương 1</p>
-            </div>
-            <div class="document-item">
-              <img src="img.png" alt="doc 2" />
-              <p>Bài tập XSTK chương 2</p>
-            </div>
-            <div class="document-item">
-              <img src="img.png" alt="doc 3" />
-              <p>Bài tập XSTK chương 3</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- ========= Phần "Danh sách" (Dynamic) ========= -->
       <section class="course-list-section">

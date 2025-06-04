@@ -6,6 +6,10 @@ const documentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  fileUrl: {
+    type: String,
+    required: true
+  },
   subjectTypeSlug: {
     type: String,
     required: true,
@@ -49,4 +53,4 @@ const documentSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.models.Document || mongoose.model('Document', documentSchema);
+module.exports = mongoose.model('Document', documentSchema);
