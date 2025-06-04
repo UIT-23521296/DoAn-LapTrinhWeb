@@ -85,7 +85,7 @@ exports.getMostViewedBlogs = async (req, res) => {
 exports.createBlog = async (req, res) => {
   try {
     const { title, content } = req.body;
-    const author = req.session.user?.username;
+    const author = req.session.user?.username ?? req.session.admin?.username;
     const path = require('path');
     const fs = require('fs');
     const { uploadFileToDrive } = require('../uploads/googleDrive');
@@ -293,5 +293,26 @@ exports.getMyBlogs = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: 'Lỗi khi lấy blog người dùng' });
+  }
+};
+
+exports.searchBlogs = async (req, res) => {
+  const query = req.query.q;
+  const defaultList = req.query.default === 'true';
+
+  try {
+    const blogs = await Blog.find({
+      approved: true,
+      ...(defaultList
+        ? {}
+        : { title: { $regex: query || '', $options: 'i' } })
+    })
+    .sort({ createdAt: -1 })
+    .limit(6);
+
+    res.json(blogs);
+  } catch (err) {
+    console.error('Lỗi tìm kiếm blog:', err);
+    res.status(500).json({ message: 'Lỗi server' });
   }
 };

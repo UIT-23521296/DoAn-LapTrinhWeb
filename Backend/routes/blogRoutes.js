@@ -7,16 +7,24 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 // Cấu hình multer để lưu trong bộ nhớ (có thể đổi sang diskStorage nếu muốn lưu file ra ổ cứng)
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage,
+  limits: {
+    fieldSize: 5 * 1024 * 1024, // tăng lên 5MB
+  },
+});
 
 // Lấy tất cả blog
 router.get('/', blogController.getAllBlogs);
 
+router.get('/my', authMiddleware, blogController.getMyBlogs);
+
+router.get('/top/viewed', blogController.getMostViewedBlogs); 
+
+router.get('/search', blogController.searchBlogs);
+
 // Lấy blog theo ID
 router.get('/:id', blogController.getBlogById);
-
-// Lấy blog nhiều lượt xem nhất
-router.get('/top/viewed', blogController.getMostViewedBlogs); 
 
 // Tạo blog mới (dùng upload.single để xử lý ảnh thumbnail)
 router.post('/', authMiddleware, upload.single('thumbnailImage'), blogController.createBlog);
@@ -28,7 +36,5 @@ router.put('/:id', authMiddleware, blogController.updateBlog);
 router.delete('/:id', authMiddleware, blogController.deleteBlog);
 
 router.post('/:blogId/comments', authMiddleware, blogController.createComment);
-
-router.get('/my', authMiddleware, blogController.getMyBlogs);
 
 module.exports = router;

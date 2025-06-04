@@ -4,15 +4,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const res = await fetch('/api/admin/stats');
     const data = await res.json();
 
-    document.getElementById('total-documents').textContent = data.totalDocuments;
+    document.getElementById('total-documents').textContent = data.total;
     document.getElementById('total-users').textContent = data.totalUsers;
-    document.getElementById('pending-docs').textContent = data.pendingBlogs;
+    document.getElementById('pending-docs').textContent = data.pending;
   } catch (error) {
     console.error('Error fetching stats:', error);
   }
 
   // --- Phần load và render blog ---
   const tableBody = document.querySelector('.table-container table tbody');
+  const paginationContainer = document.querySelector('.pagination');
+  const pageNumbersContainer = document.querySelector('.page-numbers');
+  const prevBtn = document.querySelector('.page-btn.prev');
+  const nextBtn = document.querySelector('.page-btn.next');
+
+  let allItems = [];
+  let currentPage = 1;
+  const itemsPerPage = 10;
+  
   if (!tableBody) {
     console.error('Không tìm thấy tbody!');
     return;
@@ -35,38 +44,85 @@ document.addEventListener('DOMContentLoaded', async () => {
                .replace(/'/g, "&#039;");
   }
 
-  function createRow(blog) {
-    const statusClass = blog.approved ? 'approved' : 'pending';
-    const statusText = blog.approved ? 'Đã duyệt' : 'Chờ duyệt';
+  function createRow(item) {
+    const isApproved = item.approved === true; 
+    let subjectName = '';
+    if(item.type === 'blog') {
+      subjectName = 'Blog'; // hoặc item.subject nếu có
+    } else if(item.type === 'document') {
+      subjectName = item.subject || 'Tài liệu';
+    }
 
     return `
-      <tr data-id="${blog._id}">
-        <td>${escapeHtml(blog.title)}</td>
-        <td>${escapeHtml(blog.author)}</td>
-        <td>${formatDate(blog.createdAt)}</td>
-        <td>Blog</td>
-        <td><span class="status ${statusClass}">${statusText}</span></td>
+      <tr data-id="${item._id}" data-type="${item.type}">
+        <td>${escapeHtml(item.title)}</td>
+        <td>${escapeHtml(item.author || item.uploader || '')}</td>
+        <td>${formatDate(item.createdAt || item.uploadDate)}</td>
+        <td>${escapeHtml(subjectName)}</td>
         <td>
-          <button class="action-btn view" data-id="${blog._id}" title="Xem"><i class="fas fa-eye"></i></button>
-          <button class="action-btn delete" data-id="${blog._id}" title="Xóa"><i class="fas fa-trash"></i></button>
+          <span class="status ${isApproved ? 'approved' : 'pending'}">
+            ${isApproved ? 'Đã duyệt' : 'Chờ duyệt'}
+          </span>
+        </td>
+        <td>
+          <button class="action-btn view" data-id="${item._id}" data-type="${item.type}" title="Xem"><i class="fas fa-eye"></i></button>
+          <button class="action-btn delete" data-id="${item._id}" data-type="${item.type}" title="Xóa"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
     `;
   }
 
-  async function loadBlogs() {
+  function renderTable() {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const itemsToRender = allItems.slice(start, end);
+
+    if (itemsToRender.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Không có tài liệu</td></tr>';
+    } else {
+      tableBody.innerHTML = itemsToRender.map(createRow).join('');
+    }
+
+    addEventListeners();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(allItems.length / itemsPerPage);
+    pageNumbersContainer.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+      btn.textContent = i;
+      btn.addEventListener('click', () => {
+        currentPage = i;
+        renderTable();
+        renderPagination();
+      });
+      pageNumbersContainer.appendChild(btn);
+    }
+
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+  }
+
+  async function loadItems() {
     try {
       const res = await fetch('/api/admin/blogs');
       if (!res.ok) throw new Error('Lỗi khi tải dữ liệu');
       const data = await res.json();
 
-      const { approvedBlogs = [], pendingBlogs = [] } = data;
-      const allBlogs = [...pendingBlogs, ...approvedBlogs];
+      const { approvedItems = [], pendingItems = [] } = data;
+      allItems = [...pendingItems, ...approvedItems];
 
-      if (allBlogs.length === 0) {
+      if (allItems.length === 0) {
         tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Không có tài liệu</td></tr>';
+        paginationContainer.style.display = 'none';
       } else {
-        tableBody.innerHTML = allBlogs.map(createRow).join('');
+        paginationContainer.style.display = 'flex';
+        currentPage = 1;
+        renderTable();
+        renderPagination();
       }
 
       addEventListeners();
@@ -85,7 +141,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!res.ok) throw new Error('Xóa tài liệu thất bại');
 
       showToast('Xóa tài liệu thành công!', 'success');
-      loadBlogs();
+      loadItems();
     } catch (err) {
      showToast('Lỗi: ' + err.message, 'error');
     }
@@ -108,8 +164,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
   }
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderTable();
+      renderPagination();
+    }
+  });
 
-  loadBlogs();
+  nextBtn.addEventListener('click', () => {
+    const totalPages = Math.ceil(allItems.length / itemsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderTable();
+      renderPagination();
+    }
+  });
+  loadItems();
 });
 function showToast(message, type = 'success') {
     const toastE1 = document.getElementById("liveToast");
