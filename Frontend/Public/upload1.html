@@ -29,7 +29,7 @@
                 <nav class="nav-links">
                     <a href="/">Home</a>
                     <a href="/blog">Blog</a>
-                    <a href="/standard">Tài liệu</a>
+                    <a href="/document">Tài liệu</a>
                 </nav>
         
                 <div class="btn-login-signup" id="auth-buttons">
@@ -184,6 +184,7 @@
                 </div>
             </div>
 
+
             <div id="upload" class="page active">
                 <div class="upload-box">
                     <div class="upload-content">
@@ -213,35 +214,53 @@
                         </div>
                     </div>
                     <div class="line"></div>
-                    <form class="form-container">
+                        <form class="form-container">
                         <label class="detail-label">
-                        Subject
-                        <select class="detail-select">
-                            <option>Please select</option>
-                        </select>
+                            Loại môn học
+                            <select class="detail-select" name="subjectTypeSlug" required>
+                                <option value="">-- Chọn loại môn --</option>
+                                <option value="mon-chinh-tri">Môn Chính trị</option>
+                                <option value="mon-tu-chon">Môn Tự chọn</option>
+                                <option value="mon-chuyen-nganh">Môn Chuyên ngành</option>
+                                <option value="mon-co-so-nganh">Môn Cơ sở ngành</option>
+                                <option value="mon-dai-cuong">Môn Đại cương</option>
+                            </select>
                         </label>
-                    
+
                         <label class="detail-label">
-                        Title
-                        <input type="text" placeholder="Title" class="detail-title-input">
+                            Tên môn học
+                            <select class="detail-select" name="subjectNameSlug" id="subjectNameSelect">
+                                <option value="">-- Chọn tên môn học --</option>
+                            </select>
                         </label>
-                    
+                        <input type="hidden" name="subjectTypeLabel" id="subjectTypeLabel">
+                        <input type="hidden" name="subjectNameLabel" id="subjectNameLabel">
+
                         <label class="detail-label">
-                        Year
-                        <select class="detail-select">
-                            <option>Please select</option>
-                        </select>
+                            Thể loại tài liệu
+                            <select class="detail-select" name="documentType">
+                                <option>-- Chọn loại tài liệu --</option>
+                                <option value="bai-giang">Bài giảng</option>
+                                <option value="de-thi">Đề thi</option>
+                                <option value="tai-lieu-tham-khao">Tài liệu tham khảo</option>
+                            </select>
                         </label>
-                    
+
                         <label class="detail-label">
-                        Description
-                        <textarea placeholder="Write something to note the importance"></textarea>
+                            Tên
+                            <input type="text" name="title" placeholder="Hãy viết tên của tài liệu" class="detail-title-input">
                         </label>
-                    
+
+                        <label class="detail-label">
+                            Mô tả
+                            <textarea name="description" placeholder="Hãy viết gì đó về tài liệu"></textarea>
+                        </label>
+
                         <div class="button-row">
-                        <button type="submit" class="next-button">Next</button>
+                            <button type="button" class="back-button">Quay lại</button>
+                            <button type="button" class="next-button">Tiếp</button>
                         </div>
-                    </form>
+                        </form>
                 </div>
             </div>
 
@@ -255,7 +274,9 @@
                         <p>Tài liệu của bạn sẽ mất một lúc để kiểm tra và phê duyệt</p>
                     </div>
                     <div class="done-btn">
-                        <button class="done-button">Done</button>
+                        <a href="/">
+                            <button class="done-button">Done</button>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -262,8 +262,13 @@ textarea {
 }
 
 .button-row {
-    grid-column: 2 / 3;
-    text-align: right;
+    grid-column: 1 / -1;
+
+    /* Dùng Flexbox để đẩy hai nút ra hai mép trái – phải */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* căn giữa theo chiều dọc, nếu cần */
+    
     margin-top: 10px;
 }
 
@@ -279,6 +284,21 @@ textarea {
 }
 
 .next-button:hover {
+    background-color: #00796b;
+}
+
+.back-button {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
     background-color: #00796b;
 }
 

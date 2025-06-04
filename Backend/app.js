@@ -43,6 +43,7 @@ app.use(session({
 
 // Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, '../Frontend')));
+app.use('/json', express.static(path.join(__dirname, 'json')));
 
 //Imagines
 const multer = require('multer');
@@ -57,9 +58,14 @@ const adminRoutes = require('./routes/Admin');
 const authMiddleware = require('./middleware/authMiddleware'); 
 const requireAdmin = require('./middleware/requireAdmin');
 const proxyRoutes = require('./routes/proxy');
+const uploadRoutes = require('./routes/uploadDocumentRoutes');
+const documentRoutes = require('./routes/reviewDocumentRoutes');
+const reviewDocRoutes = require('./routes/documentRoutes');
+
 
 app.use('/api/admin', adminRoutes);
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/index.html'));
@@ -114,29 +120,22 @@ app.get('/blog-post', authMiddleware,(req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/blog-post.html'));
 });
 
+//Đăng tài liệu
+app.use('/api/documents', uploadRoutes);
+
+//Duyệt tài liệu
+app.use('/api/documents', documentRoutes);
+
+//Xem tài liệu 
+app.use('/api/documents', reviewDocRoutes);
+app.use('/uploads', express.static('uploads'));
+app.get('/document.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Frontend/Public/document.html'));
+});
+
 //Tìm tài liệu
 app.get('/document', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/standard.html'));
-});
-
-app.get('/mon-dai-cuong', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-dai-cuong.html'));
-});
-
-app.get('/mon-co-so-nganh', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-co-so-nganh.html'));
-});
-
-app.get('/mon-chinh-tri', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-chinh-tri.html'));
-});
-
-app.get('/mon-chuyen-nganh', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-chuyen-nganh.html'));
-});
-
-app.get('/mon-tu-chon', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/Public/mon-tu-chon.html'));
 });
 
 app.get('/upload', authMiddleware, (req, res) => {
