@@ -139,6 +139,7 @@
 
 #after-upload {
     display: flex;
+    width: 70%;
     justify-content: space-between; /* căn trái - phải */
     align-items: center;
     padding: 10px 20px;
