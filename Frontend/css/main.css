@@ -479,170 +479,14 @@
 .contact-info a:hover  {
    color: #504f4f;
 }
-/* Responsive styles for header */
-@media screen and (max-width: 780px) {
-    .main-header {
-        padding: 15px 20px;
-    }
-    
-    .nav-header {
-        gap: 30px;
-    }
-    
-    .nav-links {
-        gap: 30px;
-    }
-    
-    .btn-login-signup {
-        gap: 20px;
-    }
-    
-    .logo img {
-        height: 40px;
-    }
-    
-    .user-info {
-        padding: 6px 12px;
-        gap: 8px;
-    }
-    
-    #user_avatar {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .Hello-User {
-        font-size: 14px;
-    }
-
-    .side-nav {
-        position: fixed;
-        top: 0;
-        left: -300px; /* Ẩn sidebar ban đầu */
-        height: 100vh !important;
-        z-index: 1000;
-        transition: left 0.3s ease;
-        border-radius: 0;
-    }
-    
-    .side-nav.active {
-        left: 0; /* Hiển thị sidebar khi active */
-    }
-    
-    /* Thêm lớp overlay khi sidebar mở */
-    .sidebar-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        display: none;
-    }
-    
-    .sidebar-open .sidebar-overlay {
-        display: block;
-    }
-    
-    /* Đảm bảo nội dung không bị dịch chuyển */
-    .content-container {
-        margin-left: 0 !important;
-        width: 100% !important;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .main-header {
-        padding: 10px 15px;
-        flex-wrap: wrap;
-    }
-    
-    .logo {
-        order: 1;
-        flex: 1;
-    }
-    
-    .nav-header {
-        order: 3;
-        width: 100%;
-        justify-content: space-between;
-        margin-top: 10px;
-        gap: 10px;
-    }
-    
-    
-    
-    .btn-login-signup {
-        gap: 10px;
-    }
-    
-    .btn-login, 
-    .btn-signup {
-        padding: 6px 12px;
-        font-size: 14px;
-    }
-    
-    .user-info {
-        order: 2;
-        padding: 4px 8px;
-    }
-    
-    #user_avatar {
-        width: 32px;
-        height: 32px;
-    }
-    
-    .Hello-User {
-        display: none; /* Hide "Hello User" text on small screens */
-    }
-    
-    /* Adjust dropdown menu for mobile */
-    .dropdown-menu {
-        min-width: 160px;
-        right: -10px;
-    }
-
-    .side-nav {
-        position: fixed;
-        top: 0;
-        left: -300px; /* Ẩn sidebar ban đầu */
-        height: 100vh !important;
-        z-index: 1000;
-        transition: left 0.3s ease;
-        border-radius: 0;
-    }
-    
-    .side-nav.active {
-        left: 0; /* Hiển thị sidebar khi active */
-    }
-    
-    /* Thêm lớp overlay khi sidebar mở */
-    .sidebar-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        display: none;
-    }
-    
-    .sidebar-open .sidebar-overlay {
-        display: block;
-    }
-    
-    /* Đảm bảo nội dung không bị dịch chuyển */
-    .content-container {
-        margin-left: 0 !important;
-        width: 100% !important;
-    }
-=======
 /* ===================== Tablet (768px - 1023px) ===================== */
 @media screen and (max-width: 1023px) {
     body {
         overflow-x: hidden;
+    }
+
+    .main-header {
+        padding: 15px 20px;
     }
 
     .nav-header {
@@ -651,20 +495,32 @@
         gap: 20px;
     }
 
-    .sidebar-open .search-bar {
-        flex-direction: column;
-        align-items: 80%; /* cho các input/select rộng 100% */
-        width: 100%;
+    .nav-links {
+        gap: 30px;
     }
 
-    .sidebar-open .search-bar select,
-    .sidebar-open .search-bar input,
-    .sidebar-open .search-bar .search-icon {
-        width: 100%;  /* full width khi sidebar mở */
-        border-radius: 8px !important;
-        border: 1px solid #ccc;
+    .btn-login-signup {
+        gap: 20px;
+    }
+
+    .logo img {
         height: 40px;
     }
+
+    .user-info {
+        padding: 6px 12px;
+        gap: 8px;
+    }
+
+    #user_avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .Hello-User {
+        font-size: 14px;
+    }
+
 
     .sidebar-open .content-container {
         margin-left: 250px;
@@ -672,76 +528,103 @@
     }
 
     .side-nav {
-        position: absolute;
-        top: 5px;
+        position: fixed;
+        top: 0;
         left: 0;
-        height: 0;
-        flex-direction: column;
+        height: 100vh !important;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        border-radius: 0;
+        width: 250px;
         background-color: #9BBEB0;
-        border-top-left-radius: 12px;
-        border-bottom-left-radius: 12px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-        width: 245px;
     }
 
-    .banner-content h2{
+    .side-nav.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+    }
+    
+    .sidebar-open .sidebar-overlay {
+        display: block;
+    }
+
+    .content-container {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .banner-content h2 {
         font-size: 20px;
     }
-
-    .nav-links {
-        gap: 12px;
-        align-items: center;
-    }
-
-    .btn-login-signup {
-        gap: 12px;
-        flex-direction: row;
-    }  
 }
+
 /* ===================== Mobile L (480px - 767px) ===================== */
 @media screen and (max-width: 767px) {
-    body {
-        overflow-x: hidden;
+    .main-header {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        order: 1;
+        flex: 1;
     }
 
     .nav-header {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .search-bar {
-        flex-direction: column;
-        align-items: 80%; /* cho các input/select rộng 100% */
+        order: 3;
         width: 100%;
+        justify-content: space-between;
+        margin-top: 10px;
+        gap: 10px;
     }
 
-    .search-bar select,
-    .search-bar input,
-    .search-bar .search-icon {
-        width: 100%;  /* full width khi sidebar mở */
-        border-radius: 8px !important;
-        border: 1px solid #ccc;
-        height: 40px;
+    .nav-links {
+        gap: 10px;
+        flex-direction: column;
     }
 
-    .sidebar-open .content-container {
-        margin-left: 175px;
-        width: calc(100% - 175px);
+    .btn-login-signup {
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .btn-login, 
+    .btn-signup {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .user-info {
+        order: 2;
+        padding: 4px 8px;
+    }
+
+    #user_avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .Hello-User {
+        display: none;
+    }
+
+    .dropdown-menu {
+        min-width: 160px;
+        right: -10px;
     }
 
     .side-nav {
-        position: absolute;
-        top: 5px;
-        left: 0;
-        height: 0;
-        flex-direction: column;
-        background-color: #9BBEB0;
-        border-top-left-radius: 12px;
-        border-bottom-left-radius: 12px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
         width: 170px;
     }
 
@@ -753,56 +636,61 @@
         font-size: 14px;
     }
 
-    .banner-content h2{
-        font-size: 20px;
-    }
-
     .sub-menu a {
         font-size: 10px;
     }
 
-    .nav-links {
-        gap: 12px;
-        align-items: center;
+    .search-bar {
         flex-direction: column;
+        align-items: 80%;
+        width: 100%;
     }
 
-    .btn-login-signup {
-        gap: 12px;
-        flex-direction: column;
+    .search-bar select,
+    .search-bar input,
+    .search-bar .search-icon {
+        width: 100%;
+        border-radius: 8px !important;
+        border: 1px solid #ccc;
+        height: 40px;
     }
-    
+
+    .sidebar-open .content-container {
+        margin-left: 175px;
+        width: calc(100% - 175px);
+    }
+
     .footer {
         flex-direction: column;
         gap: 20px;
-        padding-left: 20px; /* Đẩy cả khối sang phải */
+        padding-left: 20px;
     }
 
     .footer-nav {
         width: 100%;
         justify-content: flex-start;
         align-items: flex-start;
-        gap: 20px;                   /* Khoảng cách nhỏ hơn so với desktop */ 
+        gap: 20px;
         flex-direction: column;
     }
 
     .footer-navbar {
-        flex-direction: row;       /* Chuyển footer-navbar thành hàng ngang */
-        gap: 15px;                 /* Khoảng cách giữa các link */
+        flex-direction: row;
+        gap: 15px;
     }
 
     .footer-navbar a {
-        margin: 0 8px;             /* Giảm margin để các link nằm sát hơn */
-        white-space: nowrap;       /* Không cho link xuống dòng */
+        margin: 0 8px;
+        white-space: nowrap;
     }
 
     .footer-logo img {
-        margin-left: 0;            /* Loại bỏ margin trái */
-        width: 80px;               /* Thu nhỏ logo cho vừa màn hình nhỏ */
+        margin-left: 0;
+        width: 80px;
     }
 
     .info-school {
-        justify-content: flex-start; /* Căn trái cho phần info-school */
+        justify-content: flex-start;
         gap: 15px;
         width: 100%;
     }
@@ -814,5 +702,23 @@
 
     .contact-info a {
         margin-right: 10px;
+    }
+}
+
+/* ===================== Mobile S (320px - 479px) ===================== */
+@media screen and (max-width: 479px) {
+    /* Thêm các style cụ thể cho màn hình rất nhỏ nếu cần */
+    .main-header {
+        padding: 8px 10px;
+    }
+    
+    .nav-header {
+        gap: 5px;
+    }
+    
+    .btn-login, 
+    .btn-signup {
+        padding: 4px 8px;
+        font-size: 12px;
     }
 }
