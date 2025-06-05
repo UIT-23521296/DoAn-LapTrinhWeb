@@ -121,6 +121,78 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(err => {
             console.error('Lỗi khi lấy thông tin người dùng:', err);
             showContentAfterDelay(); // Vẫn hiển thị nội dung sau 1s dù có lỗi
+    });
+    
+    const input = document.getElementById('search-input');
+    const suggestions = document.getElementById('search-suggestions');
+    const typeSelect = document.getElementById('search-type');
+    let timeoutId;
+
+    if (!input || !suggestions || !typeSelect) {
+        console.warn('Search elements not found in DOM.');
+        return; // Không chạy tiếp nếu thiếu element
+    }
+
+    const fetchSuggestions = (query = '') => {
+        const type = typeSelect.value;
+        if (type !== 'blog') {
+        suggestions.style.display = 'none';
+        return;
+        }
+
+        // Gọi API tùy query hoặc default
+        const url = query
+        ? `http://localhost:5000/api/blogs/search?q=${encodeURIComponent(query)}`
+        : `http://localhost:5000/api/blogs/search?default=true`;
+
+        fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            suggestions.innerHTML = '';
+            if (!data.length) {
+            suggestions.style.display = 'none';
+            return;
+            }
+
+            data.forEach(blog => {
+            const li = document.createElement('li');
+            li.textContent = blog.title;
+            li.addEventListener('click', () => {
+                window.location.href = `/blog-read?post=${blog._id}`;
+            });
+            suggestions.appendChild(li);
+            });
+
+            suggestions.style.display = 'block';
+        })
+        .catch(err => {
+            console.error('Lỗi lấy blog:', err);
+            suggestions.style.display = 'none';
         });
+    };
+
+    input.addEventListener('focus', () => {
+        if (typeSelect.value === 'blog') {
+        fetchSuggestions();
+        }
+    });
+
+    input.addEventListener('input', () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+        fetchSuggestions(input.value.trim());
+        }, 300);
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-bar')) {
+        suggestions.style.display = 'none';
+        }
+    });
+
+    // Ẩn suggestion khi chọn loại khác
+    typeSelect.addEventListener('change', () => {
+        suggestions.style.display = 'none';
+    });
 });
 
