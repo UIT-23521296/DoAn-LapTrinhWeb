@@ -21,8 +21,13 @@ function toggleMenu() {
     // Toggle hiển thị overlay
     overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
     
-    // Ngăn scroll khi sidebar mở
+    // Ngăn scroll khi sidebar mở dưới 780px
+    if (window.innerWidth <= 780) {
     document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+} else {
+    document.body.style.overflow = '';
+}
+
 }
 
 function toggleSubmenu(element) {
