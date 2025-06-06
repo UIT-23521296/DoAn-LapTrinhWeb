@@ -134,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) throw new Error('Duyệt tài liệu thất bại');
       showToast('Duyệt tài liệu thành công!', 'success');
 
-      // Update trạng thái ở bảng
       const row = document.querySelector(`button.approve-btn[data-id="${id}"][data-type="${type}"]`).closest('tr');
       const badge = row.querySelector('.status-badge');
       badge.textContent = 'Đã duyệt';
@@ -145,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       showToast(err.message, 'error');
     }
+          loadItems();
   }
 
   async function rejectItem(id, type) {
@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       showToast('Lỗi: ' + err.message, 'error');
     }
+          loadItems();
   }
 
   function addEventListeners() {
@@ -223,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (subject === 'blog' || subject === 'document') {
         filtered = filtered.filter(item => item.type === subject);
       } else {
-        filtered = filtered.filter(item => (item.subject || '').toLowerCase() === subject);
+        filtered = filtered.filter(item =>  item.type === subject);
       }
     }
 
@@ -318,12 +319,21 @@ function showConfirmModal(message, onConfirm) {
   const bsModal = new bootstrap.Modal(modalEl);
   bsModal.show();
 
-  // Gỡ sự kiện cũ và gán mới
-  const newConfirmBtn = confirmBtn.cloneNode(true);
-  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+  confirmBtn.onclick = null;
 
-  newConfirmBtn.addEventListener("click", () => {
-    bsModal.hide();
-    onConfirm();
-  });
+  confirmBtn.onclick = async () => {
+    try {
+      await onConfirm(); // chờ hàm onConfirm chạy xong (gọi API xóa blog)
+      bsModal.hide();
+
+      setTimeout(() => {
+        document.body.classList.remove('modal-open');
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
+      }, 300);
+    } catch (err) {
+      console.error('Lỗi khi xác nhận:', err);
+      // Bạn có thể showToast ở đây nếu muốn
+    }
+  };
 }
