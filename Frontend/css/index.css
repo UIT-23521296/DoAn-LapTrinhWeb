@@ -214,3 +214,60 @@
 .blog-item h6 {
     color: silver;
 }
+
+/* ===================== Tablet (768px - 1023px) ===================== */
+@media screen and (max-width: 1023px) {
+    .blog-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+        align-items: stretch;
+    }
+    .sidebar-open .blog-list{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+/* ===================== Mobile L (480px - 767px) ===================== */
+@media screen and (max-width: 767px) {
+    .blog-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+        align-items: stretch;
+    }
+    .sidebar-open .blog-list{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .blog h1 {
+        font-size: 24px;
+    }
+
+    .latest-blog, .list-blog,
+    .most-viewed-blog {
+        background-color: #fdfdfd;
+        padding: 15px 10px;
+        border-radius: 16px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+    .latest-blog h2, .list-blog h2,
+    .most-viewed-blog h2 {
+        font-size: 18px;
+    }
+    .blog-item p {
+        font-size: 10px;
+        color: #777;
+    }
+    .blog-item h3 {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .blog-item {
+        padding: 10px;
+    }
+    
+}
