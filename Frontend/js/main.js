@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         dropdownMenu.innerHTML = `
                             <a href="/adminTQ">Quản lý tổng quan</a>
                             <a href="/adminTL">Quản lý tài liệu/blog</a>
-                            <a href="/adminND">Quản lý nội dung</a>
                             <a href="#" id="logout-btn">Đăng xuất</a>
                         `;
                     }
