@@ -324,3 +324,9 @@
     background-color: #dc3545;
     color: white;
 }
+
+input[readonly] {
+    background-color: #f0f0f0;
+    color: #555;
+    cursor: not-allowed;
+}
