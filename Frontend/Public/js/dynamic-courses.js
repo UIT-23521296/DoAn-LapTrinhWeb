@@ -107,3 +107,38 @@ document.addEventListener('DOMContentLoaded', () => {
       courseListUl.innerHTML = `<li><div class="alert alert-danger">Lỗi tải danh sách môn học: ${err.message}</div></li>`;
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('https://backend-yl09.onrender.com/api/documents/latest')
+    .then(res => res.json())
+    .then(data => {
+      const grid = document.querySelector('.section:nth-of-type(1) .document-grid');
+      grid.innerHTML = data.map(doc => `
+        <div class="document-item">
+          <img src="\${doc.image}" alt="doc">
+          <p>\${doc.title}</p>
+        </div>
+      `).join('');
+    });
+
+  fetch('https://backend-yl09.onrender.com/api/documents/popular')
+    .then(res => res.json())
+    .then(data => {
+      const grid = document.querySelector('.section:nth-of-type(2) .document-grid');
+      grid.innerHTML = data.map(doc => `
+        <div class="document-item">
+          <img src="\${doc.image}" alt="doc">
+          <p>\${doc.title}</p>
+        </div>
+      `).join('');
+    });
+
+  fetch('https://backend-yl09.onrender.com/api/documents/all')
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById('course-list');
+      list.innerHTML = data.map(doc => `
+        <li><a href="/document-read?doc=\${doc.slug}">\${doc.title}</a></li>
+      `).join('');
+    });
+});

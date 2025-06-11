@@ -126,3 +126,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const renderBlogList = (selector, api) => {
+    fetch(`https://backend-yl09.onrender.com${api}`)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.querySelector(selector);
+        container.innerHTML = data.map(item => `
+          <a href="/blog-read?post=${item.slug}" class="blog-item">
+            <img src="${item.image}" class="blog-image" alt="">
+            <h3>${item.title}</h3>
+            <h6>${item.date}</h6>
+            <p>${item.description}</p>
+          </a>
+        `).join('');
+      });
+  };
+
+  renderBlogList('.latest-blog .blog-list', '/api/blogs/latest');
+  renderBlogList('.most-viewed-blog .blog-list', '/api/blogs/popular');
+  renderBlogList('.list-blog .blog-list', '/api/blogs/all');
+});
