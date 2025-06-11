@@ -236,32 +236,3 @@ typeSelect.addEventListener('change', () => {
 });
 });
 
-// SPA-like navigation (History API + fetch)
-document.addEventListener('DOMContentLoaded', () => {
-  document.body.addEventListener('click', function(e) {
-    const link = e.target.closest('a');
-    if (link && link.href.startsWith(window.location.origin) && !link.href.includes('#')) {
-      e.preventDefault();
-      const url = link.getAttribute('href');
-
-      fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          const newContent = doc.querySelector('.main-content');
-
-          if (newContent) {
-            document.querySelector('.main-content').innerHTML = newContent.innerHTML;
-            window.history.pushState({}, '', url);
-          }
-        })
-        .catch(err => console.error('Navigation error:', err));
-    }
-  });
-
-  // Handle back/forward buttons
-  window.addEventListener('popstate', () => {
-    location.reload();
-  });
-});
