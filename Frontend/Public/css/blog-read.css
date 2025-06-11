@@ -1,0 +1,118 @@
+/* Blog section */
+/* Blog */
+.blog-post-wrapper {
+    background-color: lightgray; 
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.blog-post-image {
+    display: block;
+    width: 600px; 
+    height: 400px;
+    border-radius: 10px;
+    margin: 0 auto 20px 0;
+}
+
+.blog-post h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+
+.post-date {
+    color: gray;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+
+.blog-post p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Comment */
+.comment-section {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.comment-section h2 {
+    margin-left: 40px;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.comment-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.comment-form button {
+    align-self: flex-end;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background: #0056b3;
+}
+
+.comments-list {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.comment-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.comment-item .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.comment-content {
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    width: 100%;
+}
+
+.comment-content strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.comment-content p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}

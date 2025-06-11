@@ -9,38 +9,66 @@ require('dotenv').config();
 const app = express();
 
 // CORS: Cho phép frontend truy cập với session
+const allowedOrigins = [
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'http://127.0.0.1:5000',
+  'https://nhom11nt208p24.vercel.app/',
+  'https://do-an-khaki.vercel.app/',
+  'https://backend-yl09.onrender.com',
+  /\.vercel\.app$/  // Regex để cho phép tất cả domain phụ từ vercel
+];
+app.set('trust proxy', 1); // Rất quan trọng khi dùng secure cookie trên Render
+
 app.use(cors({
-    origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'http://127.0.0.1:5000'],
-    credentials: true, // Cần có để gửi cookie qua frontend
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+
 app.use(express.json({ limit: '10mb' }));
+
+
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Kết nối MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB Atlas connected'))
-.catch(err => console.error('Error connecting to MongoDB:', err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error("MongoDB connection error:", err));
+
 
 // Session middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'default_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60,
-        httpOnly: true,
-        secure: false, // true nếu dùng HTTPS
-    },
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI,
-        collectionName: 'sessions'
-    })
+  name: 'sid',
+  secret: process.env.SESSION_SECRET || 'default_secret_key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: true,          // ✅ phải true vì dùng HTTPS (Render)
+    sameSite: 'none',      // ✅ bắt buộc để gửi cookie cross-origin (Vercel)
+    maxAge: 1000 * 60 * 60 // 1 giờ
+  },
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: 'sessions'
+  })
 }));
 
+app.get('/api/debug-session', (req, res) => {
+  res.json({
+    session: req.session,
+    cookies: req.cookies
+  });
+});
 // Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, '../Frontend')));
 app.use('/json', express.static(path.join(__dirname, 'json')));
@@ -63,8 +91,10 @@ const documentRoutes = require('./routes/reviewDocumentRoutes');
 const reviewDocRoutes = require('./routes/documentRoutes');
 
 
-
+app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api', proxyRoutes);
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -143,10 +173,9 @@ app.get('/upload', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/upload1.html'));
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/blogs', blogRoutes);
+
 app.use('/api/admin', adminRoutes);
-app.use('/api', proxyRoutes);
+app.use('/api/blogs', blogRoutes);
 app.use('/api/documents', documentRoutes);
 
 // Route trả thông tin người dùng
@@ -170,3 +199,4 @@ app.get('/api/user-info', authMiddleware, (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

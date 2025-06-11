@@ -1,0 +1,544 @@
+/* Step */
+.steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    padding-top: 30px;
+}
+
+/* Mỗi bước */
+.step {
+    flex: 1;
+    max-width: 150px;
+    text-align: center;
+    font-weight: bold;
+    color: #999;
+    padding: 10px 0;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa vòng tròn và chữ */
+}
+
+/* Vòng tròn */
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Tạo vòng tròn */
+    background-color: #ccc; /* Màu nền vòng tròn */
+    color: white; /* Màu chữ */
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px; /* Cách khoảng giữa vòng tròn và văn bản */
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/* Tạo thanh dưới */
+.step::after {
+    content: '';
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    bottom: 0;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 50px;
+}
+
+/* Nếu active thì đổi màu thanh */
+.step.active::after {
+    background-color: #009688;
+}
+
+.step.active .circle {
+    background-color: #009688; /* Đổi màu vòng tròn khi active */
+}
+
+.step.active {
+    color: #000;
+}
+
+/* Ẩn tất cả các trang */
+.page {
+    display: none;
+}
+  
+/* Chỉ trang active mới hiển thị */
+.page.active {
+    display: block;
+}
+  
+/* upload */
+#upload.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Chiều cao 50% của cửa sổ */
+}
+  
+  /* Khung Drag and Drop */
+.upload-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ddd;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    width: 90%;
+    max-width: 1000px;
+    max-height: 80vh; /* Giới hạn chiều cao tối đa */
+}
+  
+  /* Icon trong phần upload */
+.upload-content i.icon {
+    font-size: 50px;
+    display: block;
+    margin-bottom: 20px;
+}
+  
+  /* Nội dung text trong upload */
+.upload-content p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+  
+.upload-content span {
+    display: block;
+    margin: 10px 0;
+    color: #777;
+}
+  
+/* Style cho button Browse */
+#browse-button {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+#browse-button:hover {
+    background-color: #00796b;
+}
+
+.upload-box span{
+    padding-bottom: 10px;
+}
+
+#after-upload {
+    display: flex;
+    width: 70%;
+    justify-content: space-between; /* căn trái - phải */
+    align-items: center;
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+  
+.after-upload a {
+    display: block; /* Làm cho link file và nút Next nằm trên các dòng riêng biệt */
+    margin-bottom: 10px; /* Khoảng cách giữa file name và nút Next */
+    text-decoration: none; /* Bỏ gạch chân */
+    color: #000; 
+}
+
+.after-upload a:visited {
+    text-decoration: none; /* Bỏ gạch chân khi đã nhấp */
+    color: #000;            /* Giữ nguyên màu */
+}
+
+.file-info a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+
+.file-info a:visited {
+    color: #000;
+}
+  
+#next-btn {
+    background-color: #009688;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+  
+#next-btn:hover {
+    background-color: #00796b;
+}
+
+/* detail */
+#detail.active {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+}
+.detail-box i.icon{
+    padding-right: 15px;
+}
+
+.detail-search-bar p{
+    display: flex;
+}
+
+.detail-search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.detail-search-bar p,
+.detail-search-bar input {
+    font-size: 16px;
+    height: 45px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.detail-search-bar p {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    align-items: center;
+    text-align: center;
+}
+
+.detail-search-bar input {
+    border-left: none;
+    width: 500px;
+    border-right: none;
+}
+
+.line {
+    height: 1px;
+    background-color: black;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 15px 20px;
+    max-width: 600px;
+    padding: 30px;
+    margin: auto;
+}
+
+.detail-label{
+    display: contents;
+}
+
+.detail-title-input, 
+.detail-select,
+textarea {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+}
+
+.button-row {
+    grid-column: 1 / -1;
+
+    /* Dùng Flexbox để đẩy hai nút ra hai mép trái – phải */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* căn giữa theo chiều dọc, nếu cần */
+    
+    margin-top: 10px;
+}
+
+.next-button {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+    background-color: #00796b;
+}
+
+.back-button {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #00796b;
+}
+
+/* Done */
+#done.active {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+}
+
+.done-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+    text-align: center;
+}
+
+.icon-done i {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 200px;  
+    color: #1877f2;
+    transition: all 0.3s ease;
+}
+
+.icon-done i.icon:hover {
+    color: #1f87dc;
+    transform: scale(1.2);
+}
+
+.thank p {
+    font-size: 30px;
+    color: #333; 
+    margin: 10px 0;
+}
+
+.done-btn {
+    width: 100%;                /* Chiếm hết chiều ngang của .done-box */
+    display: flex;              /* Kích hoạt flexbox */
+    justify-content: flex-end;  /* Đẩy nội dung (nút) về bên phải */
+    margin-top: 20px;
+    padding-top: 50px;
+}
+  
+.done-button {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.done-button:hover {
+    background-color: #00796b;
+}
+  
+.done-button:focus {
+    outline: none;
+}
+
+/* Responsive styles for Steps */
+@media (max-width: 780px) {
+    .steps {
+        gap: 20px;
+        padding-top: 20px;
+    }
+    
+    .step {
+        max-width: 120px;
+        font-size: 14px;
+        padding: 8px 0;
+    }
+    
+    .circle {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+        margin-right: 5px;
+    }
+    
+    .step::after {
+        height: 6px;
+    }
+    
+    /* Upload section */
+    .upload-box {
+        padding: 30px;
+    }
+    
+    .upload-content i.icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+    }
+    
+    .upload-content p {
+        font-size: 16px;
+    }
+    
+    #browse-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    /* Detail section */
+    .detail-search-bar input {
+        width: 400px;
+    }
+    
+    .form-container {
+        grid-template-columns: 80px 1fr;
+        gap: 12px 15px;
+        padding: 20px;
+    }
+    
+    /* Done section */
+    .icon-done i {
+        font-size: 150px;
+    }
+    
+    .thank p {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .steps {
+        gap: 10px;
+        padding-top: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .step {
+        max-width: 100px;
+        font-size: 12px;
+        padding: 6px 0;
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .circle {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+        margin-right: 0;
+        margin-bottom: 3px;
+    }
+    
+    .step::after {
+        height: 4px;
+        left: 10%;
+        right: 10%;
+    }
+    
+    /* Upload section */
+    .upload-box {
+        padding: 20px 15px;
+        width: 95%;
+    }
+    
+    .upload-content i.icon {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+    
+    .upload-content p {
+        font-size: 14px;
+    }
+    
+    .upload-content span {
+        font-size: 12px;
+    }
+    
+    #browse-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    #after-upload {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+    
+    /* Detail section */
+    .detail-search-bar {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .detail-search-bar p,
+    .detail-search-bar input {
+        width: 100%;
+        border-radius: 0;
+        border: 1px solid #ccc;
+    }
+    
+    .detail-search-bar p {
+        border-radius: 8px 8px 0 0;
+        justify-content: center;
+    }
+    
+    .detail-search-bar input {
+        border-radius: 0 0 8px 8px;
+        border-top: none;
+    }
+    
+    .form-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 15px;
+        width: 100%;
+    }
+    
+    .detail-label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .button-row {
+        grid-column: 1;
+        text-align: center;
+    }
+    
+    /* Done section */
+    .icon-done i {
+        font-size: 100px;
+        padding: 15px 0;
+    }
+    
+    .thank p {
+        font-size: 20px;
+    }
+    
+    .done-btn {
+        justify-content: center;
+    }
+}

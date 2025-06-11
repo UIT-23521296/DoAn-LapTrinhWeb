@@ -86,14 +86,22 @@ exports.login = async(req, res) => {
 
 //Đăng xuất
 exports.logout = (req, res) => {
-    console.log("toi da o day");
     req.session.destroy((err) => {
-        if (err) 
+        if (err) {
+            console.error('Logout error:', err);
             return res.status(500).json({ msg: 'Logout failed' });
-        res.clearCookie('connect.sid');
-        res.redirect('http://localhost:5000/');
-    })
-}
+        }
+
+        res.clearCookie('sid', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none'
+        });
+
+        res.status(200).json({ msg: 'Logged out successfully' });
+    });
+};
+
 
 //Gửi Otp
 const transporter = nodemailer.createTransport({

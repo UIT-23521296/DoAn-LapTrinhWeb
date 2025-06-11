@@ -28,23 +28,6 @@ router.get('/dashboard', authMiddleware, (req, res) => {
 });
 
 // Trả thông tin người dùng
-router.get('/api/user-info', authMiddleware, (req, res) => {
-    console.log("toi da o day")
-    if (req.session.admin) {
-        return res.json({
-            role: 'admin',
-            username: req.session.admin.username,
-            email: req.session.admin.email
-        });
-    } else if (req.session.user) {
-        return res.json({
-            role: 'user',
-            username: req.session.user.username,
-            email: req.session.user.email
-        });
-    } else {
-        return res.status(401).json({ msg: 'Chưa đăng nhập' });
-    }
-});
+
 
 module.exports = router;
