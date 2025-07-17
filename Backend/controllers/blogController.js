@@ -3,6 +3,9 @@ const BlogContent = require('../models/BlogContent');
 const Comment = require('../models/Comment');
 const fs = require('fs');
 const { uploadFileToDrive } = require('../uploads/googleDrive');
+const { containsBadWords } = require('../utils/badWords');
+const { analyzeSentiment } = require('../utils/sentiment');
+const notificationController = require('./notificationController');
 
 // --- Blog ---
 
@@ -34,8 +37,9 @@ exports.getAllBlogs = async (req, res) => {
 
 exports.getBlogById = async (req, res) => {
   try {
-    const { preview } = req.query;
+    const { preview, noView } = req.query;
     const isPreview = preview === 'true';
+    const shouldNotIncrementView = noView === 'true';
     const session = req.session;
 
     let blog;
@@ -53,7 +57,7 @@ exports.getBlogById = async (req, res) => {
 
     if (!blog) return res.status(404).json({ msg: 'Blog not found' });
 
-    if (!isPreview) {
+    if (!isPreview && !shouldNotIncrementView) {
       blog.views += 1;
       await blog.save();
     }
@@ -84,17 +88,22 @@ exports.getMostViewedBlogs = async (req, res) => {
 
 exports.createBlog = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, category, subCategory } = req.body;
     const author = req.session.user?.username ?? req.session.admin?.username;
+    const authorId = req.session.user?.id ?? req.session.admin?.id;
     const path = require('path');
     const fs = require('fs');
     const { uploadFileToDrive } = require('../uploads/googleDrive');
 
     const folderId = '185Efbd-izYwsA4r41TXgVMu_rGoWDXf9';
-    const siteUrl = process.env.SITE_URL || 'http://localhost:3000'; // Dùng để tạo link proxy
+    const siteUrl = process.env.SITE_URL || 'http://localhost:5500'; // Dùng để tạo link proxy
 
-    if (!title || !content) {
-      return res.status(400).json({ msg: 'Title and content are required' });
+    if (!title || !content || !category) {
+      return res.status(400).json({ msg: 'Title, content and category are required' });
+    }
+
+    if (category === 'Chủ đề khác' && !subCategory) {
+      return res.status(400).json({ msg: 'Sub category is required when category is Other' });
     }
 
     if (!req.file) {
@@ -146,8 +155,11 @@ exports.createBlog = async (req, res) => {
     const newBlog = new Blog({
       title,
       author,
+      authorId,
       thumbnailImage,
       views: 0,
+      category,
+      subCategory: category === 'Chủ đề khác' ? subCategory : undefined
     });
     await newBlog.save();
 
@@ -171,10 +183,13 @@ exports.updateBlog = async (req, res) => {
     const { title, content, thumbnailImage, imageUrls } = req.body;
 
     const blog = await Blog.findById(id);
-    if (!blog) return res.status(404).json({ msg: 'Blog not found' });
+    if (!blog) return res.status(404).json({ msg: 'Blog không tồn tại' });
 
-    if (blog.author !== req.session.user.username) {
-      return res.status(403).json({ msg: 'Not authorized to edit this blog' });
+    const isAdmin = req.session.user?.role === 'admin';
+    const isAuthor = blog.author === req.session.user?.username;
+
+    if (!isAdmin && !isAuthor) {
+      return res.status(403).json({ msg: 'Không có quyền chỉnh sửa blog này' });
     }
 
     blog.title = title || blog.title;
@@ -196,11 +211,13 @@ exports.updateBlog = async (req, res) => {
       await newBlogContent.save();
     }
 
-    res.json({ msg: 'Blog updated', blog });
+    res.json({ msg: 'Cập nhật blog thành công', blog });
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    console.error('Lỗi updateBlog:', err);
+    res.status(500).json({ msg: 'Lỗi server' });
   }
 };
+
 
 exports.deleteBlog = async (req, res) => {
   try {
@@ -241,22 +258,94 @@ exports.deleteBlog = async (req, res) => {
 // Tạo comment cho blog
 exports.createComment = async (req, res) => {
   try {
-    const { blogId, username, email, content } = req.body;
+    const { blogId, username, email, content, parentComment } = req.body;
+    const userId = req.session.user?.id ?? req.session.admin?.id;
 
     if (!blogId || !username || !email || !content) {
       return res.status(400).json({ msg: 'All fields are required' });
     }
 
+    if (parentComment) {
+      const parentExists = await Comment.findById(parentComment);
+      if (!parentExists) {
+          return res.status(400).json({ msg: 'Parent comment not found' });
+      }
+    }
+
+    if (containsBadWords(content)) {
+      return res.status(400).json({ 
+        msg: 'Comment chứa từ ngữ không phù hợp',
+        containsBadWords: true
+      });
+    }
+
+    const scores = await analyzeSentiment(content);
+    const V   = scores['Very Negative'] || 0;
+    const N   = scores['Negative'] || 0;
+    const Neu = scores['Neutral'] || 0;
+
+    const aggressive = (V + N) - Neu;
+    const HARD_BLOCK = 0.50;   // Ngưỡng chặn
+
+    if (aggressive >= HARD_BLOCK) {
+      return res.status(400).json({
+        msg: 'Comment bị đánh giá quá tiêu cực – vui lòng điều chỉnh!',
+        sentiment: { V, N, Neu, aggressive }
+      });
+    }
+
     const newComment = new Comment({
-      blog: blogId,
-      username,
-      email,
-      content,
+        blog: blogId,
+        username,
+        email,
+        userId,
+        content,
+        parentComment: parentComment || null
     });
 
     await newComment.save();
+
+    const blog = await Blog.findById(blogId);
+    if (!blog) {
+      return res.status(404).json({ msg: 'Blog not found' });
+    }
+
+    // Tạo thông báo
+    if (parentComment) {
+      // Nếu là reply, gửi thông báo cho người viết comment gốc
+      const parentCommentDoc = await Comment.findById(parentComment);
+      if (parentCommentDoc && parentCommentDoc.userId.toString() !== userId.toString()) {
+        await notificationController.createNotification(
+          parentCommentDoc.userId, // ID của người viết comment gốc
+          'REPLY',
+          {
+            message: `${username} đã phản hồi bình luận của bạn`,
+            postId: blogId,
+            commentId: newComment._id,
+            replyId: newComment._id
+          },
+          blog.title,
+          'BLOG'
+        );
+      }
+    } else if (blog.authorId.toString() !== userId.toString()) {
+      // Nếu là comment mới, gửi thông báo cho tác giả blog
+      await notificationController.createNotification(
+        blog.authorId, // ID của tác giả blog
+        'COMMENT',
+        {
+          message: `${username} đã bình luận vào bài viết của bạn`,
+          postId: blogId,
+          commentId: newComment._id
+        },
+        blog.title,
+        'BLOG'
+      );
+    }
+
     res.status(201).json({ msg: 'Comment added', comment: newComment });
   } catch (err) {
+    console.error('Error creating comment:', err);
     res.status(500).json({ msg: 'Server error' });
   }
 };
@@ -314,5 +403,125 @@ exports.searchBlogs = async (req, res) => {
   } catch (err) {
     console.error('Lỗi tìm kiếm blog:', err);
     res.status(500).json({ message: 'Lỗi server' });
+  }
+};
+
+exports.createBlogAdmin = async (req, res) => {
+  try {
+    const { title, content, category, subCategory } = req.body;
+    const authorId = req.session.user?.id ?? req.session.admin?.id;
+    const path = require('path');
+    const fs = require('fs');
+    const { uploadFileToDrive } = require('../uploads/googleDrive');
+
+    const folderId = '185Efbd-izYwsA4r41TXgVMu_rGoWDXf9';
+    const siteUrl = process.env.SITE_URL || 'http://localhost:5500'; // Dùng để tạo link proxy
+
+    if (!title || !content || !category) {
+      return res.status(400).json({ msg: 'Title, content and category are required' });
+    }
+
+    if (category === 'Chủ đề khác' && !subCategory) {
+      return res.status(400).json({ msg: 'Sub category is required when category is Other' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ msg: 'Thumbnail image is required' });
+    }
+
+    // === Xử lý ảnh thumbnail ===
+    const tempPath = path.join(__dirname, '..', 'uploads', 'Img', `${Date.now()}-${req.file.originalname}`);
+    fs.writeFileSync(tempPath, req.file.buffer);
+    const thumbnailImage = await uploadFileToDrive(tempPath, req.file.originalname, folderId);
+    fs.unlinkSync(tempPath);
+
+    // === Xử lý ảnh trong content ===
+    async function uploadBase64Image(base64String, fileNamePrefix = 'img') {
+      const matches = base64String.match(/^data:(image\/\w+);base64,(.+)$/);
+      if (!matches) return null;
+
+      const mimeType = matches[1];
+      const base64Data = matches[2];
+      const extension = mimeType.split('/')[1];
+      const fileName = `${fileNamePrefix}-${Date.now()}.${extension}`;
+      const filePath = path.join(__dirname, '..', 'uploads', 'Img', fileName);
+
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
+      fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
+
+      const driveUrl = await uploadFileToDrive(filePath, fileName, folderId);
+      fs.unlinkSync(filePath);
+
+      return driveUrl;
+    }
+
+    let newContent = content;
+    const imageUrls = [];
+    const imgBase64Regex = /<img[^>]+src="(data:image\/[^">]+)"/g;
+    const base64Images = [...content.matchAll(imgBase64Regex)];
+
+    for (const match of base64Images) {
+      const base64Image = match[1];
+      const driveUrl = await uploadBase64Image(base64Image);
+      if (driveUrl) {
+        // GIỮ LẠI link Google Drive gốc
+        newContent = newContent.replace(base64Image, driveUrl);
+        imageUrls.push(driveUrl);
+      }
+    }
+
+    // === Lưu blog ===
+    const newBlog = new Blog({
+      title,
+      author: 'Admin',
+      authorId,
+      thumbnailImage,
+      views: 0,
+      category,
+      subCategory: category === 'Chủ đề khác' ? subCategory : undefined,
+      approved: true
+    });
+    await newBlog.save();
+
+    const newBlogContent = new BlogContent({
+      blog: newBlog._id,
+      content: newContent,
+      imageUrls,
+    });
+    await newBlogContent.save();
+
+    res.status(201).json({ msg: 'Blog created', blog: newBlog });
+  } catch (err) {
+    console.error('createBlog error:', err.message || err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+// [NEW] Lấy blog được xem nhiều nhất theo category
+exports.getTopBlogsByCategory = async (req, res) => {
+  try {
+    const { category } = req.query;
+    if (!category) return res.status(400).json({ msg: 'Thiếu category' });
+
+    const blogs = await Blog.find({
+      approved: true,
+      category: { $regex: category, $options: 'i' }
+    }).sort({ views: -1 }).limit(5);
+
+    res.json(blogs);
+  } catch (err) {
+    console.error('Lỗi getTopBlogsByCategory:', err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+// [NEW] Lấy danh sách tất cả category
+exports.getAllBlogCategories = async (req, res) => {
+  try {
+    const categories = await Blog.distinct('category');
+    res.json(categories);
+  } catch (err) {
+    console.error('Lỗi getAllBlogCategories:', err);
+    res.status(500).json({ msg: 'Server error' });
   }
 };

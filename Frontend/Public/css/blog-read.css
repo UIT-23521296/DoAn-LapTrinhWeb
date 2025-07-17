@@ -30,6 +30,32 @@
     margin-left: 40px;
 }
 
+.post-author {
+    color: gray;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+
+.post-category {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.post-category i {
+    color: #a5ded3;
+}
+
+.post-category .category-label {
+    font-weight: 500;
+    color: #356859;
+}
+
 .blog-post p {
     line-height: 1.6;
     margin-bottom: 15px;
@@ -98,7 +124,7 @@
 }
 
 .comment-content {
-    background: #fff;
+    background: #f0f0f0;
     padding: 12px;
     border-radius: 10px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
@@ -115,4 +141,76 @@
     margin: 0;
     font-size: 14px;
     line-height: 1.4;
+}
+
+.replies-container {
+    margin-left: 65px; /* 50px avatar + 15px margin */
+    margin-top: 10px;
+}
+
+.reply-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.reply-item .comment-content {
+    background: #f8f8f8;
+}
+
+.reply-button {
+    background: none;
+    border: none;
+    color: #007bff; /* Màu xanh của link */
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+    margin-top: 5px;
+    text-decoration: none; /* Bỏ gạch chân mặc định */
+    display: inline-block; /* Để có thể thêm padding nếu cần */
+}
+
+.reply-button:hover {
+    color: #0056b3; /* Màu xanh đậm hơn khi hover */
+    text-decoration: underline; /* Thêm gạch chân khi hover */
+}
+
+.reply-form {
+    margin-left: 65px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.reply-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.reply-form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+    outline: none;
+}
+
+.reply-form button[type="submit"] {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.reply-form button[type="submit"]:hover {
+    background: #0056b3;
+}
+
+.reply-form button[type="submit"]:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }

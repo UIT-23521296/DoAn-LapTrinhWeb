@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- SEO Meta -->
+  <meta name="description" content="Thư viện tài liệu học tập, đề thi, bài giảng cho sinh viên NT208P24.">
+  <meta name="keywords" content="tài liệu học tập, đề thi, bài giảng, NT208P24, đại học">
+  <meta name="author" content="Nhóm 11 NT208P24">
+  <meta property="og:title" content="Thư viện tài liệu - Nhóm 11">
+  <meta property="og:description" content="Nơi chia sẻ đề thi, bài tập, bài giảng miễn phí.">
+  <meta property="og:url" content="https://nhom11nt208p24.vercel.app">
+  <meta property="og:type" content="website">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WeShare</title>
-  <link rel="icon" href="../assets/logo-web.png" />
+  <link rel="icon" href="/assets/logo-web.png" />
 
   <!-- Existing global CSS -->
-  <link rel="stylesheet" href="../css/main.css" />
-  <link rel="stylesheet" href="../css/standard.css" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/standard.css" />
+  <link rel="stylesheet" href="/css/notification.css">
 
   <!-- New CSS for dynamic course list -->
-  <link rel="stylesheet" href="../css/dynamic-courses.css" />
+  <link rel="stylesheet" href="/css/dynamic-courses.css" />
 
   <!-- Font Awesome (for icons) -->
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 </head>
+
 <body>
   <!-- Loading Screen -->
   <div class="loading-container" id="loading">
-    <img src="../assets/logo-web-full.png" alt="Loading..." class="loading-image" />
+    <img src="/assets/logo-web-full.png" alt="Loading..." class="loading-image" />
   </div>
 
   <div class="main-content" id="main" style="display: none;">
     <header class="main-header">
       <div class="logo">
         <a href="/">
-          <img src="../assets/logo-web-full.png" alt="WeShare" />
+          <img src="/assets/logo-web-full.png" alt="WeShare" />
         </a>
       </div>
 
@@ -39,6 +48,17 @@
           <a href="/blog">Blog</a>
           <a href="/document">Tài liệu</a>
         </nav>
+
+        <div class="notification-bell" id="notification-bell" style="display: none;">
+          <i class="fas fa-bell"></i>
+          <span class="notification-count">0</span>
+          <div class="notification-dropdown">
+            <div class="notification-header"></div>
+            <div class="notification-list">
+              <!-- Danh sách thông báo sẽ được thêm vào đây -->
+            </div>
+          </div>
+        </div>
 
         <div class="btn-login-signup" id="auth-buttons">
           <a href="/login">
@@ -51,7 +71,7 @@
 
         <div class="user-info" id="user-info" style="display: none;">
           <span class="Hello-User">Xin chào, <strong id="username"></strong>!</span>
-          <img src="../assets/default_avaatar.jpg" id="user_avatar" alt="Avatar" />
+          <img src="/assets/default_avaatar.jpg" id="user_avatar" alt="Avatar" />
           <div class="dropdown-menu">
             <a href="/userql">Quản lý tài liệu/blog</a>
             <a href="/usertk">Quản lý tài khoản</a>
@@ -75,74 +95,6 @@
           </a>
         </div>
 
-        <!-- Môn chuyên ngành -->
-        <div class="menu-item">
-          <div class="menu-item-title" onclick="toggleSubmenu(this)">
-            Môn chuyên ngành <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="sub-menu">
-            <a href="#">NT532 - Công nghệ Internet of Things hiện đại</a>
-            <a href="#">NT533 - Hệ tính toán phân bố</a>
-            <a href="#">NT536 - Công nghệ truyền thông đa phương tiện</a>
-            <a href="#">NT538 - Giải thuật xử lý song song và phân bố</a>
-            <a href="#">NT541 - Công nghệ mạng khả lập trình</a>
-            <a href="#">NT402 - Công nghệ mạng viễn thông</a>
-            <a href="#">NT531 - Đánh giá hiệu năng hệ thống mạng máy tính</a>
-          </div>
-        </div>
-
-        <!-- Môn cơ sở ngành -->
-        <div class="menu-item">
-          <div class="menu-item-title" onclick="toggleSubmenu(this)">
-            Môn cơ sở ngành <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="sub-menu">
-            <a href="#">IT004 - Cơ sở dữ liệu</a>
-            <a href="#">IT005 - Nhập môn mạng máy tính</a>
-            <a href="#">IT006 - Kiến trúc máy tính</a>
-            <a href="#">IT007 - Hệ điều hành</a>
-            <a href="#">IT002 - Lập trình hướng đối tượng</a>
-            <a href="#">IT003 - Cấu trúc dữ liệu và giải thuật</a>
-            <a href="#">NT101 - An toàn mạng máy tính</a>
-            <a href="#">NT105 - Truyền dữ liệu</a>
-            <a href="#">NT106 - Lập trình mạng căn bản</a>
-            <a href="#">NT113 - Thiết kế mạng</a>
-            <a href="#">NT118 - Phát triển ứng dụng trên thiết bị di động</a>
-            <a href="#">NT131 - Hệ thống nhúng mạng không dây</a>
-            <a href="#">NT132 - Quản trị mạng và hệ thống</a>
-          </div>
-        </div>
-
-        <!-- Môn học đại cương -->
-        <div class="menu-item">
-          <div class="menu-item-title" onclick="toggleSubmenu(this)">
-            Môn học đại cương <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="sub-menu">
-            <a href="#">IT001 - Nhập môn lập trình</a>
-            <a href="#">MA003 - Đại số tuyến tính</a>
-            <a href="#">MA004 - Cấu trúc rời rạc</a>
-            <a href="#">MA005 - Xác suất thống kê</a>
-            <a href="#">MA006 - Giải tích</a>
-            <a href="#">PH002 - Nhập môn mạch số</a>
-          </div>
-        </div>
-
-        <!-- Môn học CT & XH (SS) -->
-        <div class="menu-item">
-          <div class="menu-item-title" onclick="toggleSubmenu(this)">
-            Môn học CT & XH (SS) <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="sub-menu">
-            <a href="#">SS003 - Tư tưởng Hồ Chí Minh</a>
-            <a href="#">SS006 - Pháp luật đại cương</a>
-            <a href="#">SS007 - Triết học Mác - Lênin</a>
-            <a href="#">SS008 - Kinh tế chính trị Mác - Lênin</a>
-            <a href="#">SS009 - Chủ nghĩa xã hội khoa học</a>
-            <a href="#">SS010 - Lịch sử Đảng Cộng sản Việt Nam</a>
-          </div>
-        </div>
-
         <!-- Blog -->
         <div class="menu-item">
           <a href="#">
@@ -151,66 +103,44 @@
         </div>
       </nav>
     </div>
-    
-    <div class="content-container">
-        <div class="banner">
-            <div class="overlay"></div>
-            <div class="banner-content">
-                <h2>Tìm kiếm tài liệu tại đây</h2>
-                <div class="search-bar">
-                    <select id="search-type">
-                        <option value="document">Tài liệu</option>
-                        <option value="blog">Blog</option>
-                    </select>
-                    <input type="text" id="search-input" placeholder="Search something" autocomplete="off" />
-                    <div class="search-icon"><i class="fas fa-search"></i></div>
 
-                    <ul id="search-suggestions" class="suggestion-list"></ul>
-                </div>
-            </div>
+    <div class="content-container">
+      <div class="banner">
+        <div class="overlay"></div>
+        <div class="banner-content">
+          <h2>Tìm kiếm tài liệu tại đây</h2>
+          <div class="search-bar">
+            <select id="search-type">
+              <option value="document">Tài liệu</option>
+              <option value="blog">Blog</option>
+            </select>
+            <input type="text" id="search-input" placeholder="Search something" autocomplete="off" />
+            <div class="search-icon"><i class="fas fa-search"></i></div>
+
+            <ul id="search-suggestions" class="suggestion-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="document-box">
+        <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
+
+        <!-- Thay phần "Mới nhất" -->
+        <div class="section">
+          <h2 class="section-title">Mới nhất</h2>
+          <div class="document-grid" id="latest-documents">
+            <!-- Tài liệu mới nhất sẽ được JS chèn vào đây -->
+          </div>
         </div>
 
-            <div class="document-box">
-                <div class="breadcrumb" id="breadcrumb">Tài liệu</div>
-                
-                <div class="section">
-                    <h2 class="section-title">Mới nhất</h2>
-                    <div class="document-grid">
-                    <div class="document-item">
-                        <img src="img.png" alt="doc 1">
-                        <p>Bài tập XSTK chương 1</p>
-                    </div>
-                    <div class="document-item">
-                        <img src="img.png" alt="doc 2">
-                        <p>Bài tập XSTK chương 2</p>
-                    </div>
-                    <div class="document-item">
-                        <img src="img.png" alt="doc 3">
-                        <p>Bài tập XSTK chương 3</p>
-                    </div>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h2 class="section-title">Được xem nhiều</h2>
-                    <div class="document-grid">
-                        <div class="document-grid">
-                            <div class="document-item">
-                            <img src="img.png" alt="doc 1">
-                            <p>Bài tập XSTK chương 1</p>
-                            </div>
-                            <div class="document-item">
-                            <img src="img.png" alt="doc 2">
-                            <p>Bài tập XSTK chương 2</p>
-                            </div>
-                            <div class="document-item">
-                            <img src="img.png" alt="doc 3">
-                            <p>Bài tập XSTK chương 3</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Thay phần "Được xem nhiều" -->
+        <div class="section">
+          <h2 class="section-title">Được xem nhiều</h2>
+          <div class="document-grid" id="popular-documents">
+            <!-- Tài liệu xem nhiều nhất sẽ được JS chèn vào đây -->
+          </div>
+        </div>
+      </div>
 
       <!-- ========= Phần "Danh sách" (Dynamic) ========= -->
       <section class="course-list-section">
@@ -218,14 +148,14 @@
         <!-- Thay vì ul cố định, chúng sẽ được JS tự thêm vào đây -->
         <ul id="course-list" class="course-list"></ul>
 
-        <a href="/upload" class="contribute-btn">Đóng góp tài liệu</a>
+        <a href="/upload" id="contribute-btn" class="contribute-btn">Đóng góp tài liệu</a>
       </section>
     </div>
 
     <div class="footer">
       <div class="info-school">
         <div class="footer-logo">
-          <img src="../assets/logo-uit.png" alt="" />
+          <img src="/assets/logo-uit.png" alt="" />
         </div>
 
         <div class="info-school-detail">
@@ -249,9 +179,10 @@
   </div>
 
   <!-- Existing global JS -->
-  <script src="../js/main.js"></script>
-
+  <script src="/js/main.js"></script>
+  <script src="/js/standard.js"></script>
   <!-- New JS for dynamic course list -->
-  <script src="../js/dynamic-courses.js"></script>
+  <script src="/js/dynamic-courses.js"></script>
 </body>
+
 </html>

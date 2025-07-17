@@ -37,7 +37,8 @@
   
 .document-item {
     text-align: center;
-    width: 150px;
+    width: 200px;
+    height: 250
 }
   
 .document-item img {
@@ -94,6 +95,12 @@
   
 .contribute-btn:hover {
     opacity: 0.9;
+}
+
+a,
+a:visited {
+  color: black; /* hoặc bất kỳ màu nào bạn chọn */
+  text-decoration: none; /* nếu muốn bỏ gạch chân */
 }
 
 /* Responsive styles */

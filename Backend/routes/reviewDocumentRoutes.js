@@ -1,9 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const documentController = require('../controllers/reviewDocumentController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('/', documentController.getDocumentsForAdmin); // lấy document
+//Route đặc biệt trước
+router.get('/by-slug/:slug', documentController.getDocumentBySlug);
+
+//Các route khác
+router.get('/', documentController.getDocumentsForAdmin);
+router.put('/approve/:id', documentController.approveDocument);
+router.delete('/documents/reject/:id', documentController.deleteDocumentById);
+
+//Cuối cùng: bắt theo ID
 router.get('/:id', documentController.getDocumentById);
-router.put('/approve/:id', documentController.approveDocument); // duyệt document
-router.delete('/:id', documentController.rejectDocument); // xóa document
+
 module.exports = router;

@@ -25,6 +25,23 @@ window.addEventListener("DOMContentLoaded", async function () {
 
     document.getElementById("post-title").innerText = blog.title;
     document.getElementById("post-date").innerText = formatDate(blog.createdAt);
+    document.getElementById("post-author").innerText = `Người viết: ${blog.author}`;
+
+    const categoryElement = document.getElementById("post-category");
+    if (blog.category === 'Chủ đề khác' && blog.subCategory) {
+        categoryElement.innerHTML = `
+            <i class="fas fa-tag"></i>
+            <span class="category-label">Chủ đề:</span>
+            ${blog.subCategory}
+        `;
+    } else {
+        categoryElement.innerHTML = `
+            <i class="fas fa-tag"></i>
+            <span class="category-label">Chủ đề:</span>
+            ${blog.category}
+        `;
+    }
+    
     document.getElementById("post-content").innerHTML = content;
 
     // Convert Google Drive link to direct download ID
@@ -154,39 +171,176 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function renderComment(comment) {
+      const div = document.createElement('div');
+      div.classList.add('comment-item');
+      div.dataset.commentId = comment._id;
+
+      const avatarUrl = await resolveAvatar(comment.email);
+
+      div.innerHTML = `
+        <img src="${avatarUrl}" alt="Avatar" class="avatar">
+        <div class="comment-content">
+            <strong>${escapeHtml(comment.username)}</strong>
+            <p>${escapeHtml(comment.content)}</p>
+            <button class="reply-button">Reply</button>
+            <form class="reply-form" style="display: none;">
+                <textarea 
+                    id="reply-text-${comment._id}" 
+                    name="reply-text" 
+                    placeholder="Viết phản hồi của bạn..." 
+                    rows="2"
+                    required
+                ></textarea>
+                <button type="submit" id="submit-reply-${comment._id}" name="submit-reply">Gửi phản hồi</button>
+            </form>
+            <div class="replies-container"></div>
+        </div>
+      `;
+
+      // Xử lý nút reply
+      const replyButton = div.querySelector('.reply-button');
+      const replyForm = div.querySelector('.reply-form');
+      const submitButton = replyForm.querySelector('button[type="submit"]');
+      
+      replyButton.addEventListener('click', () => {
+          replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+      });
+
+      // Xử lý form reply
+      replyForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const textarea = replyForm.querySelector('textarea');
+          const content = textarea.value.trim();
+
+          if (!userInfo || !userInfo.username || !userInfo.email) {
+            window.location.href = '/login'; 
+            return;
+          }
+          
+          if (!content) {
+            showToast('Vui lòng nhập nội dung phản hồi', 'error');
+            return;          
+          }
+
+          submitButton.disabled = true;
+          submitButton.textContent = 'Đang gửi...';
+          
+          try {
+              const res = await fetch(`https://backend-yl09.onrender.com/api/blogs/${blogId}/comments`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  credentials: 'include',
+                  body: JSON.stringify({
+                      blogId: blogId,
+                      username: userInfo.username,
+                      email: userInfo.email,
+                      content: content,
+                      parentComment: comment._id
+                  })
+              });
+
+              if (!res.ok) {
+                const contentType = res.headers.get('content-type') || '';
+                if (contentType.includes('application/json')) {
+                  const errData = await res.json();
+                  throw new Error(errData.msg || 'Lỗi gửi bình luận');
+                } else {
+                  const text = await res.text();
+                  console.error('Error response text:', text);
+                  throw new Error('Server trả về lỗi không phải JSON');
+                }
+              }
+
+              const newReply = await res.json();
+              await renderReply(newReply.comment, div.querySelector('.replies-container'));
+              textarea.value = '';
+              replyForm.style.display = 'none';
+              showToast('Gửi phản hồi thành công!', 'success');
+          } catch (err) {
+              console.error('Error posting reply:', err);
+              showToast(err.message, 'error');
+          } finally {
+            // Enable lại form
+            submitButton.disabled = false;
+            submitButton.textContent = 'Gửi phản hồi';
+          }
+      });
+
+      commentsList.appendChild(div);
+  }
+
+  async function renderReply(reply, container) {
     const div = document.createElement('div');
-    div.classList.add('comment-item');
-
-    const avatarUrl = await resolveAvatar(comment.email);
-
+    div.classList.add('reply-item');
+    
+    const avatarUrl = await resolveAvatar(reply.email);
+    
     div.innerHTML = `
-      <img src="${avatarUrl}" alt="Avatar" class="avatar">
-      <div class="comment-content">
-        <strong>${escapeHtml(comment.username)}</strong>
-        <p>${escapeHtml(comment.content)}</p>
-      </div>
+        <img src="${avatarUrl}" alt="Avatar" class="avatar">
+        <div class="comment-content">
+            <strong>${escapeHtml(reply.username)}</strong>
+            <p>${escapeHtml(reply.content)}</p>
+        </div>
     `;
-    commentsList.appendChild(div);
+    
+    container.appendChild(div);
+  }
+
+  function showToast(message, type = 'success') {
+    const toastEl = document.getElementById('liveToast');
+    const toastBody = toastEl.querySelector('.toast-body');
+
+    toastEl.classList.remove('bg-success', 'bg-danger', 'text-white');
+
+    if (type === 'error') {
+        toastEl.classList.add('bg-danger', 'text-white');
+    } else {
+        toastEl.classList.add('bg-success', 'text-white');
+    }
+
+    toastBody.innerHTML = message;
+
+    const toast = new bootstrap.Toast(toastEl, {
+        delay: 2000,
+        autohide: true
+    });
+
+    toast.show();
+  }
+
+// Thêm hàm escapeHtml nếu chưa có
+  function escapeHtml(text) {
+      return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   async function loadComments() {
     const isPreview = getQueryParam("preview") === "true";
-      try {
-        const res = await fetch(`https://backend-yl09.onrender.com/api/blogs/${blogId}?preview=${isPreview}`,
-          {credentials: 'include'}
+    try {
+        const res = await fetch(`https://backend-yl09.onrender.com/api/blogs/${blogId}?preview=${isPreview}&noView=true`,
+            {credentials: 'include'}
         );
         if (!res.ok) throw new Error('Không thể tải bài viết');
         const data = await res.json();
 
         const comments = data.comments || [];
+        const replies = comments.filter(c => c.parentComment);
+        const parentComments = comments.filter(c => !c.parentComment);
 
         commentsList.innerHTML = '';
-        for (const comment of comments) {
-          await renderComment(comment);
+        for (const comment of parentComments) {
+            await renderComment(comment);
+            // Load replies cho comment này
+            const commentReplies = replies.filter(r => r.parentComment === comment._id);
+            for (const reply of commentReplies) {
+                const commentElement = commentsList.querySelector(`[data-comment-id="${comment._id}"]`);
+                if (commentElement) {
+                    await renderReply(reply, commentElement.querySelector('.replies-container'));
+                }
+            }
         }
-      } catch (err) {
+    } catch (err) {
         console.error('Lỗi load comments:', err);
-      }
+    }
   }
 
   if (blogId) {
@@ -201,7 +355,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (!blogId) return alert('Không xác định được bài viết');
 
     if (!userInfo || !userInfo.username || !userInfo.email) {
-      // Chuyển trang đến login (thay URL theo dự án của bạn)
       window.location.href = '/login'; 
       return;
     }
@@ -241,7 +394,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       textarea.value = '';
     } catch (err) {
       console.error('Gửi bình luận lỗi:', err);
-      alert(err.message);
+      showToast(err.message, 'error')
     }
   });
 });

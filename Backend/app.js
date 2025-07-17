@@ -1,10 +1,22 @@
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config();
+
+if (process.env.GOOGLE_CREDENTIALS) {
+  const decoded = Buffer.from(process.env.GOOGLE_CREDENTIALS, 'base64').toString('utf8');
+  const outputPath = path.join(__dirname, 'credentials.json');
+
+  if (!fs.existsSync(outputPath)) {
+    fs.writeFileSync(outputPath, decoded);
+    console.log('✅ credentials.json written successfully');
+  }
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
-const path = require('path');
-require('dotenv').config();
 
 const app = express();
 
@@ -14,6 +26,7 @@ const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://127.0.0.1:5000',
   'https://nhom11nt208p24.vercel.app/',
+  'https://studio.botpress.cloud',        // Botpress Cloud
   'https://do-an-khaki.vercel.app/',
   'https://backend-yl09.onrender.com',
   /\.vercel\.app$/  // Regex để cho phép tất cả domain phụ từ vercel
@@ -75,7 +88,6 @@ app.use('/json', express.static(path.join(__dirname, 'json')));
 
 //Imagines
 const multer = require('multer');
-const fs = require('fs');
 const upload = multer({ dest: 'uploads/Img/' });  // folder tạm lưu file upload
 const { uploadFileToDrive } = require('./uploads/googleDrive');
 
@@ -89,19 +101,29 @@ const proxyRoutes = require('./routes/proxy');
 const uploadRoutes = require('./routes/uploadDocumentRoutes');
 const documentRoutes = require('./routes/reviewDocumentRoutes');
 const reviewDocRoutes = require('./routes/documentRoutes');
+const apiAuthMiddleware = require('./middleware/apiAuthMiddleware');
+const documentController = require('./controllers/documentController');
+const notificationRoutes = require('./routes/notificationRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const subjectTypeRoutes = require('./routes/subjectTypeRoutes');
 
+//Chat
+app.use('/api', chatRoutes);
 
+//Doc
+app.get('/api/documents/my', apiAuthMiddleware, documentController.getMyDocuments);
+app.use('/api/subject-types', subjectTypeRoutes);
+
+//Auth
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api', proxyRoutes);
-
+app.use('/api/notifications', notificationRoutes);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/Public/index.html'));
 });
-
 
 //Đăng nhập
 app.get('/login', (req, res) => {
@@ -152,13 +174,13 @@ app.get('/blog-post', authMiddleware,(req, res) => {
 });
 
 //Đăng tài liệu
-app.use('/api/documents', uploadRoutes);
+app.use('/api/upload-documents', uploadRoutes);         // chứa: POST upload
 
 //Duyệt tài liệu
-app.use('/api/documents', documentRoutes);
+app.use('/api/review-documents', documentRoutes);       // chứa: /:id, duyệt/xóa document
 
 //Xem tài liệu 
-app.use('/api/documents', reviewDocRoutes);
+app.use('/api/documents', reviewDocRoutes);             // chứa: /latest, /popular → frontend dùng
 app.use('/uploads', express.static('uploads'));
 app.get('/document.html', (req, res) => {
   res.sendFile(path.join(__dirname, '../Frontend/Public/document.html'));
@@ -174,20 +196,21 @@ app.get('/upload', authMiddleware, (req, res) => {
 });
 
 
-app.use('/api/admin', adminRoutes);
 app.use('/api/blogs', blogRoutes);
-app.use('/api/documents', documentRoutes);
+app.use('/uploads/previews', express.static(path.join(__dirname, 'uploads/previews')));
 
 // Route trả thông tin người dùng
 app.get('/api/user-info', authMiddleware, (req, res) => {
     if (req.session.admin) {
         return res.json({ 
+            _id: req.session.admin.id,
             role: 'admin',
             username: req.session.admin.username,
             email: req.session.admin.email
         });
     } else if (req.session.user) {
         return res.json({ 
+            _id: req.session.user.id,
             role: 'user',
             username: req.session.user.username,
             email: req.session.user.email
@@ -196,7 +219,92 @@ app.get('/api/user-info', authMiddleware, (req, res) => {
         return res.status(401).json({ msg: 'Not logged in' });
     }
 });
+app.use('/api', proxyRoutes)
 
+// Thêm môn mới
+app.post('/api/add-subject', async (req, res) => {
+  const { typeSlug, newSubject } = req.body;
+
+  if (!typeSlug || !newSubject?.label || !newSubject?.slug) {
+    return res.status(400).json({ error: 'Thiếu thông tin.' });
+  }
+
+  try {
+    let type = await SubjectType.findOne({ typeSlug });
+
+    if (!type) {
+      // Tạo mới loại môn nếu chưa có
+      const newType = new SubjectType({
+        typeSlug,
+        typeLabel: typeSlug,
+        subjects: [newSubject]
+      });
+      await newType.save();
+    } else {
+      // Kiểm tra trùng môn học
+      const exists = type.subjects.some(s => s.subjectSlug === newSubject.slug);
+      if (!exists) {
+        type.subjects.push(newSubject);
+        await type.save();
+      }
+    }
+
+    return res.json({ success: true, message: 'Đã xử lý môn học.' });
+  } catch (err) {
+    console.error('[add-subject ERROR]', err);
+    return res.status(500).json({ error: 'Lỗi máy chủ.' });
+  }
+});
+
+
+// Thêm route đổi mật khẩu
+const bcrypt = require('bcryptjs');
+app.post('/api/change-password', authMiddleware, async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ error: 'Vui lòng nhập đầy đủ mật khẩu hiện tại và mật khẩu mới' });
+        }
+
+        // Kiểm tra xem là admin hay user thông thường
+        const userModel = req.session.admin ? 
+            require('./models/Admin') : 
+            require('./models/User');
+        
+        const userId = req.session.admin ? 
+            req.session.admin.id : 
+            req.session.user.id;
+
+        // Tìm user trong database
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'USER_NOT_FOUND' });
+        }
+
+        // Kiểm tra mật khẩu hiện tại
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: 'INCORRECT_CURRENT_PASSWORD' });
+        }
+
+        // Kiểm tra mật khẩu mới không giống mật khẩu cũ
+        if (currentPassword === newPassword) {
+            return res.status(400).json({ error: 'NEW_PASSWORD_MUST_BE_DIFFERENT' });
+        }
+
+        // Hash mật khẩu mới và lưu vào database
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+        await user.save();
+
+        // Trả về thành công
+        res.json({ success: true, message: 'Đổi mật khẩu thành công' });
+    } catch (error) {
+        console.error('Lỗi khi đổi mật khẩu:', error);
+        res.status(500).json({ error: 'SERVER_ERROR' });
+    }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

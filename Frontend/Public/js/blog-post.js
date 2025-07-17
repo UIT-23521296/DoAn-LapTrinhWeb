@@ -124,6 +124,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         emojiPicker.style.display = 'none';
     });
+
+    const categorySelect = document.getElementById('category');
+    const subCategoryBox = document.getElementById('subCategoryBox');
+    const subCategoryInput = document.getElementById('subCategory');
+
+    // Xử lý khi chọn category
+    categorySelect.addEventListener('change', function() {
+        if (this.value === 'Chủ đề khác') {
+            subCategoryBox.style.display = 'block';
+            subCategoryInput.required = true;
+        } else {
+            subCategoryBox.style.display = 'none';
+            subCategoryInput.required = false;
+            subCategoryInput.value = '';
+        }
+    });
 });
 
 // Hàm chèn ảnh
@@ -172,6 +188,9 @@ async function submitPost() {
     const postContent = document.getElementById("postContent");
     const rawContent = postContent.innerHTML.trim();
 
+    const category = document.getElementById("category").value;
+    const subCategory = document.getElementById("subCategory").value;
+
     const thumbnailInput = document.getElementById('thumbnailUpload');
     const thumbnailFile = thumbnailInput.files[0];
 
@@ -196,9 +215,29 @@ async function submitPost() {
         return;
     }
 
+    if (!category) {
+        showToast('Vui lòng chọn chủ đề!', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Đăng bài";
+        return;
+    }
+
+    if (category === 'Chủ đề khác' && !subCategory) {
+        showToast('Vui lòng nhập mô tả chủ đề!', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Đăng bài";
+        return;
+    }
+
     const formData = new FormData();
     formData.append('title', postTitle);
     formData.append('content', postContent.innerHTML);
+    formData.append('category', category);
+
+    if (category === 'Chủ đề khác') {
+        formData.append('subCategory', subCategory);
+    }
+
     if (thumbnailFile) {
         formData.append('thumbnailImage', thumbnailFile);
     }

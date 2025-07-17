@@ -82,10 +82,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 50vh; /* Chiều cao 50% của cửa sổ */
+    min-height: 50vh; /* Sử dụng min-height thay vì height cố định */
+    max-height: 80vh; /* Giới hạn tối đa 80% chiều cao viewport */
+    overflow: hidden; /* Ngăn tràn ra ngoài */
 }
-  
-  /* Khung Drag and Drop */
+
+.upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng container */
+    flex-grow: 1; /* Cho phép co giãn để chứa nội dung */
+}
+
+/* Khung Drag and Drop */
 .upload-box {
     display: flex;
     justify-content: center;
@@ -96,28 +108,29 @@
     text-align: center;
     width: 90%;
     max-width: 1000px;
-    max-height: 80vh; /* Giới hạn chiều cao tối đa */
+    height: 300px; /* Giữ chiều cao cố định */
+    flex-shrink: 0; /* Ngăn co lại quá mức */
 }
-  
-  /* Icon trong phần upload */
+
+/* Icon trong phần upload */
 .upload-content i.icon {
     font-size: 50px;
     display: block;
     margin-bottom: 20px;
 }
-  
-  /* Nội dung text trong upload */
+
+/* Nội dung text trong upload */
 .upload-content p {
     font-size: 18px;
     margin: 10px 0;
 }
-  
+
 .upload-content span {
     display: block;
     margin: 10px 0;
     color: #777;
 }
-  
+
 /* Style cho button Browse */
 #browse-button {
     background-color: #009688;
@@ -128,58 +141,88 @@
     font-size: 16px;
     cursor: pointer;
 }
-  
+
 #browse-button:hover {
     background-color: #00796b;
 }
 
-.upload-box span{
+.upload-box span {
     padding-bottom: 10px;
 }
 
 #after-upload {
     display: flex;
-    width: 70%;
-    justify-content: space-between; /* căn trái - phải */
+    flex-direction: column;
+    width: 90%;
+    max-width: 1000px;
+    justify-content: center;
     align-items: center;
     padding: 10px 20px;
     margin-top: 20px;
-}
-  
-.after-upload a {
-    display: block; /* Làm cho link file và nút Next nằm trên các dòng riêng biệt */
-    margin-bottom: 10px; /* Khoảng cách giữa file name và nút Next */
-    text-decoration: none; /* Bỏ gạch chân */
-    color: #000; 
+    max-height: 300px; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Cuộn dọc khi vượt quá */
+    flex-grow: 1; /* Cho phép co giãn để chứa danh sách file */
+    box-sizing: border-box; /* Bao gồm padding trong chiều cao */
 }
 
-.after-upload a:visited {
-    text-decoration: none; /* Bỏ gạch chân khi đã nhấp */
-    color: #000;            /* Giữ nguyên màu */
+/* Danh sách file */
+#file-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Khoảng cách giữa các file-info */
 }
 
-.file-info a {
-    text-decoration: none;
-    color: #000;
-    font-weight: 500;
+.file-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    min-width: 0; /* Đảm bảo không bị tràn */
 }
 
-.file-info a:visited {
-    color: #000;
+.file-info div {
+    flex: 1;
+    word-break: break-word; /* Ngắt từ khi cần thiết */
+    overflow: hidden; /* Ẩn phần vượt quá */
+    text-overflow: ellipsis; /* Thêm dấu ... khi tràn */
 }
-  
+
+.file-info button {
+    background: #cccccc;
+    border: none;
+    padding: 8px 16px;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex-shrink: 0;
+}
+
+.file-info button:hover {
+    background: #999999; /* Xám đậm hơn khi hover */
+    color: white;
+}
+
 #next-btn {
     background-color: #009688;
     color: white;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    margin-top: 20px;
 }
-  
+
 #next-btn:hover {
     background-color: #00796b;
 }
+
 
 /* detail */
 #detail.active {
@@ -193,59 +236,60 @@
     padding-right: 15px;
 }
 
-.detail-search-bar p{
-    display: flex;
+#subjectNameCustomDiv {
+    display: none; /* Ban đầu ẩn */
+    grid-column: 2; /* Nằm trong cột thứ 2 */
+    align-items: center; /* Căn giữa theo chiều dọc */
 }
 
-.detail-search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+#subjectNameCustomDiv.active {
+    display: contents; /* Hiển thị khi active */
 }
 
-.detail-search-bar p,
-.detail-search-bar input {
-    font-size: 16px;
-    height: 45px;
-    border: 1px solid #ccc;
+#subjectNameCustomInput {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
     padding: 10px;
-}
-
-.detail-search-bar p {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    align-items: center;
-    text-align: center;
-}
-
-.detail-search-bar input {
-    border-left: none;
-    width: 500px;
-    border-right: none;
-}
-
-.line {
-    height: 1px;
-    background-color: black;
+    font-size: 16px;
     width: 100%;
-    margin: 20px 0;
+    box-sizing: border-box;
+    max-width: 100%; /* Giới hạn chiều rộng tối đa */
+    word-break: break-word; /* Ngắt từ khi cần */
+    overflow: hidden; /* Ẩn phần vượt quá */
+    text-overflow: ellipsis; /* Thêm dấu ... khi tràn */
 }
 
 .form-container {
     display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 15px 20px;
+    grid-template-columns: 100px 1fr; /* Cột 1 cố định 100px, cột 2 tự điều chỉnh */
+    gap: 15px 20px; /* Khoảng cách giữa các hàng và cột */
     max-width: 600px;
     padding: 30px;
-    margin: auto;
+    margin: 0 auto; /* Căn giữa container */
+    overflow: hidden; /* Ngăn tràn */
 }
 
-.detail-label{
-    display: contents;
+.detail-label {
+    display: contents; /* Đảm bảo label không làm tràn layout */
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+ 
+.detail-select,
+#subjectNameCustomInput,
+textarea {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%; /* Đảm bảo chiều rộng đồng đều */
+    box-sizing: border-box; /* Bao gồm padding trong chiều rộng */
+    height: 40px; /* Chiều cao cố định để căn đều */
+    align-self: center; /* Căn giữa theo chiều dọc trong grid */
+    margin: 0; /* Loại bỏ margin mặc định */
 }
 
-.detail-title-input, 
 .detail-select,
 textarea {
     background-color: #d9d9d9;
@@ -258,7 +302,7 @@ textarea {
 }
 
 textarea {
-    height: 120px;
+    height: 120px; /* Giữ nguyên chiều cao cho textarea */
     resize: none;
 }
 
@@ -302,6 +346,7 @@ textarea {
 .back-button:hover {
     background-color: #00796b;
 }
+
 
 /* Done */
 #done.active {
@@ -459,11 +504,35 @@ textarea {
     }
     
     /* Upload section */
+    #upload.active {
+        min-height: 40vh; /* Giảm min-height trên màn hình nhỏ */
+        max-height: 70vh; /* Giảm max-height */
+    }
     .upload-box {
         padding: 20px 15px;
         width: 95%;
+        height: 200px; /* Giảm chiều cao trên màn hình nhỏ */
+    }
+    #after-upload {
+        max-height: 200px; /* Giảm chiều cao tối đa */
+        padding: 5px 10px;
     }
     
+    .file-info {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 5px;
+    }
+
+    .file-info div {
+        margin-bottom: 5px;
+    }
+
+    .file-info button {
+        margin-left: 0;
+        width: 100%;
+    }
+
     .upload-content i.icon {
         font-size: 30px;
         margin-bottom: 10px;
@@ -515,9 +584,12 @@ textarea {
         grid-template-columns: 1fr;
         gap: 10px;
         padding: 15px;
-        width: 100%;
     }
-    
+    .detail-select,
+    #subjectNameCustomInput {
+        height: 35px; /* Giảm chiều cao trên màn hình nhỏ */
+        font-size: 14px;
+    }
     .detail-label {
         display: block;
         margin-bottom: 5px;

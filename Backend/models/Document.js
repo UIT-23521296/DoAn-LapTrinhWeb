@@ -6,10 +6,15 @@ const documentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  slug: { 
+    type: String,
+    required: true
+  },
   fileUrl: {
     type: String,
     required: true
   },
+  imageUrl: String,
   subjectTypeSlug: {
     type: String,
     required: true,
@@ -28,9 +33,9 @@ const documentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  fileUrl: {
+  previewUrl:{
     type: String,
-    required: true
+    required: false
   },
   documentType: {
     type: String,
@@ -45,6 +50,7 @@ const documentSchema = new mongoose.Schema({
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending'
   },
+  viewCount: { type: Number, default: 0 }, 
   uploadDate: {
     type: Date,
     default: Date.now

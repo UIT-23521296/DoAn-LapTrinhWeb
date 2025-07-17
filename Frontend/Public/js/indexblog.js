@@ -44,7 +44,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           class="blog-image lazy-img"
         >
         <h3>${blog.title}</h3>
-        <h6>${date}</h6>
+        <div class="blog-meta">
+          <h6>${date}</h6>
+          <div class="blog-stats">
+            <span class="author"><i class="fas fa-user"></i> ${blog.author}</span>
+            <span class="views"><i class="fas fa-eye"></i> ${blog.views || 0}</span>
+          </div>
+        </div>
         <p>${contentText.substring(0, 50)}...</p>
       </a>
     `;
@@ -94,11 +100,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (blogs.length > 0) {
       const latestBlogs = [...blogs]
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 3);
+        .slice(0, 4);
 
       const mostViewedBlogs = [...blogs]
         .sort((a, b) => (b.views || 0) - (a.views || 0))
-        .slice(0, 3);
+        .slice(0, 4);
 
       blogListContainers[0].innerHTML = latestBlogs.map(createBlogItem).join('');
       blogListContainers[1].innerHTML = mostViewedBlogs.map(createBlogItem).join('');
@@ -118,4 +124,5 @@ document.addEventListener("DOMContentLoaded", async () => {
       container.innerHTML = `<p>Không thể tải bài viết. Vui lòng thử lại sau.</p>`;
     });
   }
+
 });

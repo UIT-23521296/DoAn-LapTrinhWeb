@@ -123,12 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
   async function approveItem(id, type) {
     try {
       let url;
-      if(type === 'blog') url = `/api/admin/approve-blog/${id}`;
-      else if(type === 'document') url = `/api/admin/approve-document/${id}`;
+      if(type === 'blog') url = `https://backend-yl09.onrender.com/api/admin/approve-blog/${id}`;
+      else if(type === 'document') url = `https://backend-yl09.onrender.com/api/admin/approve-document/${id}`;
       else throw new Error('Loại tài liệu không hợp lệ');
 
       const res = await fetch(url, {
         method: 'PUT',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
       });
       if (!res.ok) throw new Error('Duyệt tài liệu thất bại');
@@ -150,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function rejectItem(id, type) {
     try {
       let url;
-      if(type === 'blog') url = `/api/blogs/${id}`;
-      else if(type === 'document') url = `/api/admin/documents/${id}`;
+      if(type === 'blog') url = `https://backend-yl09.onrender.com/api/admin/reject-blog/${id}`;
+      else if(type === 'document') url = `https://backend-yl09.onrender.com/api/admin/reject-document/${id}`;
       else throw new Error('Loại tài liệu không hợp lệ');
 
       const response = await fetch(url, {
@@ -194,15 +195,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll('.action-btn.preview').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         const type = btn.getAttribute('data-type');
         // Có thể redirect khác cho blog/document nếu muốn
         if(type === 'blog') {
           window.location.href = `/blog-read?post=${id}&preview=true`;
-        } else if(type === 'document') {
-          window.location.href = `/document-view?id=${id}&preview=true`; // giả định url xem document
-        }
+        }  else if (type === 'document') {
+            try {
+              const res = await fetch(`https://backend-yl09.onrender.com/api/documents/${id}`);
+              const doc = await res.json();
+
+              if (doc && doc.slug) {
+                window.location.href = `/document.html?slug=${doc.slug}`;
+              } else {
+                alert('❌ Không tìm thấy slug cho tài liệu này.');
+              }
+            } catch (err) {
+              console.error('❌ Lỗi khi lấy tài liệu:', err);
+              alert('Lỗi khi tải thông tin tài liệu.');
+            }
+          }
       });
     });
   }
@@ -325,5 +338,14 @@ function showConfirmModal(message, onConfirm) {
   newConfirmBtn.addEventListener("click", () => {
     bsModal.hide();
     onConfirm();
+
+    // ✅ Xoá lớp backdrop của Bootstrap nếu còn tồn tại
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) backdrop.remove();
+
+    // ✅ Cho phép body scroll trở lại
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = ''; // reset overflow
   });
+
 }

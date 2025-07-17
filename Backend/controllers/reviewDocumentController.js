@@ -1,4 +1,6 @@
 const Document = require('../models/Document');
+const DocumentComment = require('../models/DocumentComment'); // [THÊM]
+const mongoose = require('mongoose'); // [THÊM]
 const fs = require('fs');
 const path = require('path');
 
@@ -52,46 +54,59 @@ exports.approveDocument = async (req, res) => {
   }
 };
 
-
-
-exports.rejectDocument = async (req, res) => {
+exports.deleteDocumentById = async (req, res) => {
   try {
     const id = req.params.id;
-    const doc = await Document.findById(id);
+    const objectId = new mongoose.Types.ObjectId(id);
+    const doc = await Document.findById(objectId);
 
-    if (!doc) return res.status(404).json({ msg: 'Tài liệu không tồn tại' });
+    if (!doc) {
+      console.log("Không tìm thấy document ID:", objectId);
+      return res.status(404).json({ msg: 'Tài liệu không tồn tại' });
+    }
 
-    // Normalize path: chuyển \ thành / nếu cần
-    const relativePath = doc.fileUrl.replace(/\\/g, '/'); // "uploads/1748674484684-23521296.pdf"
-    const absolutePath = path.resolve(relativePath); // chuyển sang đường dẫn tuyệt đối
+    // Thêm dòng này để xóa comment
+    await DocumentComment.deleteMany({ document: objectId });
 
-    // Xóa file khỏi ổ đĩa
-    fs.unlink(absolutePath, async (err) => {
-      if (err) {
-        console.warn('Không thể xóa file:', err.message);
-        // Vẫn tiếp tục xóa DB dù file không xóa được
-      }
-
-      // Xóa document khỏi MongoDB
-      await Document.findByIdAndDelete(id);
-      res.json({ msg: 'Tài liệu đã bị từ chối và xóa thành công' });
-    });
-
+    await Document.deleteOne({ _id: objectId });
+    res.json({ msg: 'Tài liệu đã bị từ chối và xoá khỏi hệ thống.' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Lỗi khi từ chối tài liệu' });
+    console.error('Lỗi khi từ chối tài liệu:', err);
+    res.status(500).json({ msg: 'Lỗi server khi từ chối tài liệu.' });
   }
 };
+
+
 exports.getDocumentById = async (req, res) => {
   try {
-    const id = req.params.id;
-    const doc = await Document.findById(id).lean();
+    const document = await Document.findById(req.params.id);
+        if (!document) {
+            return res.status(404).json({ msg: 'Tài liệu không tìm thấy' });
+        }
+        
+        // Thêm logic lấy comments
+        const comments = await DocumentComment.find({ document: document._id }).sort({ createdAt: -1 }).lean();
+
+        res.json({ document, comments }); // Trả về cả document và comments
+    } catch (err) {
+      console.error('Lỗi khi lấy tài liệu:', error);
+      res.status(500).json({ message: 'Lỗi server' });
+    }
+};
+
+exports.getDocumentBySlug = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const doc = await Document.findOne({ slug }).lean();
 
     if (!doc) {
       return res.status(404).json({ message: 'Tài liệu không tồn tại' });
     }
+    console.log('Tìm được:', doc);
 
-    res.json(doc);
+    const comments = await DocumentComment.find({ document: doc._id }).sort({ createdAt: -1 }).lean();
+
+    res.json({ document: doc, comments });
   } catch (error) {
     console.error('Lỗi khi lấy tài liệu:', error);
     res.status(500).json({ message: 'Lỗi server' });

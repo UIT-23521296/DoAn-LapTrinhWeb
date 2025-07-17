@@ -1,5 +1,43 @@
+async function getUserInfo() {
+  try {
+    const res = await fetch('https://backend-yl09.onrender.com/api/user-info', { credentials: 'include' });
+    if (res.ok) {
+      return await res.json();
+    }
+    return null;
+  } catch (err) {
+    console.error('Lỗi lấy user info:', err);
+    return null;
+  }
+}
+
+let userInfo = null;
+
+async function checkAuth() {
+  try {
+    userInfo = await getUserInfo();
+
+    if (!userInfo || !userInfo.username || !userInfo.email) {
+      window.location.href = '/login'; 
+    } else {
+        window.location.href = '/blog-post';
+    }
+  } catch (error) {
+      window.location.href = '/login';
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+  userInfo = await getUserInfo();
+  
+  const postBlogBtn = document.getElementById('postBlogBtn');
+  if (postBlogBtn) {
+    postBlogBtn.addEventListener('click', checkAuth);
+  }
+
   const blogListContainers = document.querySelectorAll(".blog-list");
+  const categoryBlogsContainer = document.querySelector(".category-blogs");
+  
 
   function getDriveDirectLink(url) {
     const regex = /\/d\/([a-zA-Z0-9_-]+)/;
@@ -49,7 +87,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           alt="thumbnail" 
           class="blog-image lazy-img">
         <h3>${blog.title}</h3>
-        <h6>${date}</h6>
+        <div class="blog-meta">
+          <h6>${date}</h6>
+          <div class="blog-stats">
+            <span class="author"><i class="fas fa-user"></i> ${blog.author}</span>
+            <span class="views"><i class="fas fa-eye"></i> ${blog.views || 0}</span>
+          </div>
+        </div>
         <p>${contentText.substring(0, 50)}...</p>
       </a>
     `;
@@ -100,25 +144,48 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (blogs.length > 0) {
       const latestBlogs = [...blogs]
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 3);
+        .slice(0, 4);
       const mostViewedBlogs = [...blogs]
         .sort((a, b) => (b.views || 0) - (a.views || 0))
-        .slice(0, 3);
+        .slice(0, 4);
 
       blogListContainers[0].innerHTML = latestBlogs.map(createBlogItem).join('');
       blogListContainers[1].innerHTML = mostViewedBlogs.map(createBlogItem).join('');
-      blogListContainers[2].innerHTML = blogs.map(createBlogItem).join('');
-
-      lazyLoadImages(() => {
-        // Khi tất cả ảnh đã được preload xong
-        document.querySelectorAll("img.lazy-img").forEach(img => {
-          if (img._preloadedSrc) {
-            img.src = img._preloadedSrc;
-            img.classList.add("fade-in"); // optional: hiệu ứng fade
-          }
-        });
-      });
     }
+
+    const categoryBlogs = {};
+    blogs.forEach(blog => {
+      const category = blog.category;
+      if (!categoryBlogs[category]) {
+        categoryBlogs[category] = [];
+      }
+      categoryBlogs[category].push(blog);
+    });
+
+    categoryBlogsContainer.innerHTML = '';
+    Object.entries(categoryBlogs).forEach(([category, categoryBlogs]) => {
+      if (categoryBlogs.length > 0) {
+        const categorySection = document.createElement('div');
+        categorySection.className = 'category-section';
+        categorySection.innerHTML = `
+          <h2><i class="fas fa-folder"></i> ${category}</h2>
+          <div class="blog-list">
+            ${categoryBlogs.map(createBlogItem).join('')}
+          </div>
+        `;
+        categoryBlogsContainer.appendChild(categorySection);
+      }
+    });
+
+    // Load ảnh lazy
+    lazyLoadImages(() => {
+      document.querySelectorAll("img.lazy-img").forEach(img => {
+        if (img._preloadedSrc) {
+          img.src = img._preloadedSrc;
+          img.classList.add("fade-in");
+        }
+      });
+    });
   } catch (err) {
     console.error("Lỗi khi load blog:", err);
     blogListContainers.forEach(container => {

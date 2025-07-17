@@ -253,6 +253,10 @@
     background-color: #b5d0c7;
 }
 
+.sub-menu.show {
+  display: flex;
+}
+
 /* Side bar */
 .side-nav {
     position: absolute;
@@ -720,5 +724,22 @@
     .btn-signup {
         padding: 4px 8px;
         font-size: 12px;
+    }
+    /* Ẩn icon search trên mobile nhỏ */
+    .search-icon {
+        display: none;
+    }
+
+    /* Điều chỉnh lại input search */
+    .search-bar input {
+        width: 100%;
+        border-right: 1px solid #ccc;
+        border-top-right-radius: 12px !important;
+        border-bottom-right-radius: 12px !important;
+    }
+
+    /* Điều chỉnh suggestion list */
+    .suggestion-list {
+        width: 100%;
     }
 }
